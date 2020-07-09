@@ -1,0 +1,182 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\AcademicYear;
+use App\Http\Requests\StudentRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use App\LogActivity;
+use App\Student;
+use App\Major;
+use App\User;
+use DataTables;
+use Illuminate\Support\Facades\DB;
+use Session;
+
+class StudentController extends Controller
+{
+
+    public function datatable()
+    {
+        $student = \DB::table('students')
+            ->join('majors', 'majors.kode_jurusan', '=', 'students.kode_jurusan')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'students.kode_tahun_akademik')
+            ->Leftjoin('users', 'users.id', '=', 'students.user_id')
+            ->get();
+
+        return DataTables::of($student)
+            ->addColumn('action', function ($student) {
+                return view('layouts.action._action', [
+                    'student'     => $student,
+                    'url_edit'    => route('student.edit', $student->nis),
+                    'url_destroy' => route('student.show', $student->nis),
+                ]);
+            })
+            ->make(true);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('student.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $data['major']    = Major::pluck('nama_jurusan', 'kode_jurusan');
+        $data['academic'] = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
+
+        return view('student.create', $data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StudentRequest $request)
+    {
+        // Insert ke table User
+        $user = new User;
+        $user->role = 'siswa';
+        $user->name = $request->nama;
+        $user->kode_jurusan = $request->kode_jurusan;
+        $user->email = $request->email;
+        $user->password = bcrypt('rahasia');
+        // $user->remember_token = Str::random(60);
+        $user->save();
+
+        // Insert ke table Student
+        $request->request->add(['user_id' => $user->id]);
+        $input = $request->all();
+        Student::create($input);
+
+        // Insert ke table Log Activities
+        $logActivities = new LogActivity;
+        $logActivities->user_id = Auth::user()->id;
+        $logActivities->activity_name = "Menambahkan data siswa ( NIS: " . $request->nis . ", Nama: " . $request->nama . " )";
+        $logActivities->save();
+
+        Session::flash('message', 'Data has been saved!');
+
+        return redirect('student');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Student  $student
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Student $student)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Student  $student
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Student $student)
+    {
+        $data['major']    = Major::pluck('nama_jurusan', 'kode_jurusan');
+        $data['user']     = User::pluck('password', 'id');
+        $data['academic'] = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
+
+        return view('student.edit', $data, compact('student'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Student  $student
+     * @return \Illuminate\Http\Response
+     */
+    public function update(StudentRequest $request, Student $student)
+    {
+        $input = $request->all();
+
+        // if ($request->filled('password')) {
+        //     $user = new User;
+        //     // Hash Password
+        //     $data['password'] = bcrypt($input['password']);
+        //     var_dump($user->update());
+        // } else {
+        //     // Hapus Password (Password tidak update)
+        //     $data = Arr::except($input, ['password']);
+        // }
+
+        $student->update($input);
+
+        // Insert ke table Log Activities
+        $logActivities = new LogActivity;
+        $logActivities->user_id = Auth::user()->id;
+        $logActivities->activity_name = "Mengubah data siswa ( NIS: " . $request->nis . ", Nama: " . $request->nama . " )";
+        $logActivities->save();
+
+        Session::flash('message', 'Data has been updated!');
+
+        return redirect('student');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Student  $student
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Student $student)
+    {
+        $query = "DELETE students,users FROM students 
+        INNER JOIN users ON users.id = students.user_id  
+        WHERE students.user_id = ?";
+
+        \DB::delete($query, array($student->user_id));
+
+        $logActivities = new LogActivity;
+        $logActivities->user_id = Auth::user()->id;
+        $logActivities->activity_name = "Menghapus data siswa ( NIS: " . $student->nis . ", Nama: " . $student->nama . " )";
+        $logActivities->save();
+
+        Session::flash('message', 'Data has been deleted!');
+        Session::flash('important', true);
+
+        return redirect('student');
+    }
+}
