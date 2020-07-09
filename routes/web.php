@@ -87,11 +87,9 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,siswa']], function () {
 	Route::resource('/course-hour', 'CourseHourController');
 	Route::resource('/room', 'RoomController');
 	Route::resource('/krs', 'KrsController');
-	// Route::get('/rombel/search', 'RombelController@search');
 	Route::get('/rombel/action', 'RombelController@action')->name('rombel.action');
 	Route::resource('/rombel', 'RombelController');
 	Route::resource('/wali-kelas', 'WaliKelasController');
 	Route::post('/student/update_rombel/update', 'RombelController@update_rombel');
-	// Route::get('/rombel/cari', 'RombelController@cari');
 	Route::resource('/log-activity', 'LogActivityController');
 });
