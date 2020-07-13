@@ -198,7 +198,7 @@
         function fetch_customer_data(query = '')
         {
             $.ajax({
-                url:"{{ route('rombel.action') }}",
+                url:"{{ route('rombel.search') }}",
                 method:'GET',
                 data:{query:query},
                 dataType:'json',

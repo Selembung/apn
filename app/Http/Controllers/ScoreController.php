@@ -13,26 +13,6 @@ use DataTables;
 
 class ScoreController extends Controller
 {
-    // public function datatable()
-    // {
-
-    //     $schedule = \DB::table('course_schedules')->where('id', $id_jadwal)->first();
-    //     $khs = \DB::table('khs')
-    //         ->join('students', 'students.nis', '=', 'khs.nis')
-    //         ->where('khs.kode_guru', $schedule['kode_guru'])
-    //         ->get();
-
-    //     return DataTables::of($khs)
-    //         ->addColumn('action', function ($khs) {
-    //             // return view('layouts.action._action', [
-    //             //     'score'       => $score,
-    //             //     'url_edit'    => route('score.edit', $score->id),
-    //             //     'url_destroy' => route('score.show', $score->id),
-    //             // ]);
-    //         })
-    //         ->make(true);
-    // }
-
     /**
      * Display a listing of the resource.
      *
@@ -77,87 +57,4 @@ class ScoreController extends Controller
         $logActivities->activity_name = "Melakukan perubahan nilai pada siswa dengan ID KHS: " . $request->id_khs;
         $logActivities->save();
     }
-
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    //     return view('score.create');
-    // }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(ScoreRequest $request)
-    // {
-    //     $input = $request->all();
-
-    //     Score::create($input);
-
-    //     Session::flash('message', 'Data has been saved!');
-
-    //     return redirect('score');
-    // }
-
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  \App\Score  $major
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show(Score $score)
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  \App\Score  $major
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit(Score $score)
-    // {
-    //     return view('score.edit', compact('score'));
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  \App\Score  $major
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(ScoreRequest $request, Score $score)
-    // {
-    //     $input = $request->all();
-
-    //     $score->update($input);
-
-    //     Session::flash('message', 'Data has been updated!');
-
-    //     return redirect('score');
-    // }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  \App\Score  $major
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy(Score $score)
-    // {
-    //     Score::destroy($score->kode_jurusan);
-
-    //     Session::flash('message', 'Data has been deleted!');
-    //     Session::flash('important', true);
-
-    //     return redirect('score');
-    // }
 }

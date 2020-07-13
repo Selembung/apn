@@ -8,5 +8,8 @@ class WaliKelas extends Model
 {
     protected $table = 'homeroom_teachers';
 
-    protected $fillable = ['kode_rombel', 'kode_guru'];
+    protected $fillable = [
+        'kode_rombel',
+        'kode_guru'
+    ];
 }

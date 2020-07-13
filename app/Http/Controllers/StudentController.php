@@ -18,7 +18,6 @@ use Session;
 
 class StudentController extends Controller
 {
-
     public function datatable()
     {
         $student = \DB::table('students')

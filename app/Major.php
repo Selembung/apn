@@ -9,5 +9,8 @@ class Major extends Model
     protected $primaryKey = 'kode_jurusan';
     public $incrementing  = false;
 
-    protected $fillable = ['kode_jurusan', 'nama_jurusan'];
+    protected $fillable = [
+        'kode_jurusan',
+        'nama_jurusan'
+    ];
 }

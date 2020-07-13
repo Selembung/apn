@@ -116,13 +116,13 @@
                         <div class="col-6">
                             <h3 class="mb-0">Mata Pelajaran yang dipilih</h3>
                         </div>
-                        <div class="col-6 text-right">
+                        {{-- <div class="col-6 text-right">
                             <a href="/krs/create" class="btn btn-sm btn-neutral btn-round btn-icon"
                                 data-toggle="tooltip" data-original-title="Add KRS">
                                 <span class="btn-inner--icon"><i class="fas fa-swatchbook"></i></span>
                                 <span class="btn-inner--text">Add</span>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
@@ -179,8 +179,6 @@
 
     });
 
-    
-
     </script>
 
     <script>
@@ -225,8 +223,6 @@
           tampil_krs();
       });
     }
-
-    
     
     </script>
 

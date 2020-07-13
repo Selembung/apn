@@ -9,10 +9,12 @@ class Teacher extends Model
     protected $primaryKey = 'nig';
     public $incrementing  = false;
 
-    protected $fillable = ['nig', 'guru_id', 'kode_guru', 'nama', 'no_telepon', 'email'];
-
-    // protected $attributes = [
-    //     'user_id' => 2,
-    // ];
-
+    protected $fillable = [
+        'nig',
+        'guru_id',
+        'kode_guru',
+        'nama',
+        'no_telepon',
+        'email'
+    ];
 }

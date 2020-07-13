@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 class KrsController extends Controller
 {
+
     public function ajax()
     {
         \DB::table('courses')
             ->join('course_schedules', 'course_schedules.kode_mp', '=', 'courses.kode_mp')
-            ->all();;
+            ->all();
 
         return view('krs.ajax');
     }
@@ -134,19 +135,19 @@ class KrsController extends Controller
                             <td>' . $row->nama_mp . '</td>
                             <td>' . $row->jumlah_sks . '</td>
                             <td>
-                                <button class="btn btn-danger btn-sm" onClick="hapus_krs(' . $row->id . ')"><i class="fas fa-trash-alt"></i></button>
+                                <button class="btn btn-danger btn-sm" onClick="hapus_krs(' . $row->id . ')" data-toggle="tooltip"
+                                data-original-title="Delete"><i class="fas fa-trash-alt"></i></button>
                             </td>
                         </tr>';
         }
         $result .= '<tr>
-                        <td>
-                            <a class="btn btn-success" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                        <td colspan="4" class="no-hover">
+                            <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                         </td>
                     </tr>';
         $result .= '</table>';
         return $result;
     }
-
 
     /**
      * Display a listing of the resource.

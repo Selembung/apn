@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-'title' => 'Create Rombel',
+'title' => 'Create Wali Kelas',
 'activePage' => 'rombel'
 ])
 
@@ -17,7 +17,7 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                     <li class="breadcrumb-item"><a href="{{ url('home') }}"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('rombel') }}">Rombel</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('wali-kelas') }}">Wali Kelas</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Form</li>
                 </ol>
             </nav>

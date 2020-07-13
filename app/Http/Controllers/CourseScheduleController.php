@@ -20,7 +20,6 @@ class CourseScheduleController extends Controller
     public function ajax()
     {
         $courseSchedule = CourseSchedule::all();
-        // $filter         = $courseSchedule->sortBy('nama_jurusan');
 
         return view('course-schedule.ajax', compact('filter'));
     }
@@ -68,7 +67,7 @@ class CourseScheduleController extends Controller
         $data['ay']      = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
         $data['major']   = Major::pluck('nama_jurusan', 'kode_jurusan');
         $data['course']  = Course::pluck('nama_mp', 'kode_mp');
-        $data['teacher'] = Teacher::pluck('nama', 'user_id');
+        $data['teacher'] = Teacher::pluck('nama', 'guru_id');
         $data['room']    = Room::pluck('nama_ruangan', 'kode_ruangan');
         $data['ch']      = CourseHour::all('jam_masuk', 'jam_keluar');
         $data['user']    = User::select('name', 'id')->get();
@@ -115,7 +114,7 @@ class CourseScheduleController extends Controller
         $data['ay']      = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
         $data['major']   = Major::pluck('nama_jurusan', 'kode_jurusan');
         $data['course']  = Course::pluck('nama_mp', 'kode_mp');
-        $data['teacher'] = Teacher::pluck('nama', 'user_id');
+        $data['teacher'] = Teacher::pluck('nama', 'guru_id');
         $data['room']    = Room::pluck('nama_ruangan', 'kode_ruangan');
         $data['ch']      = CourseHour::all('jam_masuk', 'jam_keluar');
         $data['user']    = User::pluck('name', 'id');

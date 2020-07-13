@@ -15,6 +15,10 @@ Route::get('/', function () {
 	return view('welcome');
 });
 
+Route::get('/404-error', function () {
+	return view('/error/index');
+});
+
 Auth::routes();
 
 Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function () {
@@ -70,14 +74,14 @@ Route::group(['middleware' => ['auth', 'checkRole:siswa']], function () {
 	Route::get('/krs/tampilKrs', 'KrsController@tampilKrs');
 	Route::post('/krs/hapusKrs', 'KrsController@hapusKrs');
 	Route::get('/krs/selesai', 'KrsController@selesai');
+	Route::resource('/krs', 'KrsController');
 	Route::resource('/khs', 'KhsController');
 	Route::get('/print', 'KhsController@KHSpdf');
 });
 
-Route::group(['middleware' => ['auth', 'checkRole:Admin,siswa']], function () {
+Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::resource('/course', 'CourseController');
 	Route::resource('/teacher', 'TeacherController');
-
 	Route::resource('/academic-year', 'AcademicYearController');
 	Route::resource('/student', 'StudentController');
 	Route::resource('/major', 'MajorController');
@@ -86,8 +90,8 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,siswa']], function () {
 	Route::resource('/course-schedule', 'CourseScheduleController');
 	Route::resource('/course-hour', 'CourseHourController');
 	Route::resource('/room', 'RoomController');
-	Route::resource('/krs', 'KrsController');
-	Route::get('/rombel/action', 'RombelController@action')->name('rombel.action');
+
+	Route::get('/rombel/search', 'RombelController@search')->name('rombel.search');
 	Route::resource('/rombel', 'RombelController');
 	Route::resource('/wali-kelas', 'WaliKelasController');
 	Route::post('/student/update_rombel/update', 'RombelController@update_rombel');

@@ -8,5 +8,8 @@ class CourseHour extends Model
 {
     protected $primaryKey = 'id_jam';
 
-    protected $fillable = ['jam_masuk', 'jam_keluar'];
+    protected $fillable = [
+        'jam_masuk',
+        'jam_keluar'
+    ];
 }

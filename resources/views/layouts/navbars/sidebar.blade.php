@@ -202,33 +202,33 @@
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'course-schedule') active text-danger @endif"
                         href="/course-schedule">
-                        <i class="ni ni-collection text-danger"></i> {{ __('Jadwal Mata Pelajaran') }}
+                        <i class="ni ni-calendar-grid-58 text-danger"></i> {{ __('Jadwal Mata Pelajaran') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'course-hour') active text-info @endif" href="/course-hour">
-                        <i class="ni ni-circle-08 text-info"></i> {{ __('Jam Mata Pelajaran') }}
+                        <i class="ni ni-watch-time text-info"></i> {{ __('Jam Mata Pelajaran') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'room') active text-warning @endif" href="/room">
-                        <i class="ni ni-circle-08 text-warning"></i> {{ __('Ruangan') }}
+                        <i class="ni ni-building text-warning"></i> {{ __('Ruangan') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'rombel') active text-primary @endif" href="/rombel">
-                        <i class="ni ni-circle-08 text-primary"></i> {{ __('Rombel') }}
+                        <i class="ni ni-collection text-primary"></i> {{ __('Rombel') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'wakel') active text-info @endif" href="/wali-kelas">
-                        <i class="ni ni-circle-08 text-info"></i> {{ __('Wali Kelas') }}
+                        <i class="ni ni-single-02 text-info"></i> {{ __('Wali Kelas') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'logActivity') active text-green @endif"
                         href="/log-activity">
-                        <i class="ni ni-circle-08 text-green"></i> {{ __('Log Aktivitas') }}
+                        <i class="ni ni-bullet-list-67 text-green"></i> {{ __('Log Aktivitas') }}
                     </a>
                 </li>
             </ul>

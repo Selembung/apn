@@ -34,6 +34,31 @@
 
                 <div class="table-responsive table-hover px-3 pt-3 pb-3">
                     <table class="table align-items-center table-flush" id="datatable">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label font-weight-bold"
+                                        for="nama_tahun_akademik">Tahun
+                                        Akademik: </label>
+                                    <div class="col-sm-5">
+                                        @if (count($academicYear) > 0)
+                                        <select data-column="11" class="form-control" id="filter_tahun_akademik">
+                                            <option value="" disabled>-- Pilih Tahun Akdemik --</option>
+                                            @foreach ($academicYear as $key => $m)
+                                            <option value="{{ ($key) }}"
+                                                {{ $key == $khs[0]->kode_tahun_akademik  ? 'selected' : '' }}>
+                                                {{ $m }}</option>
+                                            @endforeach
+                                        </select>
+                                        @else
+                                        <div class="alert alert-info alert-important" role="alert">
+                                            <strong>Info!</strong> Majors not yet available!
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <thead class="thead-light">
                             <tr>
                                 <th>No</th>
@@ -47,18 +72,25 @@
                                 <th>Nilai Akhir</th>
                                 <th>Grade</th>
                                 <th>Nilai Sikap</th>
+                                <th>Tahun Akademik</th>
                             </tr>
                         </thead>
 
 
                         <tfoot class="table-borderless">
                             <tr>
-                                {{-- <th>No</th>
+                                <th>No</th>
                                 <th>Kode MP</th>
                                 <th>Nama Pelajaran</th>
                                 <th>SKS</th>
-                                <th>Nilai</th>
-                                <th>Action</th> --}}
+                                <th>Nilai Harian</th>
+                                <th>Nilai Praktek</th>
+                                <th>Nilai UTS</th>
+                                <th>Nilai UAS</th>
+                                <th>Nilai Akhir</th>
+                                <th>Grade</th>
+                                <th>Nilai Sikap</th>
+                                <th>Tahun Akademik</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -90,17 +122,18 @@
             {data: 'nilai_akhir', name: 'nilai_akhir', "sClass": "text-center"},
             {data: 'grade', name: 'grade', "sClass": "text-center"},
             {data: 'nilai_sikap', name: 'nilai_sikap', "sClass": "text-center"},
+            {data: 'kode_tahun_akademik', name: 'kode_tahun_akademik', "sClass": "text-center", visible: false},
         ],
             drawCallback: function() {
                 $('[data-toggle="tooltip"]').tooltip();
         } 
     });
 
-    // $('#filter_jurusan').change(function () {
-    //     table.column($(this).data('column'))
-    //         .search($(this).val())
-    //         .draw();
-    // });
+    $('#filter_tahun_akademik').change(function () {
+        table.column($(this).data('column'))
+            .search($(this).val())
+            .draw();
+    });
 
     // $('#reset').click(function () {
     //     table.column($(this).data(''))

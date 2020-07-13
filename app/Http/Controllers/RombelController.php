@@ -158,23 +158,7 @@ class RombelController extends Controller
         $logActivities->save();
     }
 
-    // public function search(Request $request)
-    // {
-    //     $data['rombel'] = Rombel::all();
-
-    //     $keyword = $request->input('search');
-    //     $query = \DB::table('students')
-    //         ->leftJoin('rombels', 'rombels.kode_rombel', '=', 'students.kode_rombel')
-    //         ->where('nis', 'LIKE', '%' . $keyword . '%')
-    //         ->orWhere('nama', 'LIKE', '%' . $keyword . '%');
-
-    //     $list = $query->paginate(5);
-    //     $pagination = $list->appends($request->except('page'));
-
-    //     return view('rombel.index', compact('keyword', 'list', 'pagination'), $data);
-    // }
-
-    function action(Request $request)
+    function search(Request $request)
     {
         if ($request->ajax()) {
             $output = '';
@@ -192,12 +176,6 @@ class RombelController extends Controller
                     ->get();
             }
 
-
-            $snis = '{{ $row->nis }}';
-            $selected = "? 'selected' : ''";
-
-            $rombel = Rombel::all();
-
             $total_row = $data->count();
             if ($total_row > 0) {
                 foreach ($data as $row) {
@@ -206,16 +184,17 @@ class RombelController extends Controller
                     <th>' . $row->nis . '</th>
                     <th>' . $row->nama . '</th>
                     <th>' . '
-                    <select class="form-control onchange="simpan_rombel(' . $snis . ')" id="rombel-{{' . $row->nis . '}}"
-                    name="rombel">';
+                    <select class="form-control onchange="simpan_rombel(' . $row->nis . ')" id="rombel-' . $row->nis . '"
+                    name="rombel">
+                    <option disabled selected>-- Pilih Rombel --</option>';
 
-                    foreach ($rombel as $m) {
+                    foreach ($data as $m) {
 
-                        $output .= '<option value="{{' . $m->kode_rombel . '}}" {{' . $m->kode_rombel == $row->kode_rombel ? ' selected' : '' . '}}>'
-                            . $m->kode_rombel .
-                            '</option>';
+                        $output .= '<option value="' . $m->kode_rombel . '"
+                        ' . $m->kode_rombel == $row->kode_rombel ? 'selected' : '' . '>
+                        ' . $m->kode_rombel . '>' . $m->kode_rombel . '</option>';
 
-                        $output .= '<option>' . $m->kode_rombel . '</option>';
+                        // $output .= '<option>' . $m->kode_rombel . '</option>';
                     }
 
                     $output .= '</select>';

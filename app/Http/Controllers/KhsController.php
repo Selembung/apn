@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AcademicYear;
 use App\Khs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,18 @@ use Fpdf;
 
 class KhsController extends Controller
 {
+    public function ajax()
+    {
+        $user_id = Auth::user()->id;
+        \DB::table('khs')
+            // ->join('teachers', 'teachers.guru_id', '=', 'khs.guru_id')  
+            ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->where('khs.user_id', $user_id)
+            ->get();
+
+        return view('khs.ajax');
+    }
+
     public function datatable()
     {
         $user_id = Auth::user()->id;
@@ -44,9 +57,12 @@ class KhsController extends Controller
         $data['khs'] = \DB::table('khs')
             ->join('teachers', 'teachers.guru_id', '=', 'khs.guru_id')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('khs.user_id', $user_id)
             ->get();
-        // return $data;;
+
+        $data['academicYear'] = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
+
         return view('khs.index', $data);
     }
 

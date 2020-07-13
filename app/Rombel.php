@@ -9,5 +9,8 @@ class Rombel extends Model
     protected $primaryKey = 'kode_rombel';
     public $incrementing  = false;
 
-    protected $fillable = ['kode_rombel', 'nama_rombel'];
+    protected $fillable = [
+        'kode_rombel',
+        'nama_rombel'
+    ];
 }
