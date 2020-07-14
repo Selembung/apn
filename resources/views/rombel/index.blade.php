@@ -84,49 +84,70 @@
                             autocomplete="off">
                     </div>
                     </form> --}}
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <input type="text" name="search" id="search" class="form-control" placeholder="Cari siswa"
                             autocomplete="off" />
+                    </div> --}}
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label class="form-control-label" for="rombel">Rombel</label>
+                            @if (count($rombel) > 0)
+                            <select data-column="2" class="form-control" id="filter_rombel" name="rombel">
+                                <option value=" " selected>-- Pilih Rombel --</option>
+                                @foreach ($rombel as $m)
+                                <option value="{{ $m->kode_rombel }}"
+                                    {{ $m->kode_rombel == $list[0]->kode_rombel ? 'selected' : '' }}>
+                                    {{ $m->kode_rombel }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @else
+                            <div class="alert alert-info alert-important" role="alert">
+                                <strong>Info!</strong> Majors not yet available!
+                            </div>
+                            @endif
+                        </div>
                     </div>
-                    <table class="table align-items-center table-flush" id="">
+                    <table class="table align-items-center table-flush" id="datatable-student">
                         <thead class="thead-light">
                             <tr>
                                 <th>NIS</th>
                                 <th>Nama Siswa</th>
-                                <th class="a">Rombel</th>
+                                <th>Rombel</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="list">
-                            @foreach ($list as $s)
+                            {{-- @foreach ($list as $s)
                             <tr>
                                 <th>{{ $s->nis }}</th>
-                                <th>{{ $s->nama }}</th>
-                                <th>
-                                    <select class="form-control @error('rombel') is-invalid @enderror"
-                                        onchange="simpan_rombel('{{ $s->nis }}')" id="rombel-{{ $s->nis }}"
-                                        name="rombel">
-                                        <option disabled selected>-- Pilih Rombel --</option>
-                                        @foreach ($rombel as $m)
-                                        <option value="{{ $m->kode_rombel }}"
-                                            {{ $m->kode_rombel == $s->kode_rombel ? 'selected' : '' }}>
-                                            {{ $m->kode_rombel }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </th>
+                            <th>{{ $s->nama }}</th>
+                            <th>
+                                <select class="form-control @error(' rombel') is-invalid @enderror"
+                                    onchange="simpan_rombel('{{ $s->nis }}')" id="rombel-{{ $s->nis }}" name="rombel">
+                                    <option disabled selected>-- Pilih Rombel --</option>
+                                    @foreach ($rombel as $m)
+                                    <option value="{{ $m->kode_rombel }}"
+                                        {{ $m->kode_rombel == $s->kode_rombel ? 'selected' : '' }}>
+                                        {{ $m->kode_rombel }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </th>
                             </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th>NIS</th>
                                 <th>Nama Siswa</th>
-                                <th class="a">Rombel</th>
+                                <th>Rombel</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
                     <div class="float-right">
-                        {{ $list->links() }}
+                        {{-- {{ $list->links() }} --}}
                     </div>
                 </div>
             </div>
@@ -156,18 +177,34 @@
     </script>
 
     <script>
-        $('#datatable-student').DataTable({
+        var table = $('#datatable-student').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: "{{ route('table.student') }}",
+        ajax: "{{ route('table.rombel-siswa') }}",
         columns: [
             {data: 'nis', name: 'nis', "sClass": "font-weight-bold text-default"},
             {data: 'nama', name: 'nama', "sClass": "font-weight-bold text-default"},
             {data: 'kode_rombel', name: 'kode_rombel'},
-        ],
-
+            {data: 'action', name: 'action', "sClass": "font-weight-bold text-default"},
+        ], columnDefs: [
+           		{
+              	targets: [ 0 ],
+                render: function ( data, type, row, meta ) {
+      							return type === 'filter' ?
+        							data === '' ? '(Empty)' : data : data;
+    }
+              }
+           ],
+   
     });
+
+    $('#filter_rombel').change(function () {
+        table.column($(this).data('column'))
+            .search($(this).val())
+            .draw();
+    });
+
     </script>
 
     <script>
@@ -190,7 +227,7 @@
 
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function(){
 
         fetch_customer_data();
@@ -199,21 +236,21 @@
         {
             $.ajax({
                 url:"{{ route('rombel.search') }}",
-                method:'GET',
-                data:{query:query},
-                dataType:'json',
-                success:function(data)
-                {
-                    $('tbody.list').html(data.table_data);
-                //    $('#total_records').text(data.total_data);
-                }
-            })
-        }
-        $(document).on('keyup', '#search', function(){
-            var query = $(this).val();
-                fetch_customer_data(query);
-            });
-        });
-    </script>
+    method:'GET',
+    data:{query:query},
+    dataType:'json',
+    success:function(data)
+    {
+    $('tbody.list').html(data.table_data);
+    // $('#total_records').text(data.total_data);
+    }
+    })
+    }
+    $(document).on('keyup', '#search', function(){
+    var query = $(this).val();
+    fetch_customer_data(query);
+    });
+    });
+    </script> --}}
 
     @endpush

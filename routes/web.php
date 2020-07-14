@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::get('/room/datatable', 'RoomController@datatable')->name('table.room');
 	Route::get('/score/datatable', 'ScoreController@datatable')->name('table.score');
 	Route::get('/rombel/datatable', 'RombelController@datatable')->name('table.rombel');
+	Route::get('/rombel/datatableRombelSiswa', 'RombelController@datatableRombelSiswa')->name('table.rombel-siswa');
 	Route::get('/wali-kelas/datatable', 'WaliKelasController@datatable')->name('table.wali-kelas');
 	Route::get('/log-activity/datatable', 'LogActivityController@datatable')->name('table.log-activity');
 });
@@ -91,7 +92,8 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::resource('/course-hour', 'CourseHourController');
 	Route::resource('/room', 'RoomController');
 
-	Route::get('/rombel/search', 'RombelController@search')->name('rombel.search');
+	Route::get('/student/{student}/edit-rombel', 'StudentController@editRombel');
+	// Route::get('/rombel/search', 'RombelController@search')->name('rombel.search');
 	Route::resource('/rombel', 'RombelController');
 	Route::resource('/wali-kelas', 'WaliKelasController');
 	Route::post('/student/update_rombel/update', 'RombelController@update_rombel');

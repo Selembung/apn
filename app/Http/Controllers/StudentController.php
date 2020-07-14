@@ -12,6 +12,7 @@ use App\LogActivity;
 use App\Student;
 use App\Major;
 use App\User;
+use App\Rombel;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -120,6 +121,13 @@ class StudentController extends Controller
         return view('student.edit', $data, compact('student'));
     }
 
+    public function editRombel(Student $student)
+    {
+        $data['rombel'] = Rombel::all();
+
+        return view('student.edit-rombel', compact('student'), $data);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -130,16 +138,6 @@ class StudentController extends Controller
     public function update(StudentRequest $request, Student $student)
     {
         $input = $request->all();
-
-        // if ($request->filled('password')) {
-        //     $user = new User;
-        //     // Hash Password
-        //     $data['password'] = bcrypt($input['password']);
-        //     var_dump($user->update());
-        // } else {
-        //     // Hapus Password (Password tidak update)
-        //     $data = Arr::except($input, ['password']);
-        // }
 
         $student->update($input);
 

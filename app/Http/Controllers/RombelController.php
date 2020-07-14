@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Response;
 
 class RombelController extends Controller
 {
+    public function ajax()
+    {
+        Student::all();
+
+        return view('rombel.ajax');
+    }
+
     public function datatable()
     {
         return DataTables::of(Rombel::all())
@@ -26,6 +33,24 @@ class RombelController extends Controller
             })
             ->make(true);
     }
+
+    public function datatableRombelSiswa()
+    {
+        $student = \DB::table('students')
+            ->join('majors', 'majors.kode_jurusan', '=', 'students.kode_jurusan')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'students.kode_tahun_akademik')
+            ->Leftjoin('users', 'users.id', '=', 'students.user_id')
+            ->get();
+
+        return DataTables::of($student)
+            ->addColumn('action', function ($student) {
+                $action  = '<a href="/student/' . $student->nis . '/edit-rombel" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                    data-original-title="Input Nilai"><i class="fas fa-pencil-alt"></i></a>';
+                return $action;
+            })
+            ->make(true);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,8 +60,9 @@ class RombelController extends Controller
     {
         $list = \DB::table('students')
             ->leftJoin('rombels', 'rombels.kode_rombel', '=', 'students.kode_rombel')
-            ->orderBy('nis', 'asc')
-            ->paginate(5);
+            // ->orderBy('nis', 'asc')
+            // ->paginate(5);
+            ->get();
 
         // $data['siswa']  = Student::all();
         $data['rombel'] = Rombel::all();
@@ -148,7 +174,7 @@ class RombelController extends Controller
 
     public function update_rombel(Request $request)
     {
-        $rombel = \DB::table('students')
+        \DB::table('students')
             ->where('nis', $request->nis)
             ->update(['kode_rombel' => $request->rombel]);
 
@@ -158,64 +184,64 @@ class RombelController extends Controller
         $logActivities->save();
     }
 
-    function search(Request $request)
-    {
-        if ($request->ajax()) {
-            $output = '';
-            $query = $request->get('query');
-            if ($query != '') {
-                $data = \DB::table('students')
-                    ->leftJoin('rombels', 'rombels.kode_rombel', '=', 'students.kode_rombel')
-                    ->where('nis', 'LIKE', '%' . $query . '%')
-                    ->orWhere('nama', 'LIKE', '%' . $query . '%')
-                    ->orderBy('nis', 'asc')
-                    ->get();
-            } else {
-                $data = DB::table('students')
-                    ->orderBy('nis', 'asc')
-                    ->get();
-            }
+    // function search(Request $request)
+    // {
+    //     if ($request->ajax()) {
+    //         $output = '';
+    //         $query = $request->get('query');
+    //         if ($query != '') {
+    //             $data = \DB::table('students')
+    //                 ->leftJoin('rombels', 'rombels.kode_rombel', '=', 'students.kode_rombel')
+    //                 ->where('nis', 'LIKE', '%' . $query . '%')
+    //                 ->orWhere('nama', 'LIKE', '%' . $query . '%')
+    //                 ->orderBy('nis', 'asc')
+    //                 ->get();
+    //         } else {
+    //             $data = DB::table('students')
+    //                 ->orderBy('nis', 'asc')
+    //                 ->get();
+    //         }
 
-            $total_row = $data->count();
-            if ($total_row > 0) {
-                foreach ($data as $row) {
-                    $output .= '
-                    <tr>
-                    <th>' . $row->nis . '</th>
-                    <th>' . $row->nama . '</th>
-                    <th>' . '
-                    <select class="form-control onchange="simpan_rombel(' . $row->nis . ')" id="rombel-' . $row->nis . '"
-                    name="rombel">
-                    <option disabled selected>-- Pilih Rombel --</option>';
+    //         $total_row = $data->count();
+    //         if ($total_row > 0) {
+    //             foreach ($data as $row) {
+    //                 $output .= '
+    //                 <tr>
+    //                 <th>' . $row->nis . '</th>
+    //                 <th>' . $row->nama . '</th>
+    //                 <th>' . '
+    //                 <select class="form-control onchange="simpan_rombel(' . $row->nis . ')" id="rombel-' . $row->nis . '"
+    //                 name="rombel">
+    //                 <option disabled selected>-- Pilih Rombel --</option>';
 
-                    foreach ($data as $m) {
+    //                 foreach ($data as $m) {
 
-                        $output .= '<option value="' . $m->kode_rombel . '"
-                        ' . $m->kode_rombel == $row->kode_rombel ? 'selected' : '' . '>
-                        ' . $m->kode_rombel . '>' . $m->kode_rombel . '</option>';
+    //                     $output .= '<option value="' . $m->kode_rombel . '"
+    //                     ' . $m->kode_rombel == $row->kode_rombel ? 'selected' : '' . '>
+    //                     ' . $m->kode_rombel . '>' . $m->kode_rombel . '</option>';
 
-                        // $output .= '<option>' . $m->kode_rombel . '</option>';
-                    }
+    //                     // $output .= '<option>' . $m->kode_rombel . '</option>';
+    //                 }
 
-                    $output .= '</select>';
+    //                 $output .= '</select>';
 
-                    '</th>
-        </tr>
-        ';
-                }
-            } else {
-                $output = '
-       <tr>
-        <td align="center" colspan="3">No Data Found</td>
-       </tr>
-       ';
-            }
-            $data = array(
-                'table_data'  => $output,
-                'total_data'  => $total_row
-            );
+    //                 '</th>
+    //     </tr>
+    //     ';
+    //             }
+    //         } else {
+    //             $output = '
+    //    <tr>
+    //     <td align="center" colspan="3">No Data Found</td>
+    //    </tr>
+    //    ';
+    //         }
+    //         $data = array(
+    //             'table_data'  => $output,
+    //             'total_data'  => $total_row
+    //         );
 
-            echo json_encode($data);
-        }
-    }
+    //         echo json_encode($data);
+    //     }
+    // }
 }

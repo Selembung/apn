@@ -87,6 +87,11 @@ class CourseScheduleController extends Controller
 
         CourseSchedule::create($input);
 
+        $logActivities = new LogActivity;
+        $logActivities->user_id = Auth::user()->id;
+        $logActivities->activity_name = "Menambahkan data jadwal pelajaran";
+        $logActivities->save();
+
         Session::flash('message', 'Data has been saved!');
 
         return redirect('course-schedule');
@@ -135,6 +140,11 @@ class CourseScheduleController extends Controller
 
         $courseSchedule->update($input);
 
+        $logActivities = new LogActivity;
+        $logActivities->user_id = Auth::user()->id;
+        $logActivities->activity_name = "Mengubah data jadwal pelajaran";
+        $logActivities->save();
+
         Session::flash('message', 'Data has been updated!');
 
         return redirect('course-schedule');
@@ -149,6 +159,11 @@ class CourseScheduleController extends Controller
     public function destroy(CourseSchedule $courseSchedule)
     {
         CourseSchedule::destroy($courseSchedule->id);
+
+        $logActivities = new LogActivity;
+        $logActivities->user_id = Auth::user()->id;
+        $logActivities->activity_name = "Menghapus data jadwal pelajaran";
+        $logActivities->save();
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);
