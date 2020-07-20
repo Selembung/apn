@@ -12,8 +12,20 @@
     </button> --}}
 
     <button type="button" class="btn btn-sm btn-neutral btn-round btn-icon action-delete" data-toggle="tooltip"
-        data-original-title="Delete"
-        onclick="confirm('{{ __("Are you sure you want to delete this data?") }}') ? this.parentElement.submit() : ''">
+        data-original-title="Delete" onclick='swal({
+            title: "Apakah yakin ingin menghapus data ini?",
+            text: "Setelah dihapus, Anda tidak akan dapat memulihkan data ini!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                this.parentElement.submit()
+            } else {
+              swal("Data ini masih tersimpan!");
+            }
+          });'>
         <i class="fas fa-trash"></i>
     </button>
 
