@@ -45,7 +45,9 @@ class RombelController extends Controller
         return DataTables::of($student)
             ->addColumn('action', function ($student) {
                 $action  = '<a href="/student/' . $student->nis . '/edit-rombel" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
-                    data-original-title="Input Nilai"><i class="fas fa-pencil-alt"></i></a>';
+                            data-original-title="Ubah Rombel">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>';
                 return $action;
             })
             ->make(true);

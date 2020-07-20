@@ -37,7 +37,7 @@
                     <!-- Card body -->
                     <div class="card-body">
                         <form action="{{ url('rombel/' . $rombel->kode_rombel) }}" method="post">
-                            @method('put')
+                            @method('patch')
                             @csrf
                             <div class="row">
                                 <div class="col-md-2">

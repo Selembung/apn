@@ -188,7 +188,9 @@
             {data: 'kode_rombel', name: 'kode_rombel', "sClass": "text-center", "defaultContent": "-"},
             {data: 'action', name: 'action', "sClass": "text-center"},
         ],
-   
+        drawCallback: function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        } 
     });
 
     $('#filter_rombel').change(function () {

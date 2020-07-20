@@ -57,7 +57,7 @@
                                         @enderror
                                         @else
                                         <div class="alert alert-info alert-important" role="alert">
-                                            <strong>Info!</strong> Majors not yet available!
+                                            <strong>Info!</strong> Rombel not yet available!
                                         </div>
                                         @endif
                                     </div>
@@ -79,7 +79,7 @@
                                         @enderror
                                         @else
                                         <div class="alert alert-info alert-important" role="alert">
-                                            <strong>Info!</strong> Majors not yet available!
+                                            <strong>Info!</strong> Waki Kelas not yet available!
                                         </div>
                                         @endif
                                     </div>

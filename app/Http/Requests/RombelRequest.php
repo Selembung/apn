@@ -26,17 +26,17 @@ class RombelRequest extends FormRequest
         $kode_rombel = NULL;
 
         if ($this->rombel) {
-            $rombel       = $this->rombel->kode_rombel;
-            $kode_rombel  = $rombel . ",kode_rombel";
+            $rombel      = $this->rombel->kode_rombel;
+            $kode_rombel = $rombel . ",kode_rombel";
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $kode_rombel    = 'required|min:5|unique:rombels,kode_rombel,' . $$this->rombel->kode_rombel;
-            $nama_rombel    = 'required|min:5';
+            $kode_rombel  = 'required|min:3|unique:rombels,kode_rombel,' . $kode_rombel;
+            $nama_rombel  = 'required|min:5';
         } else {
-            $kode_rombel    = 'required|min:5|unique:rombels';
-            $nama_rombel    = 'required|min:5';
+            $kode_rombel = 'required|min:3|unique:rombels';
+            $nama_rombel = 'required|min:5';
         }
 
         return [

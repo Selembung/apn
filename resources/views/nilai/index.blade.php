@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-6 text-right">
                             <a href="/cetak" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
-                                data-original-title="Add nilai">
+                                data-original-title="Cetak Leger Nilai">
                                 <span class="btn-inner--icon"><i class="fas fa-swatchbook"></i></span>
                                 <span class="btn-inner--text">Cetak</span>
                             </a>
