@@ -137,6 +137,13 @@ class StudentController extends Controller
      */
     public function update(StudentRequest $request, Student $student)
     {
+        User::where('id', $student->user_id)
+            ->update([
+                'name'        => $request->nama,
+                'kode_jurusan' => $request->kode_jurusan,
+                'email'        => $request->email,
+            ]);
+
         $input = $request->all();
 
         $student->update($input);

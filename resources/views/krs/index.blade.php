@@ -42,7 +42,7 @@
                                     <select data-column="4" class="form-control" id="filter_jurusan" disabled>
                                         <option value="">-- Pilih Jurusan --</option>
                                         @foreach ($major as $key => $m)
-                                        <option value="{{ ($key) }}"
+                                        <option value="{{ $key }}"
                                             {{ $key == $user[0]->kode_jurusan  ? 'selected' : '' }}>
                                             {{ $m }}</option>
                                         @endforeach
@@ -59,18 +59,12 @@
                                     <label class="form-control-label" for="semester">Semester</label>
                                     <select data-column="3" class="form-control" id="filter_semester" name="semester">
                                         <option value="">-- Pilih Semester --</option>
-                                        <option value="1" {{ $filter[0]->semester == 1 ? 'selected' : '' }}>
-                                            Semester 1</option>
-                                        <option value="2" {{ $filter[0]->semester == 2 ? 'selected' : '' }}>Semester 2
-                                        </option>
-                                        <option value="3" {{ $filter[0]->semester == 3 ? 'selected' : '' }}>Semester 3
-                                        </option>
-                                        <option value="4" {{ $filter[0]->semester == 4 ? 'selected' : '' }}>Semester 4
-                                        </option>
-                                        <option value="5" {{ $filter[0]->semester == 5 ? 'selected' : '' }}>Semester 5
-                                        </option>
-                                        <option value="6" {{ $filter[0]->semester == 6 ? 'selected' : '' }}>Semester 6
-                                        </option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2 </option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
                                     </select>
                                 </div>
                             </div>

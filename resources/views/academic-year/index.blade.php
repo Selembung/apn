@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Teachers</h3>
+                            <h3 class="mb-0">Academic Years</h3>
                         </div>
                         <div class="col-6 text-right">
                             <a href="{{ url('academic-year/create') }}"

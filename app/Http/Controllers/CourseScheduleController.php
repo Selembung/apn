@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use App\LogActivity;
 use App\CourseSchedule;
 use App\Major;
 use App\Course;

@@ -32,10 +32,10 @@ class RombelRequest extends FormRequest
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $kode_rombel    = 'required|min:5,' . $kode_rombel;
+            $kode_rombel    = 'required|min:5|unique:rombels,kode_rombel,' . $$this->rombel->kode_rombel;
             $nama_rombel    = 'required|min:5';
         } else {
-            $kode_rombel    = 'required|min:5';
+            $kode_rombel    = 'required|min:5|unique:rombels';
             $nama_rombel    = 'required|min:5';
         }
 

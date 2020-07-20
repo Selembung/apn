@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Room</h3>
+                            <h3 class="mb-0">Rooms</h3>
                         </div>
                         <div class="col-6 text-right">
                             <a href="/room/create" class="btn btn-sm btn-neutral btn-round btn-icon"

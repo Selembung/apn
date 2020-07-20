@@ -6,7 +6,7 @@
 @section('content')
 
 @include('layouts.headers.header', [
-'bgGradient' => 'student'
+'bgGradient' => 'wakel'
 ])
 
 <div class="container-fluid mt--9">

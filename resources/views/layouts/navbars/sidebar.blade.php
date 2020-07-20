@@ -132,7 +132,7 @@
                 </li> --}}
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'khs') active text-primary @endif" href="/khs">
-                        <i class="ni ni-circle-08 text-primary"></i> {{ __('KHS') }}
+                        <i class="ni ni-satisfied text-primary"></i> {{ __('KHS') }}
                     </a>
                 </li>
                 <li class="nav-item ">
@@ -200,12 +200,6 @@
                 </a>
                 </li> --}}
                 <li class="nav-item">
-                    <a class="nav-link @if ($activePage == 'course-schedule') active text-danger @endif"
-                        href="/course-schedule">
-                        <i class="ni ni-calendar-grid-58 text-danger"></i> {{ __('Jadwal Mata Pelajaran') }}
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'course-hour') active text-info @endif" href="/course-hour">
                         <i class="ni ni-watch-time text-info"></i> {{ __('Jam Mata Pelajaran') }}
                     </a>
@@ -213,6 +207,12 @@
                 <li class="nav-item">
                     <a class="nav-link @if ($activePage == 'room') active text-warning @endif" href="/room">
                         <i class="ni ni-building text-warning"></i> {{ __('Ruangan') }}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if ($activePage == 'course-schedule') active text-danger @endif"
+                        href="/course-schedule">
+                        <i class="ni ni-calendar-grid-58 text-danger"></i> {{ __('Jadwal Mata Pelajaran') }}
                     </a>
                 </li>
                 <li class="nav-item">

@@ -17,7 +17,6 @@ class NilaiController extends Controller
      */
     public function index()
     {
-
         $data['siswa'] = \DB::table('khs')
             ->join('students', 'students.user_id', '=', 'khs.user_id')
             ->join('homeroom_teachers', 'homeroom_teachers.kode_rombel', '=', 'students.kode_rombel')
@@ -41,7 +40,9 @@ class NilaiController extends Controller
             ->join('homeroom_teachers', 'homeroom_teachers.kode_rombel', '=', 'students.kode_rombel')
             ->join('teachers', 'teachers.kode_guru', '=', 'homeroom_teachers.kode_guru')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('teachers.guru_id', Auth::user()->id)
+            ->where('status', 'aktif')
             ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'courses.kode_mp', 'courses.nama_mp')
             ->get();
 
@@ -78,6 +79,8 @@ class NilaiController extends Controller
             ->join('homeroom_teachers', 'homeroom_teachers.kode_rombel', '=', 'students.kode_rombel')
             ->join('teachers', 'teachers.kode_guru', '=', 'homeroom_teachers.kode_guru')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
+            ->where('status', 'aktif')
             ->where('nis', $nis)
             ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'courses.kode_mp', 'courses.nama_mp')
             ->get();
@@ -112,11 +115,9 @@ class NilaiController extends Controller
                     Fpdf::Cell(47.5, 5, 'Sangat Baik', 1, 0);
                 } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 87) {
                     Fpdf::Cell(47.5, 5, 'Baik', 1, 0);
-                }
-                else if ($row->nilai_akhir >= 75) {
+                } else if ($row->nilai_akhir >= 75) {
                     Fpdf::Cell(47.5, 5, 'Cukup Baik', 1, 0);
-                }
-                else {
+                } else {
                     Fpdf::Cell(47.5, 5, 'Kurang Baik', 1, 0);
                 }
                 Fpdf::Cell(0, 5, '', 1, 1);
@@ -130,11 +131,9 @@ class NilaiController extends Controller
                     Fpdf::Cell(47.5, 5, 'Sangat Baik', 1, 1);
                 } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 87) {
                     Fpdf::Cell(47.5, 5, 'Baik', 1, 1);
-                }
-                else if ($row->nilai_praktek >= 75) {
+                } else if ($row->nilai_praktek >= 75) {
                     Fpdf::Cell(47.5, 5, 'Cukup Baik', 1, 1);
-                }
-                else {
+                } else {
                     Fpdf::Cell(47.5, 5, 'Kurang Baik', 1, 1);
                 }
 
@@ -146,11 +145,9 @@ class NilaiController extends Controller
                     Fpdf::Cell(47.5, 5, 'Sangat Baik', 1, 1);
                 } else if ($row->nilai_sikap == 'B') {
                     Fpdf::Cell(47.5, 5, 'Baik', 1, 1);
-                }
-                else if ($row->nilai_sikap == 'C') {
+                } else if ($row->nilai_sikap == 'C') {
                     Fpdf::Cell(47.5, 5, 'Cukup Baik', 1, 1);
-                }
-                else {
+                } else {
                     Fpdf::Cell(47.5, 5, 'Kurang Baik', 1, 1);
                 }
             } else {
@@ -162,11 +159,9 @@ class NilaiController extends Controller
                     Fpdf::Cell(47.5, 7.5, 'Sangat Baik', 1, 0);
                 } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 87) {
                     Fpdf::Cell(47.5, 7.5, 'Baik', 1, 0);
-                }
-                else if ($row->nilai_akhir >= 75) {
+                } else if ($row->nilai_akhir >= 75) {
                     Fpdf::Cell(47.5, 7.5, 'Cukup Baik', 1, 0);
-                }
-                else {
+                } else {
                     Fpdf::Cell(47.5, 7.5, 'Kurang Baik', 1, 0);
                 }
                 Fpdf::Cell(0, 7.5, '', 1, 1);
@@ -180,11 +175,9 @@ class NilaiController extends Controller
                     Fpdf::Cell(47.5, 7.5, 'Sangat Baik', 1, 1);
                 } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 87) {
                     Fpdf::Cell(47.5, 7.5, 'Baik', 1, 1);
-                }
-                else if ($row->nilai_praktek >= 75) {
+                } else if ($row->nilai_praktek >= 75) {
                     Fpdf::Cell(47.5, 7.5, 'Cukup Baik', 1, 1);
-                }
-                else {
+                } else {
                     Fpdf::Cell(47.5, 7.5, 'Kurang Baik', 1, 1);
                 }
             }

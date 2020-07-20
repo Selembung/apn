@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-'title' => 'Edit Student',
+'title' => 'Edit Rombel Siswa',
 'activePage' => 'student'
 ])
 
@@ -32,7 +32,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">Form Student</h3>
+                        <h3 class="mb-0">Form Rombel Siswa</h3>
                     </div>
                     <!-- Card body -->
                     <div class="card-body">
@@ -95,7 +95,7 @@
     },
 
     function(data, status){
-        swal("Congrats!", "Rombel siswa berhasil dipernaharui!", "success"); 
+        swal("Selamat!", "Rombel siswa berhasil diperbaharui!", "success"); 
     });
 }
 

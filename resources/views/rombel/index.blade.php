@@ -185,17 +185,9 @@
         columns: [
             {data: 'nis', name: 'nis', "sClass": "font-weight-bold text-default"},
             {data: 'nama', name: 'nama', "sClass": "font-weight-bold text-default"},
-            {data: 'kode_rombel', name: 'kode_rombel'},
-            {data: 'action', name: 'action', "sClass": "font-weight-bold text-default"},
-        ], columnDefs: [
-           		{
-              	targets: [ 0 ],
-                render: function ( data, type, row, meta ) {
-      							return type === 'filter' ?
-        							data === '' ? '(Empty)' : data : data;
-    }
-              }
-           ],
+            {data: 'kode_rombel', name: 'kode_rombel', "sClass": "text-center", "defaultContent": "-"},
+            {data: 'action', name: 'action', "sClass": "text-center"},
+        ],
    
     });
 

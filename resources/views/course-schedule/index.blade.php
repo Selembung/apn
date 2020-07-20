@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Courses</h3>
+                            <h3 class="mb-0">Course Schedules</h3>
                         </div>
                         <div class="col-6 text-right">
                             <a href="/course-schedule/create" class="btn btn-sm btn-neutral btn-round btn-icon"
@@ -42,7 +42,7 @@
                                     <select data-column="5" class="form-control" id="filter_jurusan">
                                         <option value="">-- Pilih Jurusan --</option>
                                         @foreach ($major as $key => $m)
-                                        <option value="{{ ($m) }}">{{ $m }}</option>
+                                        <option value="{{ $key }}">{{ $m }}</option>
                                         @endforeach
                                     </select>
                                     @else
@@ -123,7 +123,7 @@
             {data: 'nama_ruangan', name: 'nama_ruangan', "sClass": "font-weight-bold text-default"},
             {data: 'nama', name: 'nama', "sClass": "font-weight-bold text-default"},
             // {data: 'kode_tahun_akademik', name: 'kode_tahun_akademik', "sClass": "font-weight-bold text-default"},
-            {data: 'nama_jurusan', name: 'nama_jurusan', visible: false, "sClass": "font-weight-bold text-default"},
+            {data: 'kode_jurusan', name: 'kode_jurusan', visible: false, "sClass": "font-weight-bold text-default"},
             {data: 'semester', name: 'semester', visible: false, "sClass": "font-weight-bold text-default"},
             {data: 'action', name: 'action', "sClass": "text-center"},
         ],

@@ -41,7 +41,7 @@
                                         for="nama_tahun_akademik">Tahun
                                         Akademik: </label>
                                     <div class="col-sm-5">
-                                        @if (count($academicYear) > 0)
+                                        @if ($khs->count() > 0)
                                         <select data-column="11" class="form-control" id="filter_tahun_akademik">
                                             <option value="" disabled>-- Pilih Tahun Akdemik --</option>
                                             @foreach ($academicYear as $key => $m)
@@ -51,9 +51,10 @@
                                             @endforeach
                                         </select>
                                         @else
-                                        <div class="alert alert-info alert-important" role="alert">
-                                            <strong>Info!</strong> Majors not yet available!
-                                        </div>
+                                        <select data-column="11" class="form-control" id="filter_tahun_akademik"
+                                            disabled>
+                                            <option value="" disabled></option>
+                                        </select>
                                         @endif
                                     </div>
                                 </div>

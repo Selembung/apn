@@ -29,6 +29,7 @@ class ScoreController extends Controller
             ->join('students', 'students.user_id', '=', 'khs.user_id')
             ->where('khs.guru_id', $schedule->user_id)
             ->where('khs.kode_mp', $schedule->kode_mp)
+            ->orderBy('nis')
             ->get();
 
         $data['schedule'] = $schedule;

@@ -166,6 +166,11 @@ class KrsController extends Controller
 
         $data['major'] = Major::pluck('nama_jurusan', 'kode_jurusan');
 
+        $data['student'] = \DB::table('students')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->where('id', Auth::user()->id)
+            ->get();
+
         return view('krs.index', $data);
     }
 

@@ -27,11 +27,7 @@ class TeacherController extends Controller
 
         return DataTables::of($teaching)
             ->addColumn('action', function ($teaching) {
-                // return view('layouts.action._action', [
-                //     'teaching'     => $teaching,
-                //     'url_edit'    => route('teacher.edit', $teaching->id),
-                //     'url_destroy' => route('teacher.show', $teaching->id),
-                // ]);
+
                 if ($teaching->status == 'Nonaktif') {
                     $action  = '<a href="/score/' . $teaching->id . '" class="btn btn-sm btn-danger btn-round btn-icon disabled" data-toggle="tooltip"
                     data-original-title="Input Nilai"><i class="fas fa-minus-circle"></i></a>';
@@ -39,9 +35,7 @@ class TeacherController extends Controller
                     $action  = '<a href="/score/' . $teaching->id . '" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                     data-original-title="Input Nilai"><i class="fas fa-pencil-alt"></i></a>';
                 }
-                // $action .= \Form::open(['url' => 'dosen/' . $teaching->id, 'method' => 'delete', 'style' => 'float:right']);
-                // $action .= "<button type='submit'class='btn btn-danger btn-sm'><i class='fas fa-trash-alt'></i></button>";
-                // $action .= \Form::close();
+
                 return $action;
             })
             ->make(true);
@@ -144,6 +138,12 @@ class TeacherController extends Controller
      */
     public function update(TeacherRequest $request, Teacher $teacher)
     {
+        User::where('id', $teacher->guru_id)
+            ->update([
+                'name'  => $request->nama,
+                'email' => $request->email,
+            ]);
+
         $input = $request->all();
 
         $teacher->update($input);

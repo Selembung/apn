@@ -93,6 +93,14 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot class="thead-light">
+                            <tr>
+                                <th>Nama Mata Pelajaran</th>
+                                <th class="text-center">Pengetahuan</th>
+                                <th class="text-center">Keterampilan</th>
+                                <th class="text-center">Spritual</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
