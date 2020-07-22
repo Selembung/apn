@@ -1,12 +1,12 @@
 @extends('layouts.app', [
-'title' => 'Edit Wali Kelas',
-'activePage' => 'wakel'
+'title' => 'Create Wali Kelas',
+'activePage' => 'homeroom-teacher'
 ])
 
 @section('content')
 
 @include('layouts.headers.header', [
-'bgGradient' => 'wakel'
+'bgGradient' => 'homeroom-teacher'
 ])
 
 <div class="container-fluid mt--7">
@@ -17,8 +17,8 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                     <li class="breadcrumb-item"><a href="{{ url('home') }}"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('wali-kelas') }}">Wali Kelas</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Form Edit</li>
+                    <li class="breadcrumb-item"><a href="{{ url('homeroom-teacher') }}">Wali Kelas</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Form</li>
                 </ol>
             </nav>
         </div>
@@ -36,20 +36,18 @@
                     </div>
                     <!-- Card body -->
                     <div class="card-body">
-                        <form action="{{ url('wali-kelas/' . $wk->id) }}" method="post">
-                            @method('patch')
+                        <form action="{{ url('homeroom-teacher') }}" method="post">
                             @csrf
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="form-control-label" for="kode_rombel">Nama Rombel</label>
+                                        <label class="form-control-label " for="kode_rombel">Nama Rombel</label>
                                         @if (count($rombel) > 0)
                                         <select class="form-control @error('kode_rombel') is-invalid @enderror"
                                             id="kode_rombel" name="kode_rombel">
-                                            @foreach ($rombel as $id => $m)
-                                            <option value="{{ $id }}" {{ $id == $wk->kode_rombel ? 'selected' : '' }}>
-                                                {{ $m }}
-                                            </option>
+                                            <option disabled selected>-- Pilih Rombel --</option>
+                                            @foreach ($rombel as $id => $r)
+                                            <option value="{{ $id }}">{{ $r }}</option>
                                             @endforeach
                                         </select>
                                         @error('kode_rombel')
@@ -57,7 +55,7 @@
                                         @enderror
                                         @else
                                         <div class="alert alert-info alert-important" role="alert">
-                                            <strong>Info!</strong> Rombel not yet available!
+                                            <strong>Info!</strong> Teacher not yet available!
                                         </div>
                                         @endif
                                     </div>
@@ -68,10 +66,9 @@
                                         @if (count($teacher) > 0)
                                         <select class="form-control @error('kode_guru') is-invalid @enderror"
                                             id="kode_guru" name="kode_guru">
-                                            @foreach ($teacher as $id => $m)
-                                            <option value="{{ $id }}" {{ $id == $wk->kode_guru ? 'selected' : '' }}>
-                                                {{ $m }}
-                                            </option>
+                                            <option disabled selected>-- Pilih Pengajar --</option>
+                                            @foreach ($teacher as $id => $u)
+                                            <option value="{{ $id }}">{{ $u }}</option>
                                             @endforeach
                                         </select>
                                         @error('kode_guru')
@@ -79,7 +76,7 @@
                                         @enderror
                                         @else
                                         <div class="alert alert-info alert-important" role="alert">
-                                            <strong>Info!</strong> Waki Kelas not yet available!
+                                            <strong>Info!</strong> Teacher not yet available!
                                         </div>
                                         @endif
                                     </div>
@@ -93,4 +90,5 @@
         </div>
     </div>
 </div>
+
 @endsection

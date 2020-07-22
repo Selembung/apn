@@ -1,12 +1,12 @@
 @extends('layouts.app', [
 'title' => 'Wali Kelas',
-'activePage' => 'wakel'
+'activePage' => 'homeroom-teacher'
 ])
 
 @section('content')
 
 @include('layouts.headers.header', [
-'bgGradient' => 'wakel'
+'bgGradient' => 'homeroom-teacher'
 ])
 
 <div class="container-fluid mt--9">
@@ -23,7 +23,7 @@
                             <h3 class="mb-0">Wali Kelas</h3>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="/wali-kelas/create" class="btn btn-sm btn-neutral btn-round btn-icon"
+                            <a href="/homeroom-teacher/create" class="btn btn-sm btn-neutral btn-round btn-icon"
                                 data-toggle="tooltip" data-original-title="Add wali kelas">
                                 <span class="btn-inner--icon"><i class="fas fa-swatchbook"></i></span>
                                 <span class="btn-inner--text">Add</span>
@@ -63,7 +63,7 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: "{{ route('table.wali-kelas') }}",
+        ajax: "{{ route('table.homeroom-teacher') }}",
         columns: [
             {data: 'kode_rombel', name: 'kode_rombel', "sClass": "font-weight-bold text-default"},
             {data: 'nama', name: 'nama', "sClass": "font-weight-bold text-default"},

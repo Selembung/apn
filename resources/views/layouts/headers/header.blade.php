@@ -110,8 +110,8 @@
 </div>
 @endif
 
-@if ($bgGradient == 'wakel')
-<div class="header @if ($bgGradient == 'wakel') bg-gradient-info @endif  pb-8 pt-5 pt-md-8">
+@if ($bgGradient == 'homeroom-teacher')
+<div class="header @if ($bgGradient == 'homeroom-teacher') bg-gradient-info @endif  pb-8 pt-5 pt-md-8">
     <div class="container-fluid">
 
     </div>

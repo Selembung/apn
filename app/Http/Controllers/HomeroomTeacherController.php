@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\WaliKelasRequest;
-use App\Rombel;
-use App\WaliKelas;
+use App\HomeroomTeacher;
 use App\Teacher;
-use App\User;
-use Illuminate\Http\Request;
+use App\Rombel;
 use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
-use DataTables;
+use App\Http\Requests\HomeroomTeacherRequest;
+use Illuminate\Http\Request;
 use Session;
+use DataTables;
 
-class WaliKelasController extends Controller
+class HomeroomTeacherController extends Controller
 {
     public function datatable()
     {
@@ -24,13 +23,14 @@ class WaliKelasController extends Controller
         return DataTables::of($wk)
             ->addColumn('action', function ($wk) {
                 return view('layouts.action._action', [
-                    'waliKelas'   => $wk,
-                    'url_edit'    => route('wali-kelas.edit', $wk->id),
-                    'url_destroy' => route('wali-kelas.show', $wk->id),
+                    'homeroomTeacher'   => $wk,
+                    'url_edit'    => route('homeroom-teacher.edit', $wk->id),
+                    'url_destroy' => route('homeroom-teacher.show', $wk->id),
                 ]);
             })
             ->make(true);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +38,7 @@ class WaliKelasController extends Controller
      */
     public function index()
     {
-        return view('wali-kelas.index');
+        return view('homeroom-teacher.index');
     }
 
     /**
@@ -51,7 +51,7 @@ class WaliKelasController extends Controller
         $data['teacher'] = Teacher::pluck('nama', 'kode_guru');
         $data['rombel']  = Rombel::pluck('nama_rombel', 'kode_rombel');
 
-        return view('wali-kelas.create', $data);
+        return view('homeroom-teacher.create', $data);
     }
 
     /**
@@ -60,93 +60,91 @@ class WaliKelasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(WaliKelasRequest $request)
+    public function store(HomeroomTeacherRequest $request)
     {
         $input = $request->all();
 
-        WaliKelas::create($input);
+        HomeroomTeacher::create($input);
 
         $logActivities = new LogActivity;
         $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menambahkan data wali kelas ( Rombel: " . $request->kode_rombel . " , dengan Wali Kelas: " . $request->kode_rombel;
+        $logActivities->activity_name = "Menambahkan data wali kelas ( Rombel: " . $request->kode_rombel . " , dengan Wali Kelas: " . $request->kode_rombel . " )";
         $logActivities->save();
 
         Session::flash('message', 'Data has been saved!');
 
-        return redirect('wali-kelas');
+        return redirect('homeroom-teacher');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(HomeroomTeacher $homeroomTeacher)
     {
-        //
+        $data['teacher'] = Teacher::pluck('nama', 'kode_guru');
+        $data['rombel']  = Rombel::pluck('nama_rombel', 'kode_rombel');
+
+        return view('homeroom-teacher.edit', compact('wk'), $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(HomeroomTeacher $homeroomTeacher)
     {
-        $wk = WaliKelas::findOrFail($id);
-
         $data['teacher'] = Teacher::pluck('nama', 'kode_guru');
         $data['rombel']  = Rombel::pluck('nama_rombel', 'kode_rombel');
 
-        return view('wali-kelas.edit', compact('wk'), $data);
+        return view('homeroom-teacher.edit', compact('homeroomTeacher'), $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
-    public function update(WaliKelasRequest $request, $id)
+    public function update(HomeroomTeacherRequest $request, HomeroomTeacher $homeroomTeacher)
     {
-        $wk = WaliKelas::findOrFail($id);
-
         $input = $request->all();
 
-        $wk->update($input);
+        $homeroomTeacher->update($input);
 
         $logActivities = new LogActivity;
         $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Mengubah data wali kelas ( Rombel: " . $request->kode_rombel . " , dengan Wali Kelas: " . $request->kode_rombel;
+        $logActivities->activity_name = "Mengubah data wali kelas ( Rombel: " . $request->kode_rombel . " , dengan Wali Kelas: " . $request->kode_rombel . " )";
         $logActivities->save();
 
         Session::flash('message', 'Data has been updated!');
 
-        return redirect('wali-kelas');
+        return redirect('homeroom-teacher');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(HomeroomTeacher $homeroomTeacher)
     {
-        $wk = WaliKelas::findOrFail($id);
-        $wk->delete();
+        HomeroomTeacher::destroy($homeroomTeacher->id);
 
         $logActivities = new LogActivity;
         $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menghapus data wali kelas ( Rombel: " . $wk->kode_rombel . " , dengan Wali Kelas: " . $wk->kode_rombel;
+        $logActivities->activity_name = "Menghapus data wali kelas ( Rombel: " . $homeroomTeacher->kode_rombel . " , dengan Wali Kelas: " . $homeroomTeacher->kode_rombel . " )";
         $logActivities->save();
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);
 
-        return redirect('wali-kelas');
+        return redirect('homeroom-teacher');
     }
 }

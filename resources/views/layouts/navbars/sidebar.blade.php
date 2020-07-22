@@ -221,7 +221,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link @if ($activePage == 'wakel') active text-info @endif" href="/wali-kelas">
+                    <a class="nav-link @if ($activePage == 'homeroom-teacher') active text-info @endif"
+                        href="/homeroom-teacher">
                         <i class="ni ni-single-02 text-info"></i> {{ __('Wali Kelas') }}
                     </a>
                 </li>

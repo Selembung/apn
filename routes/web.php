@@ -28,9 +28,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function 
 // Datatables
 Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::get('/course/datatable', 'CourseController@datatable')->name('table.course');
-
 	Route::get('/teacher/datatable', 'TeacherController@datatable')->name('table.teacher');
-
 	Route::get('/academic-year/datatable', 'AcademicYearController@datatable')->name('table.academic-year');
 	Route::get('/major/datatable', 'MajorController@datatable')->name('table.major');
 	Route::get('/curriculum/datatable', 'CurriculumController@datatable')->name('table.curriculum');
@@ -41,7 +39,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::get('/score/datatable', 'ScoreController@datatable')->name('table.score');
 	Route::get('/rombel/datatable', 'RombelController@datatable')->name('table.rombel');
 	Route::get('/rombel/datatableRombelSiswa', 'RombelController@datatableRombelSiswa')->name('table.rombel-siswa');
-	Route::get('/wali-kelas/datatable', 'WaliKelasController@datatable')->name('table.wali-kelas');
+	Route::get('/homeroom-teacher/datatable', 'HomeroomTeacherController@datatable')->name('table.homeroom-teacher');
 	Route::get('/log-activity/datatable', 'LogActivityController@datatable')->name('table.log-activity');
 });
 
@@ -91,11 +89,11 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::resource('/course-schedule', 'CourseScheduleController');
 	Route::resource('/course-hour', 'CourseHourController');
 	Route::resource('/room', 'RoomController');
+	Route::resource('/homeroom-teacher', 'HomeroomTeacherController');
 
 	Route::get('/student/{student}/edit-rombel', 'StudentController@editRombel');
 	// Route::get('/rombel/search', 'RombelController@search')->name('rombel.search');
 	Route::resource('/rombel', 'RombelController');
-	Route::resource('/wali-kelas', 'WaliKelasController');
 	Route::post('/student/update_rombel/update', 'RombelController@update_rombel');
 	Route::resource('/log-activity', 'LogActivityController');
 });
