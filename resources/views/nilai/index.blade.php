@@ -57,12 +57,14 @@
                                 <th class="text-center">{{ $s->nilai_sikap }}</th> --}}
                                 {{-- <th>{{ $s->nama_mp }}</th> --}}
                                 <th>
+                                    {{-- @if () --}}
                                     <a href="{{ url('score-homeroom/' . $s->nis) }}"
                                         class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                                         data-original-title="Detail Nilai Siswa">
                                         <span class="btn-inner--icon"><i class="fas fa-archive"></i></span>
                                         {{-- <span class="btn-inner--text"></span> --}}
                                     </a>
+                                    {{-- @endif --}}
                                 </th>
                             </tr>
                             @endforeach

@@ -70,9 +70,9 @@
                                         <select class="form-control @error('kode_tahun_akademik') is-invalid @enderror"
                                             id="kode_tahun_akademik" name="kode_tahun_akademik">
                                             @foreach ($ay as $id => $academic)
-                                            <option value="{{ $academic->kode_tahun_akademik }}"
+                                            <option value="{{ $id }}"
                                                 {{ $id == $courseSchedule->kode_tahun_akademik ? 'selected' : '' }}>
-                                                {{ $academic->tahun_akademik }}</option>
+                                                {{ $academic }}</option>
                                             @endforeach
                                         </select>
                                         @error('kode_tahun_akademik')

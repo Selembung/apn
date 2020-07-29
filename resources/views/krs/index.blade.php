@@ -110,13 +110,6 @@
                         <div class="col-6">
                             <h3 class="mb-0">Mata Pelajaran yang dipilih</h3>
                         </div>
-                        {{-- <div class="col-6 text-right">
-                            <a href="/krs/create" class="btn btn-sm btn-neutral btn-round btn-icon"
-                                data-toggle="tooltip" data-original-title="Add KRS">
-                                <span class="btn-inner--icon"><i class="fas fa-swatchbook"></i></span>
-                                <span class="btn-inner--text">Add</span>
-                            </a>
-                        </div> --}}
                     </div>
                 </div>
 
@@ -136,6 +129,7 @@
     <script>
         $(function() {
             var table = $('#datatable').DataTable({
+                order: [ 3, "asc" ],
                 responsive: true,
                 processing: true,
                 serverSide: true,
@@ -197,7 +191,7 @@
 
         $.get("/krs/tampilKrs",
         {
-          _token    :   CSRF_TOKEN
+          _token : CSRF_TOKEN
         },
         function(data, status){
             $("#list").html(data);

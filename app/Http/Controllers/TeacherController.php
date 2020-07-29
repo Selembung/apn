@@ -29,8 +29,8 @@ class TeacherController extends Controller
             ->addColumn('action', function ($teaching) {
 
                 if ($teaching->status == 'Nonaktif') {
-                    $action  = '<a href="/score/' . $teaching->id . '" class="btn btn-sm btn-danger btn-round btn-icon disabled" data-toggle="tooltip"
-                    data-original-title="Input Nilai"><i class="fas fa-minus-circle"></i></a>';
+                    $action  = '<button class="btn btn-sm btn-danger btn-round btn-icon disabled" data-toggle="tooltip"
+                    data-original-title="Sudah tidak bisa input nilai"><i class="fas fa-minus-circle"></i></button>';
                 } else {
                     $action  = '<a href="/score/' . $teaching->id . '" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                     data-original-title="Input Nilai"><i class="fas fa-pencil-alt"></i></a>';

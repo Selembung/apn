@@ -27,9 +27,8 @@
     <link rel="stylesheet"
         href="{{ asset('assets/vendor/datatables/datatables.net-select-bs4/css/select.bootstrap4.min.css') }}"> --}}
     <!-- Style -->
-    <!-- X-editable -->
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css"
-        rel="stylesheet" />
+    <!-- flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- my style -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>

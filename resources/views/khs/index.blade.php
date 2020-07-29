@@ -43,10 +43,11 @@
                                     <div class="col-sm-5">
                                         @if ($khs->count() > 0)
                                         <select data-column="11" class="form-control" id="filter_tahun_akademik">
-                                            <option value="" disabled>-- Pilih Tahun Akdemik --</option>
+                                            <option value="">-- Pilih Tahun Akdemik --</option>
                                             @foreach ($academicYear as $key => $m)
-                                            <option value="{{ ($key) }}"
-                                                {{ $key == $khs[0]->kode_tahun_akademik  ? 'selected' : '' }}>
+                                            {{-- <option value="{{ ($key) }}"
+                                            {{ $key == $khs[0]->kode_tahun_akademik  ? 'selected' : '' }}> --}}
+                                            <option value="{{ ($key) }}">
                                                 {{ $m }}</option>
                                             @endforeach
                                         </select>

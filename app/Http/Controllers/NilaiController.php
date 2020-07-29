@@ -22,7 +22,9 @@ class NilaiController extends Controller
             ->join('homeroom_teachers', 'homeroom_teachers.kode_rombel', '=', 'students.kode_rombel')
             ->join('teachers', 'teachers.kode_guru', '=', 'homeroom_teachers.kode_guru')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('teachers.guru_id', Auth::user()->id)
+            ->where('status', 'Aktif')
             ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'courses.kode_mp', 'courses.nama_mp')
             ->groupBy('nis')
             ->orderBy('nis', 'asc')
@@ -225,7 +227,9 @@ class NilaiController extends Controller
             ->join('homeroom_teachers', 'homeroom_teachers.kode_rombel', '=', 'students.kode_rombel')
             ->join('teachers', 'teachers.kode_guru', '=', 'homeroom_teachers.kode_guru')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('nis', $nis)
+            ->where('status', 'Aktif')
             ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'homeroom_teachers.*', 'teachers.*', 'courses.*')
             ->get();
 

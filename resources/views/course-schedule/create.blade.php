@@ -67,9 +67,10 @@
                                         @if (count($ay) > 0)
                                         <select class="form-control @error('kode_tahun_akademik') is-invalid @enderror"
                                             id="kode_tahun_akademik" name="kode_tahun_akademik">
+                                            <option disabled selected>-- Pilih Tahun Akademik --</option>
                                             @foreach ($ay as $id => $academic)
-                                            <option value="{{ $academic->kode_tahun_akademik }}">
-                                                {{ $academic->tahun_akademik }}</option>
+                                            <option value="{{ $id }}">
+                                                {{ $academic }}</option>
                                             @endforeach
                                         </select>
                                         @error('kode_tahun_akademik')

@@ -139,7 +139,7 @@ class StudentController extends Controller
     {
         User::where('id', $student->user_id)
             ->update([
-                'name'        => $request->nama,
+                'name'         => $request->nama,
                 'kode_jurusan' => $request->kode_jurusan,
                 'email'        => $request->email,
             ]);
