@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Khs;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Fpdf;
+use PDF;
 
 class NilaiController extends Controller
 {
@@ -35,6 +37,7 @@ class NilaiController extends Controller
         return view('nilai.index', $data);
     }
 
+    // Leger Nilai
     public function KHSpdf()
     {
         $data = \DB::table('khs')
@@ -45,56 +48,107 @@ class NilaiController extends Controller
             ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('teachers.guru_id', Auth::user()->id)
             ->where('status', 'aktif')
-            ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'courses.kode_mp', 'courses.nama_mp')
+            ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'courses.kode_mp', 'courses.nama_mp', 'homeroom_teachers.kode_rombel')
             ->get();
 
-        Fpdf::AddPage();
-        Fpdf::SetFont('Times', 'B', 12);
+        $pdf = new PDF();
+        $pdf->AddPage();
+        $pdf->AliasNbPages();
+        $pdf->SetFont('Times', 'B', 20);
 
-        Fpdf::Cell(7, 7, 'No', 1, 0);
-        Fpdf::Cell(50, 7, 'Nama', 1, 0);
-        Fpdf::Cell(70, 7, 'Mata Pelajaran', 1, 0);
-        Fpdf::Cell(15, 7, 'P', 1, 0);
-        Fpdf::Cell(15, 7, 'K', 1, 0);
-        Fpdf::Cell(15, 7, 'S', 1, 1);
-        Fpdf::SetFont('Times', '', 12);
+        $pdf->Cell(190, 20, 'Leger Nilai ' . $data[0]->kode_rombel, 0, 1, 'C');
+
+        $pdf->SetFont('Times', 'B', 12);
+        $pdf->Cell(10, 10, 'No.', 1, 0, 'C');
+        $pdf->Cell(50, 10, 'Nama', 1, 0, 'C');
+        $pdf->Cell(70, 10, 'Mata Pelajaran', 1, 0, 'C');
+        $pdf->Cell(20, 10, 'P', 1, 0, 'C');
+        $pdf->Cell(20, 10, 'K', 1, 0, 'C');
+        $pdf->Cell(20, 10, 'S', 1, 1, 'C');
+        $pdf->SetFont('Times', '', 12);
         $no = 1;
 
         foreach ($data as $row) {
-            Fpdf::Cell(7, 7, $no, 1, 0);
-            Fpdf::Cell(50, 7, $row->nama_siswa, 1, 0);
-            Fpdf::Cell(70, 7, $row->nama_mp, 1, 0);
-            Fpdf::Cell(15, 7, $row->nilai_akhir, 1, 0);
-            Fpdf::Cell(15, 7, $row->nilai_praktek, 1, 0);
-            Fpdf::Cell(15, 7, $row->nilai_sikap, 1, 1);
+            $pdf->Cell(10, 7, $no . '.', 1, 0, 'C');
+            $pdf->Cell(50, 7, $row->nama_siswa, 1, 0);
+            $pdf->Cell(70, 7, $row->nama_mp, 1, 0);
+            $pdf->Cell(20, 7, $row->nilai_akhir, 1, 0, 'C');
+            $pdf->Cell(20, 7, $row->nilai_praktek, 1, 0, 'C');
+            if (!$row->nilai_sikap == '') {
+                $pdf->Cell(20, 7, $row->nilai_sikap, 1, 1, 'C');
+            } else {
+                $pdf->Cell(20, 7, '-', 1, 1, 'C');
+            }
             $no++;
         }
 
-        Fpdf::Output();
+        $pdf->Output('Leger Nilai ' . $data[0]->kode_rombel . ".pdf", 'D');
         exit();
     }
 
+    // Rapor per Siswa
     public function KHSpdfSiswa($nis)
     {
         $khs = \DB::table('khs')
             ->join('students', 'students.user_id', '=', 'khs.user_id')
+            ->join('majors', 'majors.kode_jurusan', '=', 'students.kode_jurusan')
             ->join('homeroom_teachers', 'homeroom_teachers.kode_rombel', '=', 'students.kode_rombel')
             ->join('teachers', 'teachers.kode_guru', '=', 'homeroom_teachers.kode_guru')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
             ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('status', 'aktif')
             ->where('nis', $nis)
-            ->select('students.nama AS nama_siswa', 'students.nis', 'khs.*', 'courses.kode_mp', 'courses.nama_mp')
+            ->select('students.nama AS nama_siswa', 'students.*', 'khs.*', 'courses.kode_mp', 'courses.nama_mp', 'academic_years.tahun_akademik', 'majors.nama_jurusan', 'teachers.nama AS walikelas')
             ->get();
 
         Fpdf::AddPage();
         Fpdf::SetFont('Times', 'B', 12);
 
-        Fpdf::Cell(30, 7, 'NIS', 0, 0);
-        Fpdf::Cell(10, 7, ': ' . $khs[0]->nis, 0, 1);
-        Fpdf::Cell(30, 7, 'Nama', 0, 0);
-        Fpdf::Cell(10, 7, ': '  . $khs[0]->nama_siswa, 0, 1);
-        Fpdf::SetFont('Times', 'B', 12);
+        // Nama Sekolah dan Kelas
+        Fpdf::SetFont('Times', '', 12);
+        Fpdf::Cell(35, 5, 'Nama Sekolah', 0, 0);
+        Fpdf::Cell(3, 5, ' : ', 0, 0);
+        Fpdf::SetFont('', 'B');
+        Fpdf::Cell(47, 5, 'SMK NEGERI 1 CISARUA', 0, 0);
+        Fpdf::Cell(10, 5, '', 0, 0);
+        Fpdf::SetFont('', '');
+        Fpdf::Cell(35, 5, 'Kelas', 0, 0);
+        Fpdf::Cell(10, 5, ' : ' . $khs[0]->kode_rombel, 0, 1);
+
+        $numberFormat  = array(
+            1 => 'Satu',
+            2 => 'Dua',
+            3 => 'Tiga',
+            4 => 'Empat',
+            5 => 'Lima',
+            6 => 'Enam',
+        );
+        // Alamat dan Semester
+        Fpdf::SetFont('Times', '', 12);
+        Fpdf::Cell(35, 5, 'Alamat', 0, 0);
+        Fpdf::Cell(50, 5, ' : ' . $khs[0]->alamat, 0, 0);
+        Fpdf::Cell(10, 5, '', 0, 0);
+        Fpdf::Cell(35, 5, 'Semester', 0, 0);
+        Fpdf::Cell(10, 5, ' : ' . $khs[0]->semester_aktif . ' (' . $numberFormat[$khs[0]->semester_aktif] . ')', 0, 1);
+
+        // Nama Siswa dan Tahun Pelajaran
+        Fpdf::SetFont('Times', '', 12);
+        Fpdf::Cell(35, 5, 'Nama', 0, 0);
+        Fpdf::Cell(3, 5, ' : ', 0, 0);
+        Fpdf::SetFont('', 'B');
+        Fpdf::Cell(47, 5, $khs[0]->nama_siswa, 0, 0);
+        Fpdf::Cell(10, 5, '', 0, 0);
+        Fpdf::SetFont('', '');
+        Fpdf::Cell(35, 5, 'Tahun Pelajaran', 0, 0);
+        Fpdf::Cell(10, 5, ' : ' . $khs[0]->tahun_akademik, 0, 1);
+
+        // NISN dan Jurusan
+        Fpdf::SetFont('Times', '', 12);
+        Fpdf::Cell(35, 5, 'NISN', 0, 0);
+        Fpdf::Cell(50, 5, ' : ' . $khs[0]->nis, 0, 0);
+        Fpdf::Cell(10, 5, '', 0, 0);
+        Fpdf::Cell(35, 5, 'Bidang Keahlian', 0, 0);
+        Fpdf::Cell(10, 5, ' : ' . $khs[0]->nama_jurusan, 0, 1);
 
         Fpdf::Cell(10, 5, '', 0, 1);
 
@@ -186,6 +240,23 @@ class NilaiController extends Controller
 
             $no++;
         }
+
+        // Tanggal
+        // $date = Carbon::setLocale('id');
+        $date = Carbon::now()->translatedFormat('d F Y');
+
+        // Footer
+        Fpdf::Cell(30, 20, '', 0, 1);
+        Fpdf::Cell(140, 5, '', 0, 0);
+        Fpdf::Cell(40, 5, 'Cisarua, ' . $date, 0, 1);
+        Fpdf::Cell(20, 5, 'Mengetahui:', 0, 1);
+        Fpdf::Cell(140, 5, 'Kepala Sekolah,', 0, 0);
+        Fpdf::Cell(20, 5, 'Wali Kelas,', 0, 1);
+        Fpdf::SetFont('', 'BU');
+        Fpdf::Cell(140, 50, 'Edi Gunawan, S.Pd.,M.Pd.', 0, 0);
+        Fpdf::Cell(20, 50, $khs[0]->walikelas, 0, 1);
+        Fpdf::SetFont('', '');
+        Fpdf::Cell(20, -40, '197209282005011000', 0, 0);
 
         Fpdf::Output($khs[0]->nis . ' - ' . $khs[0]->nama_siswa . ".pdf", 'D');
         exit();

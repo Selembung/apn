@@ -40,8 +40,7 @@ class ScoreController extends Controller
 
     public function update_score(Request $request)
     {
-        $score = \DB::table('khs')
-            ->where('id', $request->id_khs)
+        $score = Khs::where('id', $request->id_khs)
             ->update([
                 'nilai_harian'  => $request->nilai_harian,
                 'nilai_praktek' => $request->nilai_praktek,
