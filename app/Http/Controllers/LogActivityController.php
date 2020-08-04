@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\LogActivity;
+use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
 
 class LogActivityController extends Controller
 {
+    public function ajax()
+    {
+        LogActivity::all();
+
+        return view('log-activity.ajax');
+    }
+
     public function datatable()
     {
         $logActivity = \DB::table('log_activities')
@@ -15,8 +23,14 @@ class LogActivityController extends Controller
             ->select('users.role', 'users.name', 'log_activities.*')
             ->get();
 
+
         return DataTables::of($logActivity)
             ->addIndexColumn()
+            ->addColumn('waktuTerakhir', function ($logActivity) {
+                $date = $logActivity->created_at;
+                $date = Carbon::parse($date);
+                return $date->diffForHumans();
+            })
             ->make(true);
     }
 

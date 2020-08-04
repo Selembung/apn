@@ -8,6 +8,6 @@ class LogActivity extends Model
 {
     protected $fillable = [
         'user_id',
-        'activity_name'
+        'activity_name',
     ];
 }

@@ -25,7 +25,7 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function 
 	Route::get('/home', 'HomeController@index')->name('home');
 });
 
-// Datatables
+// Datatables Admin
 Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::get('/course/datatable', 'CourseController@datatable')->name('table.course');
 	Route::get('/teacher/datatable', 'TeacherController@datatable')->name('table.teacher');
@@ -43,6 +43,17 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	Route::get('/log-activity/datatable', 'LogActivityController@datatable')->name('table.log-activity');
 });
 
+// Datatables Guru
+Route::group(['middleware' => ['auth', 'checkRole:guru']], function () {
+	Route::get('/teaching-schedule/datatable', 'TeacherController@datatableTeaching')->name('table.teachingSchedule');
+});
+
+// Datatables Siswa
+Route::group(['middleware' => ['auth', 'checkRole:siswa']], function () {
+	// Datatable
+	Route::get('/krs/datatable', 'KrsController@datatable')->name('table.krs');
+	Route::get('/khs/datatable', 'KhsController@datatable')->name('table.khs');
+});
 
 Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function () {
 	Route::resource('user', 'UserController', ['except' => ['show']]);
@@ -52,9 +63,6 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function 
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:guru']], function () {
-	// Datatable
-	Route::get('/teaching-schedule/datatable', 'TeacherController@datatableTeaching')->name('table.teachingSchedule');
-
 	Route::get('/teaching-schedule', 'TeacherController@teachingSchedule');
 	Route::get('/score/{id}', 'ScoreController@index');
 	Route::post('/score/update_score/update/', 'ScoreController@update_score');
@@ -65,10 +73,6 @@ Route::group(['middleware' => ['auth', 'checkRole:guru']], function () {
 });
 
 Route::group(['middleware' => ['auth', 'checkRole:siswa']], function () {
-	// Datatable
-	Route::get('/krs/datatable', 'KrsController@datatable')->name('table.krs');
-	Route::get('/khs/datatable', 'KhsController@datatable')->name('table.khs');
-
 	Route::post('/krs/tambahKrs', 'KrsController@tambahKrs');
 	Route::get('/krs/tampilKrs', 'KrsController@tampilKrs');
 	Route::post('/krs/hapusKrs', 'KrsController@hapusKrs');

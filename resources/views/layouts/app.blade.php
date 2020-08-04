@@ -21,7 +21,6 @@
     <!-- Datatable -->
     <link rel="stylesheet"
         href="{{ asset('assets/vendor/datatables/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     {{-- <link rel="stylesheet"
         href="{{ asset('assets/vendor/datatables/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet"
