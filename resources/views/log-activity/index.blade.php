@@ -47,7 +47,7 @@
                                                                 class="ni ni-calendar-grid-58"></i></span>
                                                     </div>
                                                     <input data-column="4" class="form-control datepicker"
-                                                        placeholder="Start date" type="text" id="from_date"
+                                                        placeholder="Search date" type="text" id="from_date"
                                                         name="from_date" value="{{ old('from_date') }}"
                                                         autocomplete="off">
                                                 </div>

@@ -115,21 +115,25 @@ class NilaiController extends Controller
         Fpdf::Cell(35, 5, 'Kelas', 0, 0);
         Fpdf::Cell(10, 5, ' : ' . $khs[0]->kode_rombel, 0, 1);
 
-        $numberFormat  = array(
-            1 => 'Satu',
-            2 => 'Dua',
-            3 => 'Tiga',
-            4 => 'Empat',
-            5 => 'Lima',
-            6 => 'Enam',
-        );
         // Alamat dan Semester
         Fpdf::SetFont('Times', '', 12);
         Fpdf::Cell(35, 5, 'Alamat', 0, 0);
         Fpdf::Cell(50, 5, ' : ' . $khs[0]->alamat, 0, 0);
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::Cell(35, 5, 'Semester', 0, 0);
-        Fpdf::Cell(10, 5, ' : ' . $khs[0]->semester_aktif . ' (' . $numberFormat[$khs[0]->semester_aktif] . ')', 0, 1);
+        if ($khs[0]->semester_aktif == 1) {
+            Fpdf::Cell(10, 5, ' : 1 ( Satu )', 0, 1);
+        } elseif ($khs[0]->semester_aktif == 2) {
+            Fpdf::Cell(10, 5, ' : 2 ( Dua )', 0, 1);
+        } elseif ($khs[0]->semester_aktif == 3) {
+            Fpdf::Cell(10, 5, ' : 1 ( Satu )', 0, 1);
+        } elseif ($khs[0]->semester_aktif == 4) {
+            Fpdf::Cell(10, 5, ' : 2 ( Dua )', 0, 1);
+        } elseif ($khs[0]->semester_aktif == 5) {
+            Fpdf::Cell(10, 5, ' : 1 ( Satu )', 0, 1);
+        } elseif ($khs[0]->semester_aktif == 6) {
+            Fpdf::Cell(10, 5, ' : 2 ( Dua )', 0, 1);
+        }
 
         // Nama Siswa dan Tahun Pelajaran
         Fpdf::SetFont('Times', '', 12);
@@ -145,7 +149,7 @@ class NilaiController extends Controller
         // NISN dan Jurusan
         Fpdf::SetFont('Times', '', 12);
         Fpdf::Cell(35, 5, 'NISN', 0, 0);
-        Fpdf::Cell(50, 5, ' : ' . $khs[0]->nis, 0, 0);
+        Fpdf::Cell(50, 5, ' : ' . $khs[0]->nisn, 0, 0);
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::Cell(35, 5, 'Bidang Keahlian', 0, 0);
         Fpdf::Cell(10, 5, ' : ' . $khs[0]->nama_jurusan, 0, 1);
@@ -241,8 +245,7 @@ class NilaiController extends Controller
             $no++;
         }
 
-        // Tanggal
-        // $date = Carbon::setLocale('id');
+        // Tanggal;
         $date = Carbon::now()->translatedFormat('d F Y');
 
         // Footer
