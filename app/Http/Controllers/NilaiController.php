@@ -71,7 +71,13 @@ class NilaiController extends Controller
         foreach ($data as $row) {
             $pdf->Cell(10, 7, $no . '.', 1, 0, 'C');
             $pdf->Cell(50, 7, $row->nama_siswa, 1, 0);
-            $pdf->Cell(70, 7, $row->nama_mp, 1, 0);
+            if ($row->nama_mp == 'Pendidikan Agama dan Budi Pekerti' or $row->nama_mp == 'Pendidikan Pancasila dan Kewarganegaraan' or $row->nama_mp == 'Pendidikan Jasmani, Olahraga dan Kesehatan' or $row->nama_mp == 'Otomatisasi Tata Kelola Sarana dan Prasarana' or $row->nama_mp == 'Pemeliharaan Kelistrikan Kendaraan Ringan' or $row->nama_mp == 'Pendidikan Pancasila dan Kewarganegaraan' or $row->nama_mp == 'Pemeliharaan Sasis dan Pemindah Tenaga Kendaraan Ringan' or $row->nama_mp == 'Pemrograman Web dan Perangkat Bergerak' or $row->nama_mp == 'Sanitasi, Hygiene dan Keselamatan Kerja' or $row->nama_mp == 'Pemeliharaan Mesin Kendaraan Ringan') {
+                $pdf->SetFont('Times', '', 10);
+                $pdf->Cell(70, 7, $row->nama_mp, 1, 0);
+                $pdf->SetFont('Times', '', 12);
+            } else {
+                $pdf->Cell(70, 7, $row->nama_mp, 1, 0);
+            }
             $pdf->Cell(20, 7, $row->nilai_akhir, 1, 0, 'C');
             $pdf->Cell(20, 7, $row->nilai_praktek, 1, 0, 'C');
             if (!$row->nilai_sikap == '') {
