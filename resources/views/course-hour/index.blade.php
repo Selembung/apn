@@ -36,14 +36,14 @@
                     <table class="table align-items-center table-flush" id="datatable">
                         <thead class="thead-light">
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Jam Pelajaran</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>ID</th>
+                                <th>No</th>
                                 <th>Jam Pelajaran</th>
                                 <th>Action</th>
                             </tr>
@@ -69,7 +69,7 @@
             // {data: 'jam_masuk', name: 'jam_masuk'},
             // {data: 'jam_keluar', name: 'jam_keluar'},
             {data:  'jam_pelajaran', render: function ( data, type, row ) {
-            return row.jam_masuk + ' - ' + row.jam_keluar;}},
+            return row.jam_masuk + ' - ' + row.jam_keluar}, "sClass": "text-center", orderable: false},
             {data: 'action', name: 'action', "sClass": "text-center"},
         ],
         drawCallback: function() {

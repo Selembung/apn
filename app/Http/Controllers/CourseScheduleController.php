@@ -66,13 +66,13 @@ class CourseScheduleController extends Controller
      */
     public function create()
     {
-        // $data['ay']      = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
-        $data['ay']      = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
+        $data['ay']      = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
+        // $data['ay']      = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
         $data['major']   = Major::pluck('nama_jurusan', 'kode_jurusan');
         $data['course']  = Course::pluck('nama_mp', 'kode_mp');
         $data['teacher'] = Teacher::pluck('nama', 'guru_id');
         $data['room']    = Room::pluck('nama_ruangan', 'kode_ruangan');
-        $data['ch']      = CourseHour::all('jam_masuk', 'jam_keluar');
+        $data['ch']      = CourseHour::all();
         $data['user']    = User::select('name', 'id')->get();
 
         return view('course-schedule.create', $data);

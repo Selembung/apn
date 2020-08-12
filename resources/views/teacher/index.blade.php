@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Teachers</h3>
+                            <h3 class="mb-0">Guru</h3>
                         </div>
                         <div class="col-6 text-right">
                             <a href="/teacher/create" class="btn btn-sm btn-neutral btn-round btn-icon"
@@ -72,8 +72,8 @@
         ajax: "{{ route('table.teacher') }}",
         columns: [
             {data: 'nig', name: 'nig', "sClass": "font-weight-bold text-default"},
-            {data: 'kode_guru', name: 'kode_guru'},
             {data: 'nama', name: 'nama'},
+            {data: 'kode_guru', name: 'kode_guru'},
             {data: 'no_telepon', name: 'no_telepon'},
             {data: 'email', name: 'email'},
             {data: 'action', name: 'action', "sClass": "text-center"},

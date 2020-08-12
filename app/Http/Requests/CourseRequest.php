@@ -33,11 +33,11 @@ class CourseRequest extends FormRequest
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
             $kode_mp    = 'required|min:5|unique:courses,kode_mp,' . $kode_mp;
-            $nama_mp    = 'required|min:5';
+            $nama_mp    = 'required|min:3';
             $jumlah_sks = 'required';
         } else {
             $kode_mp    = 'required|min:5|unique:courses';
-            $nama_mp    = 'required|min:5';
+            $nama_mp    = 'required|min:3';
             $jumlah_sks = 'required';
         }
 

@@ -152,12 +152,12 @@
                 <li class="nav-item ">
                     <a class="nav-link @if ($activePage == 'teachingSchedule') active text-primary @endif"
                         href="/teaching-schedule">
-                        <i class="ni ni-archive-2 text-primary"></i> {{ __('Teaching Schedule') }}
+                        <i class="ni ni-archive-2 text-primary"></i> {{ __('Jadwal Mengajar') }}
                     </a>
                 </li>
                 <li class="nav-item ">
                     <a class="nav-link @if ($activePage == 'nilai') active text-info @endif" href="/score-homeroom">
-                        <i class="ni ni-archive-2 text-info"></i> {{ __('Nilai Wali Kelas') }}
+                        <i class="ni ni-archive-2 text-info"></i> {{ __('Nilai Siswa Wali') }}
                     </a>
                 </li>
             </ul>

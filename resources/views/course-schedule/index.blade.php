@@ -20,7 +20,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-6">
-                            <h3 class="mb-0">Course Schedules</h3>
+                            <h3 class="mb-0">Jadwal Mata Pelajaran</h3>
                         </div>
                         <div class="col-6 text-right">
                             <a href="/course-schedule/create" class="btn btn-sm btn-neutral btn-round btn-icon"
@@ -79,7 +79,7 @@
                                     <th>Ruangan</th>
                                     <th>Guru</th>
                                     {{-- <th>Tahun Akademik</th> --}}
-                                    <th>Jurusan</th>
+                                    <th>Kode Jurusan</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
@@ -92,7 +92,7 @@
                                     <th>Ruangan</th>
                                     <th>Guru</th>
                                     {{-- <th>Tahun Akademik</th> --}}
-                                    <th>Jurusan</th>
+                                    <th>Kode Jurusan</th>
                                     <th>Semester</th>
                                     <th>Action</th>
                                 </tr>
@@ -118,13 +118,13 @@
         columns: [
             {data: 'hari', name: 'hari'},
             {data:  'jam_pelajaran', render: function ( data, type, row ) {
-            return row.jam_masuk + ' - ' + row.jam_keluar;}},
+            return row.jam_masuk + ' - ' + row.jam_keluar}, "sClass": "text-center"},
             {data: 'nama_mp', name: 'nama_mp', "sClass": "font-weight-bold text-default"},
-            {data: 'nama_ruangan', name: 'nama_ruangan', "sClass": "font-weight-bold text-default"},
+            {data: 'nama_ruangan', name: 'nama_ruangan', "sClass": "font-weight-bold text-center"},
             {data: 'nama', name: 'nama', "sClass": "font-weight-bold text-default"},
             // {data: 'kode_tahun_akademik', name: 'kode_tahun_akademik', "sClass": "font-weight-bold text-default"},
-            {data: 'kode_jurusan', name: 'kode_jurusan', visible: false, "sClass": "font-weight-bold text-default"},
-            {data: 'semester', name: 'semester', visible: false, "sClass": "font-weight-bold text-default"},
+            {data: 'kode_jurusan', name: 'kode_jurusan', visible: true, "sClass": "font-weight-bold text-center"},
+            {data: 'semester', name: 'semester', visible: true, "sClass": "font-weight-bold text-center"},
             {data: 'action', name: 'action', "sClass": "text-center"},
         ],
         drawCallback: function() {

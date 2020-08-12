@@ -23,11 +23,11 @@
                             <h3 class="mb-0">Kartu Hasil Studi</h3>
                         </div>
                         <div class="col-6 text-right">
-                            <a href="/print/" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                            {{-- <a href="/print/" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                                 data-original-title="Cetak KHS">
                                 <span class="btn-inner--icon"><i class="fas fa-swatchbook"></i></span>
                                 <span class="btn-inner--text">Cetak</span>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                 </div>
@@ -43,11 +43,12 @@
                                     <div class="col-sm-5">
                                         @if ($khs->count() > 0)
                                         <select data-column="11" class="form-control" id="filter_tahun_akademik">
-                                            <option value="">-- Pilih Tahun Akdemik --</option>
+                                            <option disabled>-- Pilih Tahun Akdemik --</option>
                                             @foreach ($academicYear as $key => $m)
                                             {{-- <option value="{{ ($key) }}"
                                             {{ $key == $khs[0]->kode_tahun_akademik  ? 'selected' : '' }}> --}}
-                                            <option value="{{ ($key) }}">
+                                            <option value="{{ ($key) }}"
+                                                {{ $key == $khs[0]->kode_tahun_akademik  ? 'selected' : '' }}>
                                                 {{ $m }}</option>
                                             @endforeach
                                         </select>
@@ -129,6 +130,13 @@
             drawCallback: function() {
                 $('[data-toggle="tooltip"]').tooltip();
         } 
+    });
+
+
+    $('#filter_tahun_akademik').each(function () {
+        table.column($(this).data('column'))
+            .search($(this).val())
+            .draw();
     });
 
     $('#filter_tahun_akademik').change(function () {

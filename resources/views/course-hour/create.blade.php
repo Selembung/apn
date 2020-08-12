@@ -17,7 +17,7 @@
             <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                     <li class="breadcrumb-item"><a href="{{ url('home') }}"><i class="fas fa-home"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('teacher') }}">Course Hour</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url('course-hour') }}">Course Hour</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Form</li>
                 </ol>
             </nav>
@@ -46,12 +46,13 @@
                                                 <span class="input-group-text"><i
                                                         class="ni ni-calendar-grid-58"></i></span>
                                             </div>
-                                            <input class="timepicker flatpickr-input form-control @error('jam_masuk') is-invalid @enderror bg-secondary pl-3 "
+                                            <input
+                                                class="timepicker flatpickr-input form-control @error('jam_masuk') is-invalid @enderror bg-secondary pl-3 "
                                                 type="text" placeholder="Jam Masuk" name="jam_masuk">
-                                            </div>
-                                            @error('jam_masuk')
-                                            <small class="form-text text-danger">{{ $message }}</small>
-                                            @enderror
+                                        </div>
+                                        @error('jam_masuk')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col">
@@ -61,13 +62,14 @@
                                                 <span class="input-group-text"><i
                                                         class="ni ni-calendar-grid-58"></i></span>
                                             </div>
-                                            <input class="timepicker flatpickr-input form-control @error('jam_keluar') is-invalid @enderror bg-secondary pl-3"
+                                            <input
+                                                class="timepicker flatpickr-input form-control @error('jam_keluar') is-invalid @enderror bg-secondary pl-3"
                                                 style="background-color: aqua" type="text" placeholder=" Jam Keluar"
                                                 name="jam_keluar">
-                                            </div>
-                                            @error('jam_keluar')
-                                            <small class="form-text text-danger">{{ $message }}</small>
-                                            @enderror
+                                        </div>
+                                        @error('jam_keluar')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>

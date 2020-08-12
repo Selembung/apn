@@ -57,21 +57,33 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="semester">Semester</label>
-                                    <select data-column="3" class="form-control" id="filter_semester" name="semester">
-                                        <option value="">-- Pilih Semester --</option>
-                                        <option value="1">Semester 1</option>
-                                        <option value="2">Semester 2 </option>
-                                        <option value="3">Semester 3</option>
-                                        <option value="4">Semester 4</option>
-                                        <option value="5">Semester 5</option>
-                                        <option value="6">Semester 6</option>
+                                    <select data-column="3" class="form-control" id="filter_semester" name="semester"
+                                        disabled>
+                                        <option disabled>-- Pilih Semester --</option>
+                                        <option value="1" {{ $student[0]->semester_aktif == 1 ? 'selected' : '' }}>
+                                            Semester 1</option>
+                                        <option value="2" {{ $student[0]->semester_aktif == 2 ? 'selected' : '' }}>
+                                            Semester 2
+                                        </option>
+                                        <option value="3" {{ $student[0]->semester_aktif == 3 ? 'selected' : '' }}>
+                                            Semester 3
+                                        </option>
+                                        <option value="4" {{ $student[0]->semester_aktif == 4 ? 'selected' : '' }}>
+                                            Semester 4
+                                        </option>
+                                        <option value="5" {{ $student[0]->semester_aktif == 5 ? 'selected' : '' }}>
+                                            Semester 5
+                                        </option>
+                                        <option value="6" {{ $student[0]->semester_aktif == 6 ? 'selected' : '' }}>
+                                            Semester 6
+                                        </option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            {{-- <div class="col-md-2">
                                 <button type="submit" class="btn btn-info" id="reset" style="margin-top: 32px">Reset
                                     Filter</button>
-                            </div>
+                            </div> --}}
 
                             <thead class="thead-light">
                                 <tr>
@@ -135,11 +147,11 @@
                 serverSide: true,
                 ajax: "{{ route('table.krs') }}",
                 columns: [
-                    {data: 'kode_mp', name: 'kode_mp'},
+                    {data: 'kode_mp', name: 'kode_mp', visible: true, "sClass": "text-center"},
                     {data: 'nama_mp', name: 'nama_mp'},
-                    {data: 'jumlah_sks', name: 'jumlah_sks'},
-                    {data: 'semester', name: 'semester', visible: false},
-                    {data: 'kode_jurusan', name: 'kode_jurusan', visible: false},
+                    {data: 'jumlah_sks', name: 'jumlah_sks',  "sClass": "text-center"},
+                    {data: 'semester', name: 'semester', visible: true, "sClass": "text-center"},
+                    {data: 'kode_jurusan', name: 'kode_jurusan', visible: false, "sClass": "text-center"},
                     {data: 'action', name: 'action', "sClass": "text-center"},
                 ],
                 drawCallback: function() {
@@ -149,6 +161,12 @@
             tampil_krs();
 
         $('#filter_jurusan').change(function () {
+            table.column($(this).data('column'))
+                .search($(this).val())
+                .draw();
+        });
+
+        $('#filter_semester').each(function () {
             table.column($(this).data('column'))
                 .search($(this).val())
                 .draw();
@@ -178,8 +196,19 @@
           kode_mp : kode_mp,
           _token: CSRF_TOKEN
         },
+        
         function(data, status){
-        //   alert('berhasil');
+            if (data.errors) {
+                swal("Error!", "Mata Pelajaran sudah dipilih", "error");
+            } else {
+                swal({
+                    icon: 'success',
+                    title: 'Success!',
+                    showConfirmButton: false,
+                    text: 'Mata pelajaran berhasil ditambahkan!',
+                    timer: 1000
+                });
+            }
         //   location.reload();
           tampil_krs();
         console.log(data);
@@ -211,7 +240,7 @@
           tampil_krs();
       });
     }
-    
+
     </script>
 
     @endpush

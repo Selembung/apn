@@ -101,6 +101,7 @@ class NilaiController extends Controller
             ->select('students.nama AS nama_siswa', 'students.*', 'khs.*', 'courses.kode_mp', 'courses.nama_mp', 'academic_years.tahun_akademik', 'majors.nama_jurusan', 'teachers.nama AS walikelas')
             ->get();
 
+        $pdf = new PDF();
         Fpdf::AddPage();
         Fpdf::SetFont('Times', 'B', 12);
 
@@ -121,17 +122,17 @@ class NilaiController extends Controller
         Fpdf::Cell(50, 5, ' : ' . $khs[0]->alamat, 0, 0);
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::Cell(35, 5, 'Semester', 0, 0);
-        if ($khs[0]->semester_aktif == 1) {
+        if ($khs[0]->semester == 1) {
             Fpdf::Cell(10, 5, ' : 1 ( Satu )', 0, 1);
-        } elseif ($khs[0]->semester_aktif == 2) {
+        } elseif ($khs[0]->semester == 2) {
             Fpdf::Cell(10, 5, ' : 2 ( Dua )', 0, 1);
-        } elseif ($khs[0]->semester_aktif == 3) {
+        } elseif ($khs[0]->semester == 3) {
             Fpdf::Cell(10, 5, ' : 1 ( Satu )', 0, 1);
-        } elseif ($khs[0]->semester_aktif == 4) {
+        } elseif ($khs[0]->semester == 4) {
             Fpdf::Cell(10, 5, ' : 2 ( Dua )', 0, 1);
-        } elseif ($khs[0]->semester_aktif == 5) {
+        } elseif ($khs[0]->semester == 5) {
             Fpdf::Cell(10, 5, ' : 1 ( Satu )', 0, 1);
-        } elseif ($khs[0]->semester_aktif == 6) {
+        } elseif ($khs[0]->semester == 6) {
             Fpdf::Cell(10, 5, ' : 2 ( Dua )', 0, 1);
         }
 
@@ -166,8 +167,10 @@ class NilaiController extends Controller
 
         foreach ($khs as $row) {
             Fpdf::Cell(10, 15, $no . '.', 1, 0, 'C');
-            if ($row->nama_mp == 'Agama' or $row->nama_mp == 'Pendidikan Kewarganegaraan') {
+            if ($row->nama_mp == 'Pendidikan Agama dan Budi Pekerti' or $row->nama_mp == 'Pendidikan Pancasila dan Kewarganegaraan') {
+                Fpdf::SetFont('Times', '', 10);
                 Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);
+                Fpdf::SetFont('Times', '', 12);
                 Fpdf::Cell(15, 5, $row->nilai_akhir, 1, 0, 'C');
                 Fpdf::Cell(47.5, 5, 'Pengetahuan', 1, 0);
 
@@ -209,6 +212,70 @@ class NilaiController extends Controller
                     Fpdf::Cell(47.5, 5, 'Cukup Baik', 1, 1);
                 } else {
                     Fpdf::Cell(47.5, 5, 'Kurang Baik', 1, 1);
+                }
+            } elseif ($row->nama_mp == 'Pendidikan Jasmani, Olahraga dan Kesehatan' || $row->nama_mp == 'Pemrograman Web dan Perangkat Bergerak' || $row->nama_mp == 'Pemeliharaan Kelistrikan Kendaraan Ringan' || $row->nama_mp == 'Otomatisasi Tata Kelola Sarana dan Prasarana'  || $row->nama_mp == 'Sanitasi, Hygiene dan Keselamatan Kerja') {
+                Fpdf::SetFont('Times', '', 10);
+                Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);
+                Fpdf::SetFont('Times', '', 12);
+                Fpdf::Cell(15, 7.5, $row->nilai_akhir, 1, 0, 'C');
+                Fpdf::Cell(47.5, 7.5, 'Pengetahuan', 1, 0);
+
+                if ($row->nilai_akhir >= 88 && $row->nilai_akhir <= 100) {
+                    Fpdf::Cell(47.5, 7.5, 'Sangat Baik', 1, 0);
+                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 87) {
+                    Fpdf::Cell(47.5, 7.5, 'Baik', 1, 0);
+                } else if ($row->nilai_akhir >= 75) {
+                    Fpdf::Cell(47.5, 7.5, 'Cukup Baik', 1, 0);
+                } else {
+                    Fpdf::Cell(47.5, 7.5, 'Kurang Baik', 1, 0);
+                }
+                Fpdf::Cell(0, 7.5, '', 1, 1);
+
+
+                Fpdf::Cell(80, 7.5, '', 0, 0);
+                Fpdf::Cell(15, 7.5, $row->nilai_praktek, 1, 0, 'C');
+                Fpdf::Cell(47.5, 7.5, 'Keterampilan', 1, 0);
+
+                if ($row->nilai_praktek >= 88 && $row->nilai_praktek <= 100) {
+                    Fpdf::Cell(47.5, 7.5, 'Sangat Baik', 1, 1);
+                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 87) {
+                    Fpdf::Cell(47.5, 7.5, 'Baik', 1, 1);
+                } else if ($row->nilai_praktek >= 75) {
+                    Fpdf::Cell(47.5, 7.5, 'Cukup Baik', 1, 1);
+                } else {
+                    Fpdf::Cell(47.5, 7.5, 'Kurang Baik', 1, 1);
+                }
+            } elseif ($row->nama_mp == 'Pemeliharaan Sasis dan Pemindah Tenaga Kendaraan Ringan') {
+                Fpdf::SetFont('Times', '', 8);
+                Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);
+                Fpdf::SetFont('Times', '', 12);
+                Fpdf::Cell(15, 7.5, $row->nilai_akhir, 1, 0, 'C');
+                Fpdf::Cell(47.5, 7.5, 'Pengetahuan', 1, 0);
+
+                if ($row->nilai_akhir >= 88 && $row->nilai_akhir <= 100) {
+                    Fpdf::Cell(47.5, 7.5, 'Sangat Baik', 1, 0);
+                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 87) {
+                    Fpdf::Cell(47.5, 7.5, 'Baik', 1, 0);
+                } else if ($row->nilai_akhir >= 75) {
+                    Fpdf::Cell(47.5, 7.5, 'Cukup Baik', 1, 0);
+                } else {
+                    Fpdf::Cell(47.5, 7.5, 'Kurang Baik', 1, 0);
+                }
+                Fpdf::Cell(0, 7.5, '', 1, 1);
+
+
+                Fpdf::Cell(80, 7.5, '', 0, 0);
+                Fpdf::Cell(15, 7.5, $row->nilai_praktek, 1, 0, 'C');
+                Fpdf::Cell(47.5, 7.5, 'Keterampilan', 1, 0);
+
+                if ($row->nilai_praktek >= 88 && $row->nilai_praktek <= 100) {
+                    Fpdf::Cell(47.5, 7.5, 'Sangat Baik', 1, 1);
+                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 87) {
+                    Fpdf::Cell(47.5, 7.5, 'Baik', 1, 1);
+                } else if ($row->nilai_praktek >= 75) {
+                    Fpdf::Cell(47.5, 7.5, 'Cukup Baik', 1, 1);
+                } else {
+                    Fpdf::Cell(47.5, 7.5, 'Kurang Baik', 1, 1);
                 }
             } else {
                 Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);

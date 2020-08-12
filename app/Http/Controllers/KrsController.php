@@ -97,17 +97,31 @@ class KrsController extends Controller
 
     public function tambahKrs(Request $request)
     {
-        $student = \DB::table('students')->first();
+        $student = \DB::table('students')
+            ->where('user_id', Auth::user()->id)
+            ->first();
+
         $tahun_akademik = \DB::table('academic_years')->where('status', 'Aktif')->first();
+
+        $validator = \Validator::make($request->all(), [
+            'kode_mp' => 'required|unique:krs,kode_mp,NULL,id,user_id,' . Auth::user()->id,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
 
         $krs = new Krs;
         $krs->kode_mp             = $request->kode_mp;
         $krs->user_id             = Auth::user()->id;
         $krs->kode_tahun_akademik = $tahun_akademik->kode_tahun_akademik;
-        $krs->semester            = $this->check_semester();
+        // $krs->semester            = $this->check_semester();
+        $krs->semester            = $student->semester_aktif;
         $krs->guru_id             = $this->get_jadwal($request->kode_mp, Auth::user()->kode_jurusan);
         // $krs->guru_id             = $this->get_jadwal($request->kode_mp, $student->kode_jurusan);
         $krs->save();
+
+        return response()->json(['success' => 'Record is successfully added']);
     }
 
     public function selesai()
@@ -133,6 +147,17 @@ class KrsController extends Controller
             $khs->save();
         }
 
+        $siswa = \DB::table('students')
+            ->join('users', 'users.id', '=', 'students.user_id')
+            ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'students.kode_tahun_akademik')
+            ->where('id', '=', Auth::user()->id)
+            ->get();
+
+        Student::where('user_id', $siswa[0]->id)
+            ->update([
+                'semester_aktif' => $siswa[0]->semester_aktif + 1
+            ]);
+
         \DB::table('krs')->where('user_id', $user_id)->delete();
 
         return redirect('khs');
@@ -142,52 +167,130 @@ class KrsController extends Controller
     {
         $krs = \DB::table('krs')
             ->join('courses', 'krs.kode_mp', '=', 'courses.kode_mp')
-            ->where('user_id', Auth::user()->id)
+            ->join('students', 'students.user_id', '=', 'krs.user_id')
+            ->where('krs.user_id', Auth::user()->id)
             ->get();
 
+        $total_sks = \DB::table('krs')
+            ->join('courses', 'krs.kode_mp', '=', 'courses.kode_mp')
+            ->where('user_id', Auth::user()->id)->sum('jumlah_sks');
+
         if ($krs->count() > 0) {
-            $result = ' <table class="table align-items-center table-flush">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Kode MP</th>
-                                    <th>Mata Pelajaran</th>
-                                    <th>SKS</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>';
+            $result = '<h5 class="mb-3">Total SKS: ' . $total_sks . '</h5>
+            <table class="table align-items-center table-flush" id="haha">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Kode MP</th>
+                        <th>Mata Pelajaran</th>
+                        <th class="text-center">SKS</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>';
         } else {
-            $result = ' <table class="table align-items-center table-flush">
+            $result = '<table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Kode MP</th>
                                     <th>Mata Pelajaran</th>
-                                    <th>SKS</th>
-                                    <th>Action</th>
+                                    <th class="text-center">SKS</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tr>
                                 <td colspan="4" class="text-center">Belum terdapat mata pelajaran yang dipilih</td>
                             </tr>';
+            return $result;
         }
 
         foreach ($krs as $row) {
             $result .= '<tr>
                             <td>' . $row->kode_mp . '</td>
                             <td>' . $row->nama_mp . '</td>
-                            <td>' . $row->jumlah_sks . '</td>
-                            <td>
+                            <td class="text-center">' . $row->jumlah_sks . '</td>
+                            <td class="text-center">
                                 <button class="btn btn-danger btn-sm" onClick="hapus_krs(' . $row->id . ')" data-toggle="tooltip"
                                 data-original-title="Delete"><i class="fas fa-trash-alt"></i></button>
                             </td>
                         </tr>';
         }
-        if ($krs->count() > 0) {
-            $result .= '<tr>
-                            <td colspan="4" class="no-hover">
-                                <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
-                            </td>
-                        </tr>';
-            $result .= '</table>';
+        if ($krs[0]->semester_aktif == 1) {
+            if ($total_sks > 46) {
+                $result .= '<tr>
+                                <td colspan="2" class="">
+                                    <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                                </td>
+                                <td colspan="1" class="text-center font-weight-bold">
+                                ' . $total_sks . '
+                                </td>
+                                <td colspan="1"></td>
+                            </tr>';
+                $result .= '</table>';
+            }
+        } elseif ($krs[0]->semester_aktif == 2) {
+            if ($total_sks > 46) {
+                $result .= '<tr>
+                                <td colspan="2" class="">
+                                    <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                                </td>
+                                <td colspan="1" class="text-center font-weight-bold">
+                                ' . $total_sks . '
+                                </td>
+                                <td colspan="1"></td>
+                            </tr>';
+                $result .= '</table>';
+            }
+        } elseif ($krs[0]->semester_aktif == 3) {
+            if ($total_sks > 48) {
+                $result .= '<tr>
+                                <td colspan="2" class="">
+                                    <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                                </td>
+                                <td colspan="1" class="text-center font-weight-bold">
+                                ' . $total_sks . '
+                                </td>
+                                <td colspan="1"></td>
+                            </tr>';
+                $result .= '</table>';
+            }
+        } elseif ($krs[0]->semester_aktif == 4) {
+            if ($total_sks > 48) {
+                $result .= '<tr>
+                                 <td colspan="2" class="">
+                                    <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                                </td>
+                                <td colspan="1" class="text-center font-weight-bold">
+                                    ' . $total_sks . '
+                                </td>
+                                <td colspan="1"></td>
+                            </tr>';
+                $result .= '</table>';
+            }
+        } elseif ($krs[0]->semester_aktif == 5) {
+            if ($total_sks > 48) {
+                $result .= '<tr>
+                                 <td colspan="2" class="">
+                                    <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                                </td>
+                                <td colspan="1" class="text-center font-weight-bold">
+                                ' . $total_sks . '
+                                </td>
+                                <td colspan="1"></td>
+                            </tr>';
+                $result .= '</table>';
+            }
+        } elseif ($krs[0]->semester_aktif == 6) {
+            if ($total_sks > 48) {
+                $result .= '<tr>
+                                <td colspan="2" class="">
+                                    <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
+                                </td>
+                                <td colspan="1" class="text-center font-weight-bold">
+                                ' . $total_sks . '
+                                </td>
+                                <td colspan="1"></td>
+                            </tr>';
+                $result .= '</table>';
+            }
         }
         return $result;
     }
@@ -213,26 +316,6 @@ class KrsController extends Controller
             ->join('users', 'users.id', '=', 'students.user_id')
             ->where('id', Auth::user()->id)
             ->get();
-
-        // $siswa = \DB::table('students')
-        //     ->join('users', 'users.id', '=', 'students.user_id')
-        //     ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'students.kode_tahun_akademik')
-        //     ->where('id', '=', Auth::user()->id)
-        //     ->get();
-
-        // $today = date('Y-m-d');
-
-        // if ($siswa[0]->tanggal_akhir_sekolah == $today && $siswa[0]->semester_aktif < '6') {
-        //     Student::where('user_id', $siswa[0]->id)
-        //         ->update([
-        //             'semester_aktif' => $siswa[0]->semester_aktif + 1
-        //         ]);
-        // } elseif ($siswa[0]->tanggal_akhir_sekolah == $today && $siswa[0]->semester_aktif == '6') {
-        //     Student::where('user_id', $siswa[0]->id)
-        //         ->update([
-        //             'semester_aktif' => '6'
-        //         ]);
-        // }
 
         return view('krs.index', $data);
     }

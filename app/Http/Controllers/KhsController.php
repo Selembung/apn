@@ -59,9 +59,10 @@ class KhsController extends Controller
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
             ->join('academic_years', 'academic_years.kode_tahun_akademik', '=', 'khs.kode_tahun_akademik')
             ->where('khs.user_id', $user_id)
+            ->orderBy('academic_years.kode_tahun_akademik', 'desc')
             ->get();
 
-        $data['academicYear'] = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
+        $data['academicYear'] = AcademicYear::orderBy('kode_tahun_akademik', 'desc')->pluck('tahun_akademik', 'kode_tahun_akademik');
 
         return view('khs.index', $data);
     }

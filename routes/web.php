@@ -27,6 +27,8 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function 
 
 // Datatables Admin
 Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
+	Route::get('/home/datatable', 'HomeController@datatable')->name('table.kbm');
+
 	Route::get('/course/datatable', 'CourseController@datatable')->name('table.course');
 	Route::get('/teacher/datatable', 'TeacherController@datatable')->name('table.teacher');
 	Route::get('/academic-year/datatable', 'AcademicYearController@datatable')->name('table.academic-year');
