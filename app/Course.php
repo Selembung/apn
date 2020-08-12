@@ -12,6 +12,7 @@ class Course extends Model
     protected $fillable = [
         'kode_mp',
         'nama_mp',
+        'muatan',
         'jumlah_sks'
     ];
 }

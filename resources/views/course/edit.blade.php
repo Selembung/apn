@@ -50,7 +50,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-control-label" for="nama_mp">Nama Pelajaran</label>
                                         <input type="text" class="form-control @error('nama_mp') is-invalid @enderror"
@@ -61,6 +61,23 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="muatan">Muatan</label>
+                                        <select class="form-control" id="muatan" name="muatan">
+                                            <option disabled selected>-- Pilih Muatan --</option>
+                                            <option value="A" {{ $course->muatan == "A" ? 'selected' : '' }}>
+                                                Muatan Nasional</option>
+                                            <option value="B" {{ $course->muatan == "B" ? 'selected' : '' }}>
+                                                Muatan Kewilayahan</option>
+                                            <option value="C" {{ $course->muatan == "C" ? 'selected' : '' }}>
+                                                Muatan Peminatan Kejuruan</option>
+                                        </select>
+                                        @error('semester')
+                                        <small class="form-text text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="form-control-label" for="jumlah_sks">Jumlah SKS</label>
                                         <input type="text"
