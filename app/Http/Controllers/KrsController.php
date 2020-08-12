@@ -214,7 +214,7 @@ class KrsController extends Controller
                         </tr>';
         }
         if ($krs[0]->semester_aktif == 1) {
-            if ($total_sks > 46) {
+            if ($total_sks >= 45) {
                 $result .= '<tr>
                                 <td colspan="2" class="">
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
@@ -227,7 +227,7 @@ class KrsController extends Controller
                 $result .= '</table>';
             }
         } elseif ($krs[0]->semester_aktif == 2) {
-            if ($total_sks > 46) {
+            if ($total_sks >= 46) {
                 $result .= '<tr>
                                 <td colspan="2" class="">
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
@@ -240,7 +240,7 @@ class KrsController extends Controller
                 $result .= '</table>';
             }
         } elseif ($krs[0]->semester_aktif == 3) {
-            if ($total_sks > 48) {
+            if ($total_sks >= 48) {
                 $result .= '<tr>
                                 <td colspan="2" class="">
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
@@ -253,7 +253,7 @@ class KrsController extends Controller
                 $result .= '</table>';
             }
         } elseif ($krs[0]->semester_aktif == 4) {
-            if ($total_sks > 48) {
+            if ($total_sks >= 48) {
                 $result .= '<tr>
                                  <td colspan="2" class="">
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
@@ -266,7 +266,7 @@ class KrsController extends Controller
                 $result .= '</table>';
             }
         } elseif ($krs[0]->semester_aktif == 5) {
-            if ($total_sks > 48) {
+            if ($total_sks >= 48) {
                 $result .= '<tr>
                                  <td colspan="2" class="">
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
@@ -279,7 +279,7 @@ class KrsController extends Controller
                 $result .= '</table>';
             }
         } elseif ($krs[0]->semester_aktif == 6) {
-            if ($total_sks > 48) {
+            if ($total_sks >= 48) {
                 $result .= '<tr>
                                 <td colspan="2" class="">
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
