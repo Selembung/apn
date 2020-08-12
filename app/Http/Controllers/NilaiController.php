@@ -250,7 +250,7 @@ class NilaiController extends Controller
                 if ($row->nilai_sikap == 'A') {
                     Fpdf::MultiCell(55, 3.34, 'Baik dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
                 } else if ($row->nilai_sikap == 'B') {
-                    Fpdf::MultiCell(55, 3.4, 'Baik dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
+                    Fpdf::MultiCell(55, 3.34, 'Baik dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
                 } else {
                     Fpdf::MultiCell(55, 3.34, 'Cukup dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
                 }
