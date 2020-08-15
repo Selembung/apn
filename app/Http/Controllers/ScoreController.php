@@ -8,8 +8,10 @@ use App\Khs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
+use Carbon\Carbon;
 use Session;
 use DataTables;
+use Storage;
 
 class ScoreController extends Controller
 {
@@ -18,7 +20,7 @@ class ScoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id_jadwal)
+    public function index($id_jadwal, $semester)
     {
         $schedule = \DB::table('course_schedules')
             ->join('teachers', 'teachers.guru_id', '=', 'course_schedules.user_id')
@@ -29,6 +31,7 @@ class ScoreController extends Controller
             ->join('students', 'students.user_id', '=', 'khs.user_id')
             ->where('khs.guru_id', $schedule->user_id)
             ->where('khs.kode_mp', $schedule->kode_mp)
+            ->where('semester_aktif', $semester)
             ->orderBy('nis')
             ->get();
 
@@ -52,9 +55,8 @@ class ScoreController extends Controller
                 'nilai_sikap'   => $request->nilai_sikap,
             ]);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Melakukan perubahan nilai pada siswa dengan ID KHS: " . $request->id_khs;
-        $logActivities->save();
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . "Melakukan perubahan nilai pada siswa dengan ID KHS: " . $request->id_khs;
+        $filename = 'logPenilaian-' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
     }
 }

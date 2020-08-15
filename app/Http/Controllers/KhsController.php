@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 use Fpdf;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 
 class KhsController extends Controller
@@ -29,20 +31,20 @@ class KhsController extends Controller
     {
         $user_id = Auth::user()->id;
         $khs = \DB::table('khs')
-            // ->join('teachers', 'teachers.guru_id', '=', 'khs.guru_id')  
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
+            ->join('teachers', 'teachers.guru_id', '=', 'khs.guru_id')
             ->where('khs.user_id', $user_id)
             ->get();
 
         return DataTables::of($khs)
             ->addIndexColumn()
-            ->addColumn('action', function ($khs) {
-                return view('layouts.action._action', [
-                    'khs'         => $khs,
-                    'url_edit'    => route('khs.edit', $khs->id),
-                    'url_destroy' => route('khs.show', $khs->id),
-                ]);
-            })
+            // ->addColumn('action', function ($khs) {
+            //     return view('layouts.action._action', [
+            //         'khs'         => $khs,
+            //         'url_edit'    => route('khs.edit', $khs->id),
+            //         'url_destroy' => route('khs.show', $khs->id),
+            //     ]);
+            // })
             ->make(true);
     }
 

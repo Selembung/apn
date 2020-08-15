@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
 use Session;
 use DataTables;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class CurriculumController extends Controller
 {
@@ -82,10 +84,15 @@ class CurriculumController extends Controller
 
         Curriculum::create($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menambahkan data kurikulum ( Kode Jurusan: " . $request->kode_jurusan . " , Kode MP: " . $request->kode_MP . " , Semester: " . $request->semester . " ) ";
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menambahkan data kurikulum ( Kode Jurusan: " . $request->kode_jurusan . " , Kode MP: " . $request->kode_MP . " , Semester: " . $request->semester . " ) ";
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data kurikulum: ' . $request->kode_jurusan . ' - ' . $request->kode_mp . ' - ' . $request->semester;
+        $filename = 'Log Kurikulum - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
 
@@ -135,10 +142,15 @@ class CurriculumController extends Controller
 
         $curriculum->update($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Mengubah data kurikulum ( Kode Jurusan: " . $request->kode_jurusan . " , Kode MP: " . $request->kode_MP . " , Semester: " . $request->semester . " ) ";
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Mengubah data kurikulum ( Kode Jurusan: " . $request->kode_jurusan . " , Kode MP: " . $request->kode_MP . " , Semester: " . $request->semester . " ) ";
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data kurikulum: ' . $request->kode_jurusan . ' - ' . $request->kode_mp . ' - ' . $request->semester;
+        $filename = 'Log Kurikulum - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
 
@@ -155,10 +167,15 @@ class CurriculumController extends Controller
     {
         Curriculum::destroy($curriculum->id);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menghapus data kurikulum ( Kode Jurusan: " . $curriculum->kode_jurusan . " , Kode MP: " . $curriculum->kode_MP . " , Semester: " . $curriculum->semester . " ) ";
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menghapus data kurikulum ( Kode Jurusan: " . $curriculum->kode_jurusan . " , Kode MP: " . $curriculum->kode_MP . " , Semester: " . $curriculum->semester . " ) ";
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data kurikulum: ' . $curriculum->kode_jurusan . ' - ' . $curriculum->kode_mp . ' - ' . $curriculum->semester;
+        $filename = 'Log Kurikulum - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);

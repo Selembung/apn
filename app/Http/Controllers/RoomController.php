@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
 use DataTables;
 use Session;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -56,10 +58,15 @@ class RoomController extends Controller
 
         Room::create($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menambahkan data ruangan: " . $request->nama_ruangan;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menambahkan data ruangan: " . $request->nama_ruangan;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data ruangan: ' . $request->nama_ruangan;
+        $filename = 'Log Ruangan - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
 
@@ -101,10 +108,15 @@ class RoomController extends Controller
 
         $room->update($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Mengubah data ruangan: " . $request->nama_ruangan;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Mengubah data ruangan: " . $request->nama_ruangan;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data ruangan: ' . $request->nama_ruangan;
+        $filename = 'Log Ruangan - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
 
@@ -121,10 +133,15 @@ class RoomController extends Controller
     {
         Room::destroy($room->kode_ruangan);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menghapus data ruangan: " . $room->nama_ruangan;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menghapus data ruangan: " . $room->nama_ruangan;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data ruangan: ' . $room->nama_ruangan;
+        $filename = 'Log Ruangan - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);

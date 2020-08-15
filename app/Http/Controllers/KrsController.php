@@ -10,6 +10,8 @@ use App\Student;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class KrsController extends Controller
 {
@@ -157,6 +159,11 @@ class KrsController extends Controller
             ->update([
                 'semester_aktif' => $siswa[0]->semester_aktif + 1
             ]);
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan telah melakukan pengisian KRS';
+        $filename = 'Log KRS - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         \DB::table('krs')->where('user_id', $user_id)->delete();
 

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Fpdf;
 use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class NilaiController extends Controller
 {
@@ -90,6 +91,11 @@ class NilaiController extends Controller
 
         $pdf->Output('Leger Nilai ' . $data[0]->kode_rombel . ".pdf", 'D');
         exit();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan pencetakan leger nilai pada rombel | ' . $data[0]->kode_rombel;
+        $filename = 'Log Cetak Rapor - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
     }
 
     // Rapor per Siswa
@@ -453,6 +459,11 @@ class NilaiController extends Controller
 
         Fpdf::Output($khs[0]->nis . ' - ' . $khs[0]->nama_siswa . ".pdf", 'D');
         exit();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan pencetakan rapor siswa | ' . $khs[0]->nis . ' - ' . $khs[0]->nama_siswa;
+        $filename = 'Log Cetak Rapor - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
     }
 
     /**

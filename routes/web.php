@@ -66,8 +66,13 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin,guru,siswa']], function 
 
 Route::group(['middleware' => ['auth', 'checkRole:guru']], function () {
 	Route::get('/teaching-schedule', 'TeacherController@teachingSchedule');
-	Route::get('/score/{id}', 'ScoreController@index');
+	Route::get('/score/{id}/{semester}', 'ScoreController@index');
+
+	// Tidak menggunakan Editable
 	Route::post('/score/update_score/update/', 'ScoreController@update_score');
+	// Menggunakan Editable
+	// Route::post('/score/{id}/editablenilai', 'ScoreController@editablenilai');
+
 	Route::resource('/score-homeroom', 'NilaiController');
 	Route::get('/score-homeroom/{nis}', 'NilaiController@show');
 	Route::get('/cetak', 'NilaiController@KHSpdf');
@@ -101,5 +106,14 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 	// Route::get('/rombel/search', 'RombelController@search')->name('rombel.search');
 	Route::resource('/rombel', 'RombelController');
 	Route::post('/student/update_rombel/update', 'RombelController@update_rombel');
-	Route::resource('/log-activity', 'LogActivityController');
+	Route::get('/log-activity', 'LogActivityController@index');
+	Route::get('/log-activity/{filename}', [
+		'as' => 'log-activity.show',
+		'uses' => 'LogActivityController@show'
+	]);
+
+	Route::get('/log-activity/{filename}/download', [
+		'as' => 'log-activity.download',
+		'uses' => 'LogActivityController@download'
+	]);
 });

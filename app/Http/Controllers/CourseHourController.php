@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
 use Session;
 use DataTables;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class CourseHourController extends Controller
 {
@@ -56,10 +58,15 @@ class CourseHourController extends Controller
 
         CourseHour::create($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menambahkan data jam pelajaran: " . $request->jam_masuk . " - " . $request->jam_keluar;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menambahkan data jam pelajaran: " . $request->jam_masuk . " - " . $request->jam_keluar;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data jam pelajaran: ' . $request->jam_masuk . " - " . $request->jam_keluar;
+        $filename = 'Log Jam Pelajaran - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
 
@@ -101,10 +108,15 @@ class CourseHourController extends Controller
 
         $courseHour->update($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Mengubah data jam pelajaran: " . $request->jam_masuk . " - " . $request->jam_keluar;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Mengubah data jam pelajaran: " . $request->jam_masuk . " - " . $request->jam_keluar;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data jam pelajaran: ' . $request->jam_masuk . " - " . $request->jam_keluar;
+        $filename = 'Log Jam Pelajaran - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
 
@@ -121,10 +133,15 @@ class CourseHourController extends Controller
     {
         CourseHour::destroy($courseHour->id_jam);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menghapus data jam pelajaran: " . $courseHour->jam_masuk . " - " . $courseHour->jam_keluar;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menghapus data jam pelajaran: " . $courseHour->jam_masuk . " - " . $courseHour->jam_keluar;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data jam pelajaran: ' . $courseHour->jam_masuk . " - " . $courseHour->jam_keluar;
+        $filename = 'Log Jam Pelajaran - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);

@@ -31,7 +31,6 @@
                         </div> --}}
                     </div>
                 </div>
-
                 <div class="table-responsive table-hover px-3 pt-3 pb-3">
                     <table class="table align-items-center table-flush mb-5" id="datatable">
                         <tr>
@@ -142,14 +141,19 @@
     var grade = $("#grade-" + id_khs).val();
     var nilai_sikap = $("#sikap-" + id_khs).val();
 
-    console.log(nilai_harian);
-    console.log(nilai_praktek);
-    console.log(nilai_uts);
-    console.log(nilai_uas);
-    console.log(nilai_akhir);
-    console.log(grade);
-    console.log(nilai_sikap);
+    // console.log(nilai_harian);
+    // console.log(nilai_praktek);
+    // console.log(nilai_uts);
+    // console.log(nilai_uas);
+    // console.log(nilai_akhir);
+    // console.log(grade);
+    // console.log(nilai_sikap);
 
+    var ask = window.confirm("Apakah yakin untuk mengubah nilai?");
+
+    if (ask) {
+        window.alert("Nilai berhasil diubah");
+    
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
         $.post("/score/update_score/update",
@@ -167,6 +171,11 @@
         function(data, status){
         //   alert('sukses')
       });
+
+    } else {
+        window.alert("Nilai gagal diubah, halaman akan direfresh untuk memastikan data tidak terubah");
+        window.location.reload();
+    }
 }
 
 $(function () {

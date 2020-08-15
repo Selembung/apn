@@ -16,6 +16,8 @@ use App\Rombel;
 use DataTables;
 use Illuminate\Support\Facades\DB;
 use Session;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -85,10 +87,15 @@ class StudentController extends Controller
         Student::create($input);
 
         // Insert ke table Log Activities
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menambahkan data siswa ( NIS: " . $request->nis . ", Nama: " . $request->nama . " )";
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menambahkan data siswa ( NIS: " . $request->nis . ", Nama: " . $request->nama . " )";
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data siswa: ' . $request->nis . ' - ' . $request->nama;
+        $filename = 'Log Data Siswa - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
 
@@ -149,10 +156,15 @@ class StudentController extends Controller
         $student->update($input);
 
         // Insert ke table Log Activities
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Mengubah data siswa ( NIS: " . $request->nis . ", Nama: " . $request->nama . " )";
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Mengubah data siswa ( NIS: " . $request->nis . ", Nama: " . $request->nama . " )";
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data siswa: ' . $request->nis . ' - ' . $request->nama;
+        $filename = 'Log Data Siswa - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
 
@@ -173,10 +185,15 @@ class StudentController extends Controller
 
         \DB::delete($query, array($student->user_id));
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menghapus data siswa ( NIS: " . $student->nis . ", Nama: " . $student->nama . " )";
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menghapus data siswa ( NIS: " . $student->nis . ", Nama: " . $student->nama . " )";
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data siswa: ' . $student->nis . ' - ' . $student->nama;
+        $filename = 'Log Data Siswa - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);

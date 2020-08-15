@@ -30,7 +30,7 @@ class StudentRequest extends FormRequest
             $student      = $this->student->nis;
             $student_nisn = $this->student->nisn;
             $nis  = $student . ",nis";
-            $nisn = $student . ",nisn";
+            $nisn = $student_nisn . ",nisn";
         }
 
         // Cek apakah CREATE atau UPDATE

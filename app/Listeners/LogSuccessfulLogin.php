@@ -3,10 +3,12 @@
 namespace App\Listeners;
 
 use App\LogActivity;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Storage;
 
 class LogSuccessfulLogin
 {
@@ -28,9 +30,8 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        LogActivity::create([
-            'user_id'        => Auth::user()->id,
-            'activity_name'  => "Melakukan Login",
-        ]);
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan Login';
+        $filename = 'LogLogin - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
     }
 }

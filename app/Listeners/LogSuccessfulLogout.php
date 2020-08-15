@@ -28,9 +28,8 @@ class LogSuccessfulLogout
      */
     public function handle(Logout $event)
     {
-        LogActivity::create([
-            'user_id'        => Auth::user()->id,
-            'activity_name'  => "Melakukan Logout",
-        ]);
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan Logout';
+        $filename = 'Log Logout - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
     }
 }

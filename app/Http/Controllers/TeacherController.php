@@ -10,6 +10,8 @@ use DataTables;
 use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
 use Session;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 
 class TeacherController extends Controller
@@ -32,7 +34,7 @@ class TeacherController extends Controller
                     $action  = '<button class="btn btn-sm btn-danger btn-round btn-icon disabled" data-toggle="tooltip"
                     data-original-title="Sudah tidak bisa input nilai"><i class="fas fa-minus-circle"></i></button>';
                 } else {
-                    $action  = '<a href="/score/' . $teaching->id . '" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                    $action  = '<a href="/score/' . $teaching->id . '/' . $teaching->semester . '" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                     data-original-title="Input Nilai"><i class="fas fa-pencil-alt"></i></a>';
                 }
 
@@ -97,10 +99,15 @@ class TeacherController extends Controller
 
         Teacher::create($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menambahkan data guru: " . $request->nama;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menambahkan data guru: " . $request->nama;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data guru: ' . $request->nama;
+        $filename = 'Log Data Guru - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
 
@@ -148,10 +155,15 @@ class TeacherController extends Controller
 
         $teacher->update($input);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Mengubah data guru: " . $request->nama;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Mengubah data guru: " . $request->nama;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data guru: ' . $request->nama;
+        $filename = 'Log Data Guru - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
 
@@ -175,10 +187,15 @@ class TeacherController extends Controller
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);
 
-        $logActivities = new LogActivity;
-        $logActivities->user_id = Auth::user()->id;
-        $logActivities->activity_name = "Menghapus data guru: " . $teacher->nama;
-        $logActivities->save();
+        // $logActivities = new LogActivity;
+        // $logActivities->user_id = Auth::user()->id;
+        // $logActivities->activity_name = "Menghapus data guru: " . $teacher->nama;
+        // $logActivities->save();
+
+        // Log Aktivitas di simpan ke file log 
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data guru: ' . $teacher->nama;
+        $filename = 'Log Data Guru - ' . date('Y-m-d') . '.log';
+        Storage::disk('activityLog')->append($filename, $logActivities);
 
         return redirect('teacher');
     }

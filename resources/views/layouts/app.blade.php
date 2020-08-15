@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- my style -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    {{-- X-Editable --}}
+    {{-- <link rel="stylesheet" href="{{ asset('css/editable.css') }}"> --}}
 </head>
 
 <body class="{{ $class ?? '' }}">
@@ -69,6 +71,8 @@
 
     <!-- Javascript untuk AJAX -->
     <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap-editable.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-editable.min.js') }}"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     {{-- <script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script> --}}
 

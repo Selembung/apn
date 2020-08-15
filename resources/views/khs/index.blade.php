@@ -65,8 +65,9 @@
                         <thead class="thead-light">
                             <tr>
                                 <th>No</th>
-                                <th>Kode MP</th>
+                                {{-- <th>Kode MP</th> --}}
                                 <th>Nama Pelajaran</th>
+                                <th>Nama Guru</th>
                                 <th>SKS</th>
                                 <th>Nilai Harian</th>
                                 <th>Nilai Praktek</th>
@@ -83,8 +84,9 @@
                         <tfoot class="table-borderless">
                             <tr>
                                 <th>No</th>
-                                <th>Kode MP</th>
+                                {{-- <th>Kode MP</th> --}}
                                 <th>Nama Pelajaran</th>
+                                <th>Nama Guru</th>
                                 <th>SKS</th>
                                 <th>Nilai Harian</th>
                                 <th>Nilai Praktek</th>
@@ -115,8 +117,9 @@
         ajax: "{{ route('table.khs') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'kode_mp', name: 'kode_mp', "sClass": "text-center"},    
+            // {data: 'kode_mp', name: 'kode_mp', "sClass": "text-center"},    
             {data: 'nama_mp', name: 'nama_mp'},
+            {data: 'nama', name: 'nama'},
             {data: 'jumlah_sks', name: 'jumlah_sks', "sClass": "text-center"},
             {data: 'nilai_harian', name: 'nilai_harian', "sClass": "text-center"},
             {data: 'nilai_praktek', name: 'nilai_praktek', "sClass": "text-center"},
