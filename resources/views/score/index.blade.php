@@ -152,7 +152,14 @@
     var ask = window.confirm("Apakah yakin untuk mengubah nilai?");
 
     if (ask) {
-        window.alert("Nilai berhasil diubah");
+        // window.alert("Nilai berhasil diubah");
+        swal({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Nilai berhasil diubah',
+            showConfirmButton: false,
+            timer: 1500
+        })
     
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -173,8 +180,16 @@
       });
 
     } else {
-        window.alert("Nilai gagal diubah, halaman akan direfresh untuk memastikan data tidak terubah");
-        window.location.reload();
+        // window.alert("Nilai gagal diubah, halaman akan direfresh untuk memastikan data tidak terubah");
+        localStorage
+        .setItem("swal", JSON.stringify({
+                        title: "Perhatian!",
+                        text: 'Nilai gagal diubah, halaman akan direfresh untuk memastikan data tidak terubah',
+                        icon: "warning",
+                        button: true
+                    }));
+
+        swal(JSON.parse(localStorage.getItem("swal"))).then(() => location.reload());
     }
 }
 

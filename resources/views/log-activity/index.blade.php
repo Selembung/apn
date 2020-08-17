@@ -35,93 +35,95 @@
                 <div class="table-responsive table-hover px-3 pt-3 pb-3">
                     <table class="table align-items-center table-flush" id="">
                         <div class="row">
-                            {{-- <div class="col-md-4">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="nama_jurusan">Tanggal</label>
-                                    <div class="input-daterange datepicker row align-items-center">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <div class="input-group input-group-alternative">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i
-                                                                class="ni ni-calendar-grid-58"></i></span>
-                                                    </div>
-                                                    <input data-column="4" class="form-control datepicker"
-                                                        placeholder="Search date" type="text" id="from_date"
-                                                        name="from_date" value="{{ old('from_date') }}"
-                            autocomplete="off">
                         </div>
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th>Nama File</th>
+                                <th class="text-center">Size</th>
+                                <th class="text-center">Waktu</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($logFiles as $key => $logFile)
+                            <tr>
+                                <td class="text-center">
+                                    {{ ($logFiles->currentpage()-1) * $logFiles->perpage() + $loop->index + 1 }}
+                                </td>
+
+                                <td>{{ $logFile->getFilename() }}</td>
+
+                                @if ($logFile->getSize() >= 1073741824)
+                                <td class="text-center">{{ number_format($logFile->getSize() / 1073741824, 2) . ' GB' }}
+                                </td>
+                                @elseif ($logFile->getSize() >= 1048576)
+                                <td class="text-center">{{ number_format($logFile->getSize() / 1048576, 2) . ' ,B' }}
+                                </td>
+                                @elseif ($logFile->getSize() >= 1024)
+                                <td class="text-center">{{ number_format($logFile->getSize() / 1024, 2) . ' KB' }}</td>
+                                @elseif ($logFile->getSize() > 1)
+                                <td class="text-center">{{ $logFile->getSize() . ' bytes' }}</td>
+                                @elseif ($logFile->getSize() == 1)
+                                <td class="text-center">{{ $logFile->getSize() . ' byte' }}</td>
+                                @else
+                                <td class="text-center">{{ '0 bytes' }}</td>
+                                @endif
+
+                                <td class="text-center">
+                                    {{ \Carbon\Carbon::parse(date('Y-m-d H:i:s', $logFile->getMTime()))->diffForHumans() }}
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('log-activity.show', $logFile->getFilename()) }}"
+                                        title="Show file {{ $logFile->getFilename() }}"
+                                        class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                                        data-original-title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('log-activity.download', $logFile->getFilename()) }}"
+                                        title="Download file {{ $logFile->getFilename() }}"
+                                        class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                                        data-original-title="Download">
+                                        <i class="fas fa-download"></i>
+                                    </a>
+                                    <a href="{{ route('log-activity.delete', $logFile->getFilename()) }}"
+                                        title="Delete file {{ $logFile->getFilename() }}"
+                                        class="btn btn-sm btn-danger btn-round btn-icon" data-toggle="tooltip"
+                                        data-original-title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center">No Log File Exists</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th>Nama File</th>
+                                <th class="text-center">Size</th>
+                                <th class="text-center">Waktu</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="">
+                        <div class="mt-4 h4 font-weight-light">
+                            Showing {{($logFiles->currentpage()-1)*$logFiles->perpage()+1}} to
+                            {{$logFiles->currentpage()*$logFiles->perpage()}}
+                            of {{$logFiles->total()}} entries
+                        </div>
+                        <div class="float-right" style="margin-top: -40px">
+                            {!! $logFiles->setPath('log-activity')->render() !!}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div> --}}
-</div>
-<thead class="thead-light">
-    <tr>
-        <th class="text-center">No</th>
-        <th>Nama File</th>
-        <th class="text-center">Size</th>
-        <th class="text-center">Waktu</th>
-        <th class="text-center">Action</th>
-    </tr>
-</thead>
-<tbody>
-    @forelse($logFiles as $key => $logFile)
-    <tr>
-        <td class="text-center">{{ $key + 1 }}</td>
-
-        <td>{{ $logFile->getFilename() }}</td>
-
-        @if ($logFile->getSize() >= 1073741824)
-        <td class="text-center">{{ number_format($logFile->getSize() / 1073741824, 2) . ' GB' }}</td>
-        @elseif ($logFile->getSize() >= 1048576)
-        <td class="text-center">{{ number_format($logFile->getSize() / 1048576, 2) . ' ,B' }}</td>
-        @elseif ($logFile->getSize() >= 1024)
-        <td class="text-center">{{ number_format($logFile->getSize() / 1024, 2) . ' KB' }}</td>
-        @elseif ($logFile->getSize() > 1)
-        <td class="text-center">{{ $logFile->getSize() . ' bytes' }}</td>
-        @elseif ($logFile->getSize() == 1)
-        <td class="text-center">{{ $logFile->getSize() . ' byte' }}</td>
-        @else
-        <td class="text-center">{{ '0 bytes' }}</td>
-        @endif
-
-        <td class="text-center">{{ \Carbon\Carbon::parse(date('Y-m-d H:i:s', $logFile->getMTime()))->diffForHumans() }}
-        </td>
-        <td class="text-center">
-            <a href="{{ route('log-activity.show', $logFile->getFilename()) }}"
-                title="Show file {{ $logFile->getFilename() }}" class="btn btn-sm btn-neutral btn-round btn-icon"
-                data-toggle="tooltip" data-original-title="View">
-                <i class="fas fa-eye"></i>
-            </a>
-            <a href="{{ route('log-activity.download', $logFile->getFilename()) }}"
-                title="Download file {{ $logFile->getFilename() }}" class="btn btn-sm btn-neutral btn-round btn-icon"
-                data-toggle="tooltip" data-original-title="Download">
-                <i class="fas fa-download"></i>
-            </a>
-        </td>
-    </tr>
-    @empty
-    <tr>
-        <td colspan="5" class="text-center">No Log File Exists</td>
-    </tr>
-    @endforelse
-</tbody>
-<tfoot>
-    <tr>
-        <th class="text-center">No</th>
-        <th>Nama File</th>
-        <th class="text-center">Size</th>
-        <th class="text-center">Waktu</th>
-        <th class="text-center">Action</th>
-    </tr>
-</tfoot>
-</table>
-</div>
-</div>
-</div>
-</div>
 </div>
 
 

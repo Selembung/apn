@@ -3,10 +3,12 @@
 namespace App\Listeners;
 
 use App\LogActivity;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Storage;
 
 class LogSuccessfulLogout
 {

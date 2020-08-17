@@ -52,10 +52,9 @@ class ScoreController extends Controller
                 'nilai_akhir'   => $request->nilai_akhir,
                 'grade'         => $request->grade,
                 'nilai_sikap'   => $request->nilai_sikap,
-                'nilai_sikap'   => $request->nilai_sikap,
             ]);
 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . "Melakukan perubahan nilai pada siswa dengan ID KHS: " . $request->id_khs;
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . " | Melakukan perubahan nilai pada siswa dengan ID KHS: " . $request->id_khs;
         $filename = 'logPenilaian-' . date('Y-m-d') . '.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }

@@ -116,4 +116,9 @@ Route::group(['middleware' => ['auth', 'checkRole:Admin']], function () {
 		'as' => 'log-activity.download',
 		'uses' => 'LogActivityController@download'
 	]);
+
+	Route::get('/log-activity/{filename}/delete', [
+		'as' => 'log-activity.delete',
+		'uses' => 'LogActivityController@destroy'
+	]);
 });

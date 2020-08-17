@@ -10,48 +10,33 @@ use Illuminate\Support\Facades\Storage;
 
 class LogActivityController extends Controller
 {
-    // public function ajax()
-    // {
-    //     LogActivity::all();
-
-    //     return view('log-activity.ajax');
-    // }
-
-    // public function datatable()
-    // {
-    //     $logActivity = \DB::table('log_activities')
-    //         ->join('users', 'users.id', '=', 'log_activities.user_id')
-    //         ->select('users.role', 'users.name', 'log_activities.*')
-    //         ->get();
-
-
-    //     return DataTables::of($logActivity)
-    //         ->addIndexColumn()
-    //         ->addColumn('waktuTerakhir', function ($logActivity) {
-    //             $date = $logActivity->created_at;
-    //             $date = Carbon::parse($date);
-    //             return $date->diffForHumans();
-    //         })
-    //         ->make(true);
-    // }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!file_exists(storage_path('logs/activity-user'))) {
             return [];
         }
 
-        $logFiles = \File::allFiles(storage_path('logs/activity-user'));
-        usort($logFiles, function ($a, $b) {
+        $page = (int) $request->input('page') ?: 1;
+        $logFiles = collect(\File::allFiles(storage_path('logs/activity-user')))->sort(function ($a, $b) {
             return -1 * strcmp($a->getMTime(), $b->getMTime());
         });
 
-        return view('log-activity.index', compact('logFiles'));
+        $onPage = 10;
+
+        $slice = $logFiles->slice(($page - 1) * $onPage, $onPage);
+
+        // usort($logFiles, function ($a, $b) {
+        //     return -1 * strcmp($a->getMTime(), $b->getMTime());
+        // });
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator($slice, $logFiles->count(), $onPage);
+
+        return view('log-activity.index', compact('logFiles'))->with('logFiles', $paginator);;
     }
 
     /**
@@ -88,8 +73,7 @@ class LogActivityController extends Controller
 
             return response()->file($path, ['content-type' => 'text/plain']);
         }
-        $path = storage_path('logs/activity-user/' . $fileName);
-        return response()->file($path, ['content-type' => 'text/plain']);
+
         return 'Invalid file name.';
     }
 
@@ -134,8 +118,12 @@ class LogActivityController extends Controller
      * @param  \App\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LogActivity $logActivity)
+    public function destroy($fileName)
     {
-        //
+        if (file_exists(storage_path('logs/activity-user/' . $fileName))) {
+            Storage::disk('activityLog')->delete($fileName);
+            return redirect('log-activity');
+        }
+        return 'Invalid file name.';
     }
 }

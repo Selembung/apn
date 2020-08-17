@@ -31,7 +31,7 @@ class LogSuccessfulLogin
     public function handle(Login $event)
     {
         $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan Login';
-        $filename = 'LogLogin - ' . date('Y-m-d') . '.log';
+        $filename = 'Log Login - ' . date('Y-m-d') . '.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }
 }
