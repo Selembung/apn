@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\LogActivity;
+use App\Models\LogActivity;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class LogSuccessfulLogout
@@ -30,8 +30,8 @@ class LogSuccessfulLogout
      */
     public function handle(Logout $event)
     {
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan Logout';
-        $filename = 'Log Logout - ' . date('Y-m-d') . '.log';
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan Logout';
+        $filename = 'Log Logout - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }
 }

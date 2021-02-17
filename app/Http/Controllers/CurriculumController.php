@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\Curriculum;
-use App\Major;
+use App\Models\Course;
+use App\Models\Curriculum;
 use App\Http\Requests\CurriculumRequest;
+use App\Models\LogActivity;
+use App\Models\Major;
+use Carbon\Carbon;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\LogActivity;
-use Session;
-use DataTables;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class CurriculumController extends Controller
 {
     public function ajax()
     {
         $curriculum = Curriculum::all();
-        $filter     = $curriculum->sortBy('kode_jurusan');
+        $filter = $curriculum->sortBy('kode_jurusan');
 
         return view('curriculum.ajax', compact('filter'));
     }
 
     public function datatable()
     {
-
         $curriculum = \DB::table('curriculums')
             ->join('courses', 'courses.kode_mp', '=', 'curriculums.kode_mp')
             ->join('majors', 'majors.kode_jurusan', '=', 'curriculums.kode_jurusan')
@@ -34,7 +33,7 @@ class CurriculumController extends Controller
 
         return DataTables::of($curriculum)
             ->addColumn('action', function ($curriculum) {
-                $a = '<a href="/curriculum/' . $curriculum->id . '" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                $a = '<a href="/curriculum/'.$curriculum->id.'" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                             data-original-title="Detail">
                             <i class="fas fa-eye"></i>
                         </a>';
@@ -43,6 +42,7 @@ class CurriculumController extends Controller
                     'url_edit'    => route('curriculum.edit', $curriculum->id),
                     'url_destroy' => route('curriculum.destroy', $curriculum->id),
                 ]);
+
                 return $a;
             })
             ->make(true);
@@ -56,6 +56,7 @@ class CurriculumController extends Controller
     public function index()
     {
         $data['major'] = Major::pluck('nama_jurusan', 'kode_jurusan');
+
         return view('curriculum.index', $data);
     }
 
@@ -66,7 +67,7 @@ class CurriculumController extends Controller
      */
     public function create()
     {
-        $data['major']  = Major::pluck('nama_jurusan', 'kode_jurusan');
+        $data['major'] = Major::pluck('nama_jurusan', 'kode_jurusan');
         $data['course'] = Course::pluck('nama_mp', 'kode_mp');
 
         return view('curriculum.create', $data);
@@ -89,9 +90,9 @@ class CurriculumController extends Controller
         // $logActivities->activity_name = "Menambahkan data kurikulum ( Kode Jurusan: " . $request->kode_jurusan . " , Kode MP: " . $request->kode_MP . " , Semester: " . $request->semester . " ) ";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data kurikulum: ' . $request->kode_jurusan . ' - ' . $request->kode_mp . ' - ' . $request->semester;
-        $filename = 'Log Kurikulum - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data kurikulum: '.$request->kode_jurusan.' - '.$request->kode_mp.' - '.$request->semester;
+        $filename = 'Log Kurikulum - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -102,7 +103,7 @@ class CurriculumController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function show(Curriculum $curriculum)
@@ -118,12 +119,12 @@ class CurriculumController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function edit(Curriculum $curriculum)
     {
-        $major  = Major::pluck('nama_jurusan', 'kode_jurusan');
+        $major = Major::pluck('nama_jurusan', 'kode_jurusan');
         $course = Course::pluck('nama_mp', 'kode_mp');
 
         return view('curriculum.edit', compact('curriculum', 'major', 'course'));
@@ -133,7 +134,7 @@ class CurriculumController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function update(CurriculumRequest $request, Curriculum $curriculum)
@@ -147,9 +148,9 @@ class CurriculumController extends Controller
         // $logActivities->activity_name = "Mengubah data kurikulum ( Kode Jurusan: " . $request->kode_jurusan . " , Kode MP: " . $request->kode_MP . " , Semester: " . $request->semester . " ) ";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data kurikulum: ' . $request->kode_jurusan . ' - ' . $request->kode_mp . ' - ' . $request->semester;
-        $filename = 'Log Kurikulum - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data kurikulum: '.$request->kode_jurusan.' - '.$request->kode_mp.' - '.$request->semester;
+        $filename = 'Log Kurikulum - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
@@ -160,7 +161,7 @@ class CurriculumController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function destroy(Curriculum $curriculum)
@@ -172,9 +173,9 @@ class CurriculumController extends Controller
         // $logActivities->activity_name = "Menghapus data kurikulum ( Kode Jurusan: " . $curriculum->kode_jurusan . " , Kode MP: " . $curriculum->kode_MP . " , Semester: " . $curriculum->semester . " ) ";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data kurikulum: ' . $curriculum->kode_jurusan . ' - ' . $curriculum->kode_mp . ' - ' . $curriculum->semester;
-        $filename = 'Log Kurikulum - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penghapusan data kurikulum: '.$curriculum->kode_jurusan.' - '.$curriculum->kode_mp.' - '.$curriculum->semester;
+        $filename = 'Log Kurikulum - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +10,6 @@ class CourseHour extends Model
 
     protected $fillable = [
         'jam_masuk',
-        'jam_keluar'
+        'jam_keluar',
     ];
 }

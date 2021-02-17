@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ScoreRequest;
-use App\Score;
-use App\Khs;
+use App\Models\Khs;
+use App\Models\LogActivity;
+use App\Models\Score;
+use Carbon\Carbon;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\LogActivity;
-use Carbon\Carbon;
 use Session;
-use DataTables;
 use Storage;
 
 class ScoreController extends Controller
@@ -37,7 +37,6 @@ class ScoreController extends Controller
 
         $data['schedule'] = $schedule;
 
-
         return view('score.index', $data);
     }
 
@@ -54,8 +53,8 @@ class ScoreController extends Controller
                 'nilai_sikap'   => $request->nilai_sikap,
             ]);
 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . " | Melakukan perubahan nilai pada siswa dengan ID KHS: " . $request->id_khs;
-        $filename = 'logPenilaian-' . date('Y-m-d') . '.log';
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan nilai pada siswa dengan ID KHS: '.$request->id_khs;
+        $filename = 'logPenilaian-'.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }
 }

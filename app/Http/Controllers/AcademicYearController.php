@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicYear;
+use App\Http\Requests\AcademicYearRequest;
+use App\Models\LogActivity;
+use Carbon\Carbon;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\AcademicYear;
-use App\LogActivity;
-use DataTables;
-use App\Http\Requests\AcademicYearRequest;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Session;
 
@@ -64,9 +64,9 @@ class AcademicYearController extends Controller
         // $logActivities->activity_name = "Menambahkan data tahun akademik: " . $request->tahun_akademik;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data tahun akademik: ' . $request->tahun_akademik;
-        $filename = 'Log Tahun Akademik - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data tahun akademik: '.$request->tahun_akademik;
+        $filename = 'Log Tahun Akademik - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -77,7 +77,7 @@ class AcademicYearController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function show(AcademicYear $academicYear)
@@ -88,7 +88,7 @@ class AcademicYearController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function edit(AcademicYear $academicYear)
@@ -100,7 +100,7 @@ class AcademicYearController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function update(AcademicYearRequest $request, AcademicYear $academicYear)
@@ -114,9 +114,9 @@ class AcademicYearController extends Controller
         // $logActivities->activity_name = "Mengubah data tahun akademik: " . $request->tahun_akademik;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data tahun akademik: ' . $request->tahun_akademik;
-        $filename = 'Log Tahun Akademik - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data tahun akademik: '.$request->tahun_akademik;
+        $filename = 'Log Tahun Akademik - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
@@ -127,7 +127,7 @@ class AcademicYearController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function destroy(AcademicYear $academicYear)
@@ -139,8 +139,8 @@ class AcademicYearController extends Controller
         // $logActivities->activity_name = "Menghapus data tahun akademik: " . $academicYear->tahun_akademik;
         // $logActivities->save();
 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data tahun akademik: ' . $academicYear->tahun_akademik;
-        $filename = 'Log Tahun Akademik - ' . date('Y-m-d') . '.log';
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data tahun akademik: '.$academicYear->tahun_akademik;
+        $filename = 'Log Tahun Akademik - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');

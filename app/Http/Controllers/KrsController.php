@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\Krs;
-use App\Khs;
-use App\Major;
-use App\Student;
-use Illuminate\Http\Request;
-use DataTables;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Course;
+use App\Models\Khs;
+use App\Models\Krs;
+use App\Models\Major;
+use App\Models\Student;
 use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class KrsController extends Controller
 {
-
     public function ajax()
     {
         \DB::table('courses')
@@ -41,10 +40,11 @@ class KrsController extends Controller
                     <i class="fas fa-user-edit"></i>
                     </button>';
                 } else {
-                    $action = '<button class="btn btn-sm btn-neutral btn-round btn-icon" onClick="tambah_krs(\'' . $courses->kode_mp . '\')" data-toggle="tooltip" data-original-title="Ambil">
+                    $action = '<button class="btn btn-sm btn-neutral btn-round btn-icon" onClick="tambah_krs(\''.$courses->kode_mp.'\')" data-toggle="tooltip" data-original-title="Ambil">
                     <i class="fas fa-user-edit"></i>
                     </button>';
                 }
+
                 return $action;
             })
             ->make(true);
@@ -65,21 +65,21 @@ class KrsController extends Controller
 
             Student::where('user_id', $siswa[0]->id)
                 ->update([
-                    'semester_aktif' => $siswa[0]->semester_aktif + 1
+                    'semester_aktif' => $siswa[0]->semester_aktif + 1,
                 ]);
 
             return $student->semester_aktif;
         } elseif ($siswa[0]->semester_aktif == '6') {
             Student::where('user_id', $siswa[0]->id)
                 ->update([
-                    'semester_aktif' => '6'
+                    'semester_aktif' => '6',
                 ]);
         } else {
             return 1;
         }
     }
 
-    function get_jadwal($kode_mp, $kode_jurusan)
+    public function get_jadwal($kode_mp, $kode_jurusan)
     {
         $schedule = \DB::table('course_schedules')
             ->where('kode_mp', $kode_mp)
@@ -106,7 +106,7 @@ class KrsController extends Controller
         $tahun_akademik = \DB::table('academic_years')->where('status', 'Aktif')->first();
 
         $validator = \Validator::make($request->all(), [
-            'kode_mp' => 'required|unique:krs,kode_mp,NULL,id,user_id,' . Auth::user()->id,
+            'kode_mp' => 'required|unique:krs,kode_mp,NULL,id,user_id,'.Auth::user()->id,
         ]);
 
         if ($validator->fails()) {
@@ -114,12 +114,12 @@ class KrsController extends Controller
         }
 
         $krs = new Krs;
-        $krs->kode_mp             = $request->kode_mp;
-        $krs->user_id             = Auth::user()->id;
+        $krs->kode_mp = $request->kode_mp;
+        $krs->user_id = Auth::user()->id;
         $krs->kode_tahun_akademik = $tahun_akademik->kode_tahun_akademik;
         // $krs->semester            = $this->check_semester();
-        $krs->semester            = $student->semester_aktif;
-        $krs->guru_id             = $this->get_jadwal($request->kode_mp, Auth::user()->kode_jurusan);
+        $krs->semester = $student->semester_aktif;
+        $krs->guru_id = $this->get_jadwal($request->kode_mp, Auth::user()->kode_jurusan);
         // $krs->guru_id             = $this->get_jadwal($request->kode_mp, $student->kode_jurusan);
         $krs->save();
 
@@ -128,24 +128,24 @@ class KrsController extends Controller
 
     public function selesai()
     {
-        $user_id        = Auth::user()->id;
-        $krs            = \DB::table('krs')->where('user_id', $user_id)->get();
+        $user_id = Auth::user()->id;
+        $krs = \DB::table('krs')->where('user_id', $user_id)->get();
         $tahun_akademik = \DB::table('academic_years')->where('status', 'Aktif')->first();
 
         foreach ($krs as $row) {
-            $khs                      = new Khs;
+            $khs = new Khs;
             $khs->kode_tahun_akademik = $tahun_akademik->kode_tahun_akademik;
-            $khs->user_id             = $user_id;
-            $khs->guru_id             = $row->guru_id;
-            $khs->kode_mp             = $row->kode_mp;
-            $khs->nilai_harian        = 0;
-            $khs->nilai_praktek       = 0;
-            $khs->nilai_uts           = 0;
-            $khs->nilai_uas           = 0;
-            $khs->nilai_akhir         = 0;
-            $khs->grade               = '';
-            $khs->nilai_sikap         = '';
-            $khs->semester            = $row->semester;
+            $khs->user_id = $user_id;
+            $khs->guru_id = $row->guru_id;
+            $khs->kode_mp = $row->kode_mp;
+            $khs->nilai_harian = 0;
+            $khs->nilai_praktek = 0;
+            $khs->nilai_uts = 0;
+            $khs->nilai_uas = 0;
+            $khs->nilai_akhir = 0;
+            $khs->grade = '';
+            $khs->nilai_sikap = '';
+            $khs->semester = $row->semester;
             $khs->save();
         }
 
@@ -157,12 +157,12 @@ class KrsController extends Controller
 
         Student::where('user_id', $siswa[0]->id)
             ->update([
-                'semester_aktif' => $siswa[0]->semester_aktif + 1
+                'semester_aktif' => $siswa[0]->semester_aktif + 1,
             ]);
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan telah melakukan pengisian KRS';
-        $filename = 'Log KRS - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan telah melakukan pengisian KRS';
+        $filename = 'Log KRS - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         \DB::table('krs')->where('user_id', $user_id)->delete();
@@ -183,7 +183,7 @@ class KrsController extends Controller
             ->where('user_id', Auth::user()->id)->sum('jumlah_sks');
 
         if ($krs->count() > 0) {
-            $result = '<h5 class="mb-3">Total SKS: ' . $total_sks . '</h5>
+            $result = '<h5 class="mb-3">Total SKS: '.$total_sks.'</h5>
             <table class="table align-items-center table-flush" id="haha">
                 <thead class="thead-light">
                     <tr>
@@ -206,16 +206,17 @@ class KrsController extends Controller
                             <tr>
                                 <td colspan="4" class="text-center">Belum terdapat mata pelajaran yang dipilih</td>
                             </tr>';
+
             return $result;
         }
 
         foreach ($krs as $row) {
             $result .= '<tr>
-                            <td>' . $row->kode_mp . '</td>
-                            <td>' . $row->nama_mp . '</td>
-                            <td class="text-center">' . $row->jumlah_sks . '</td>
+                            <td>'.$row->kode_mp.'</td>
+                            <td>'.$row->nama_mp.'</td>
+                            <td class="text-center">'.$row->jumlah_sks.'</td>
                             <td class="text-center">
-                                <button class="btn btn-danger btn-sm" onClick="hapus_krs(' . $row->id . ')" data-toggle="tooltip"
+                                <button class="btn btn-danger btn-sm" onClick="hapus_krs('.$row->id.')" data-toggle="tooltip"
                                 data-original-title="Delete"><i class="fas fa-trash-alt"></i></button>
                             </td>
                         </tr>';
@@ -227,7 +228,7 @@ class KrsController extends Controller
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                                 </td>
                                 <td colspan="1" class="text-center font-weight-bold">
-                                ' . $total_sks . '
+                                '.$total_sks.'
                                 </td>
                                 <td colspan="1"></td>
                             </tr>';
@@ -240,7 +241,7 @@ class KrsController extends Controller
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                                 </td>
                                 <td colspan="1" class="text-center font-weight-bold">
-                                ' . $total_sks . '
+                                '.$total_sks.'
                                 </td>
                                 <td colspan="1"></td>
                             </tr>';
@@ -253,7 +254,7 @@ class KrsController extends Controller
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                                 </td>
                                 <td colspan="1" class="text-center font-weight-bold">
-                                ' . $total_sks . '
+                                '.$total_sks.'
                                 </td>
                                 <td colspan="1"></td>
                             </tr>';
@@ -266,7 +267,7 @@ class KrsController extends Controller
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                                 </td>
                                 <td colspan="1" class="text-center font-weight-bold">
-                                    ' . $total_sks . '
+                                    '.$total_sks.'
                                 </td>
                                 <td colspan="1"></td>
                             </tr>';
@@ -279,7 +280,7 @@ class KrsController extends Controller
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                                 </td>
                                 <td colspan="1" class="text-center font-weight-bold">
-                                ' . $total_sks . '
+                                '.$total_sks.'
                                 </td>
                                 <td colspan="1"></td>
                             </tr>';
@@ -292,13 +293,14 @@ class KrsController extends Controller
                                     <a class="btn btn-success text-center" href="/krs/selesai"><i class="fas fa-cart-plus"></i> Saya Selesai Mengisi KRS</a>
                                 </td>
                                 <td colspan="1" class="text-center font-weight-bold">
-                                ' . $total_sks . '
+                                '.$total_sks.'
                                 </td>
                                 <td colspan="1"></td>
                             </tr>';
                 $result .= '</table>';
             }
         }
+
         return $result;
     }
 

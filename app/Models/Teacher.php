@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Teacher extends Model
 {
     protected $primaryKey = 'nig';
-    public $incrementing  = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'nig',
@@ -15,6 +15,6 @@ class Teacher extends Model
         'kode_guru',
         'nama',
         'no_telepon',
-        'email'
+        'email',
     ];
 }

@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\CourseHour;
-
+use App\Models\CourseHour;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CourseHourRequest extends FormRequest
@@ -27,10 +26,10 @@ class CourseHourRequest extends FormRequest
     {
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $jam_masuk  = 'required|min:5';
+            $jam_masuk = 'required|min:5';
             $jam_keluar = 'required|min:5';
         } else {
-            $jam_masuk  = 'required|min:5';
+            $jam_masuk = 'required|min:5';
             $jam_keluar = 'required|min:5';
         }
 

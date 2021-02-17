@@ -23,16 +23,16 @@ class MajorRequest extends FormRequest
      */
     public function rules()
     {
-        $kode_jurusan = NULL;
+        $kode_jurusan = null;
 
         if ($this->major) {
-            $major        = $this->major->kode_jurusan;
-            $kode_jurusan = $major . ",kode_jurusan";
+            $major = $this->major->kode_jurusan;
+            $kode_jurusan = $major.',kode_jurusan';
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $kode_jurusan = 'required|min:2|unique:majors,kode_jurusan,' . $kode_jurusan;
+            $kode_jurusan = 'required|min:2|unique:majors,kode_jurusan,'.$kode_jurusan;
             $nama_jurusan = 'required|min:5';
         } else {
             $kode_jurusan = 'required|min:2|unique:majors';

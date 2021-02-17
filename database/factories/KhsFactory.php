@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Khs;
+use App\Models\Khs;
 use Faker\Generator as Faker;
 
 $factory->define(Khs::class, function (Faker $faker) {
