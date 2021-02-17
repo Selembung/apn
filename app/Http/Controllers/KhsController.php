@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\AcademicYear;
 use App\Khs;
+use Carbon\Carbon;
+use DataTables;
+use Fpdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use DataTables;
 use Illuminate\Support\Facades\DB;
-use Fpdf;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
-
 
 class KhsController extends Controller
 {
@@ -19,7 +18,7 @@ class KhsController extends Controller
     {
         $user_id = Auth::user()->id;
         \DB::table('khs')
-            // ->join('teachers', 'teachers.guru_id', '=', 'khs.guru_id')  
+            // ->join('teachers', 'teachers.guru_id', '=', 'khs.guru_id')
             ->join('courses', 'courses.kode_mp', '=', 'khs.kode_mp')
             ->where('khs.user_id', $user_id)
             ->get();
@@ -69,7 +68,6 @@ class KhsController extends Controller
         return view('khs.index', $data);
     }
 
-
     public function KHSpdf()
     {
         $user_id = Auth::user()->id;
@@ -84,11 +82,10 @@ class KhsController extends Controller
         Fpdf::SetFont('Courier', 'B', 12);
         // Fpdf::Cell(50, 25, 'Hello World!');
 
-
         Fpdf::Cell(30, 7, 'NIS', 0, 0);
-        Fpdf::Cell(10, 7, ':' . $khs[0]->nis, 0, 1);
+        Fpdf::Cell(10, 7, ':'.$khs[0]->nis, 0, 1);
         Fpdf::Cell(30, 7, 'Nama', 0, 0);
-        Fpdf::Cell(10, 7, ':'  . $khs[0]->nama, 0, 1);
+        Fpdf::Cell(10, 7, ':'.$khs[0]->nama, 0, 1);
         Fpdf::SetFont('Courier', 'B', 12);
 
         Fpdf::Cell(10, 5, '', 0, 1);

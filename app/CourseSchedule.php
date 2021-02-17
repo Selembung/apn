@@ -14,6 +14,6 @@ class CourseSchedule extends Model
         'kode_ruangan',
         'jam',
         'semester',
-        'kode_tahun_akademik'
+        'kode_tahun_akademik',
     ];
 }

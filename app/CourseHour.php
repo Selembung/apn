@@ -10,6 +10,6 @@ class CourseHour extends Model
 
     protected $fillable = [
         'jam_masuk',
-        'jam_keluar'
+        'jam_keluar',
     ];
 }

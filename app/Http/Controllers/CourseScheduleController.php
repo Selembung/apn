@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use App\LogActivity;
-use App\CourseSchedule;
-use App\Major;
+use App\AcademicYear;
 use App\Course;
+use App\CourseHour;
+use App\CourseSchedule;
+use App\Http\Requests\CourseScheduleRequest;
+use App\LogActivity;
+use App\Major;
+use App\Room;
 use App\Teacher;
 use App\User;
-use App\Room;
-use App\CourseHour;
-use App\AcademicYear;
-use App\Http\Requests\CourseScheduleRequest;
-use Session;
+use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class CourseScheduleController extends Controller
 {
@@ -68,14 +68,14 @@ class CourseScheduleController extends Controller
      */
     public function create()
     {
-        $data['ay']      = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
+        $data['ay'] = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
         // $data['ay']      = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
-        $data['major']   = Major::pluck('nama_jurusan', 'kode_jurusan');
-        $data['course']  = Course::pluck('nama_mp', 'kode_mp');
+        $data['major'] = Major::pluck('nama_jurusan', 'kode_jurusan');
+        $data['course'] = Course::pluck('nama_mp', 'kode_mp');
         $data['teacher'] = Teacher::pluck('nama', 'guru_id');
-        $data['room']    = Room::pluck('nama_ruangan', 'kode_ruangan');
-        $data['ch']      = CourseHour::all();
-        $data['user']    = User::select('name', 'id')->get();
+        $data['room'] = Room::pluck('nama_ruangan', 'kode_ruangan');
+        $data['ch'] = CourseHour::all();
+        $data['user'] = User::select('name', 'id')->get();
 
         return view('course-schedule.create', $data);
     }
@@ -97,9 +97,9 @@ class CourseScheduleController extends Controller
         // $logActivities->activity_name = "Menambahkan data jadwal pelajaran";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data jadwal pelajaran: ' . $request->kode_tahun_akademik . ' - ' . $request->kode_mp . ' - ' . $request->semester . ' - ' . $request->kode_jurusan;
-        $filename = 'Log Jadwal Pelajaran-' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data jadwal pelajaran: '.$request->kode_tahun_akademik.' - '.$request->kode_mp.' - '.$request->semester.' - '.$request->kode_jurusan;
+        $filename = 'Log Jadwal Pelajaran-'.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -127,13 +127,13 @@ class CourseScheduleController extends Controller
     public function edit(CourseSchedule $courseSchedule)
     {
         // $data['ay']      = AcademicYear::select('kode_tahun_akademik', 'tahun_akademik')->where('status', 'Aktif')->get();
-        $data['ay']      = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
-        $data['major']   = Major::pluck('nama_jurusan', 'kode_jurusan');
-        $data['course']  = Course::pluck('nama_mp', 'kode_mp');
+        $data['ay'] = AcademicYear::pluck('tahun_akademik', 'kode_tahun_akademik');
+        $data['major'] = Major::pluck('nama_jurusan', 'kode_jurusan');
+        $data['course'] = Course::pluck('nama_mp', 'kode_mp');
         $data['teacher'] = Teacher::pluck('nama', 'guru_id');
-        $data['room']    = Room::pluck('nama_ruangan', 'kode_ruangan');
-        $data['ch']      = CourseHour::all('jam_masuk', 'jam_keluar');
-        $data['user']    = User::pluck('name', 'id');
+        $data['room'] = Room::pluck('nama_ruangan', 'kode_ruangan');
+        $data['ch'] = CourseHour::all('jam_masuk', 'jam_keluar');
+        $data['user'] = User::pluck('name', 'id');
 
         return view('course-schedule.edit', compact('courseSchedule'), $data);
     }
@@ -156,9 +156,9 @@ class CourseScheduleController extends Controller
         // $logActivities->activity_name = "Mengubah data jadwal pelajaran";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data jadwal pelajaran: ' . $request->kode_tahun_akademik . ' - ' . $request->kode_mp . ' - ' . $request->semester . ' - ' . $request->kode_jurusan;
-        $filename = 'Log Jadwal Pelajaran-' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data jadwal pelajaran: '.$request->kode_tahun_akademik.' - '.$request->kode_mp.' - '.$request->semester.' - '.$request->kode_jurusan;
+        $filename = 'Log Jadwal Pelajaran-'.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
@@ -181,9 +181,9 @@ class CourseScheduleController extends Controller
         // $logActivities->activity_name = "Menghapus data jadwal pelajaran";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data jadwal pelajaran: ' . $courseSchedule->kode_tahun_akademik . ' - ' . $courseSchedule->kode_mp . ' - ' . $courseSchedule->semester . ' - ' . $courseSchedule->kode_jurusan;
-        $filename = 'Log Jadwal Pelajaran-' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penghapusan data jadwal pelajaran: '.$courseSchedule->kode_tahun_akademik.' - '.$courseSchedule->kode_mp.' - '.$courseSchedule->semester.' - '.$courseSchedule->kode_jurusan;
+        $filename = 'Log Jadwal Pelajaran-'.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');

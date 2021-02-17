@@ -24,23 +24,23 @@ class CourseScheduleRequest extends FormRequest
     public function rules()
     {
         if ($this->method() == 'PATCH') {
-            $hari                = 'required';
-            $kode_jurusan        = 'required';
-            $kode_mp             = 'required';
+            $hari = 'required';
+            $kode_jurusan = 'required';
+            $kode_mp = 'required';
             $kode_tahun_akademik = 'required';
-            $user_id             = 'required';
-            $kode_ruangan        = 'required';
-            $jam                 = 'required';
-            $semester            = 'required';
+            $user_id = 'required';
+            $kode_ruangan = 'required';
+            $jam = 'required';
+            $semester = 'required';
         } else {
-            $hari                = 'required';
-            $kode_jurusan        = 'required';
-            $kode_mp             = 'required';
+            $hari = 'required';
+            $kode_jurusan = 'required';
+            $kode_mp = 'required';
             $kode_tahun_akademik = 'required';
-            $user_id             = 'required';
-            $kode_ruangan        = 'required';
-            $jam                 = 'required';
-            $semester            = 'required';
+            $user_id = 'required';
+            $kode_ruangan = 'required';
+            $jam = 'required';
+            $semester = 'required';
         }
 
         return [

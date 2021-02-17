@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Course;
 use App\Http\Requests\CourseRequest;
-use Illuminate\Support\Facades\Auth;
 use App\LogActivity;
-use DataTables;
-use Session;
 use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class CourseController extends Controller
 {
@@ -64,9 +64,9 @@ class CourseController extends Controller
         // $logActivities->activity_name = "Menambahkan data mata pelajaran: " . $request->nama_mp;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data mata pelajaran: ' . $request->nama_mp;
-        $filename = 'Log Mata Pelajaran - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data mata pelajaran: '.$request->nama_mp;
+        $filename = 'Log Mata Pelajaran - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -114,9 +114,9 @@ class CourseController extends Controller
         // $logActivities->activity_name = "Mengubah data mata pelajaran: " . $request->nama_mp;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data mata pelajaran: ' . $request->nama_mp;
-        $filename = 'Log Mata Pelajaran - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data mata pelajaran: '.$request->nama_mp;
+        $filename = 'Log Mata Pelajaran - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
@@ -139,9 +139,9 @@ class CourseController extends Controller
         // $logActivities->activity_name = "Menghapus data mata pelajaran: " . $course->nama_mp;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data mata pelajaran: ' . $course->nama_mp;
-        $filename = 'Log Mata Pelajaran - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penghapusan data mata pelajaran: '.$course->nama_mp;
+        $filename = 'Log Mata Pelajaran - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');

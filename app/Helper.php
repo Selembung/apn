@@ -7,26 +7,28 @@ function get_tahun_akademik($field)
     $academic_year = \DB::table('academic_years')
         ->where('status', 'Aktif')
         ->first();
+
     return $academic_year->$field;
 }
 
-class PDF extends Fpdf
+class Helper extends Fpdf
 {
-    function Footer()
+    public function Footer()
     {
         // Go to 1.5 cm from bottom
         $this->SetY(-15);
         // Select Arial italic 8
         $this->SetFont('Arial', 'I', 8);
         // Print centered page number
-        $this->Cell(0, 10, 'Page ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        $this->Cell(0, 10, 'Page '.$this->PageNo().'/{nb}', 0, 0, 'C');
     }
 
-    function WordWrap(&$text, $maxwidth)
+    public function WordWrap(&$text, $maxwidth)
     {
         $text = trim($text);
-        if ($text === '')
+        if ($text === '') {
             return 0;
+        }
         $space = $this->GetStringWidth(' ');
         $lines = explode("\n", $text);
         $text = '';
@@ -47,23 +49,24 @@ class PDF extends Fpdf
                             $text .= substr($word, $i, 1);
                         } else {
                             $width = $wordwidth;
-                            $text = rtrim($text) . "\n" . substr($word, $i, 1);
+                            $text = rtrim($text)."\n".substr($word, $i, 1);
                             $count++;
                         }
                     }
                 } elseif ($width + $wordwidth <= $maxwidth) {
                     $width += $wordwidth + $space;
-                    $text .= $word . ' ';
+                    $text .= $word.' ';
                 } else {
                     $width = $wordwidth + $space;
-                    $text = rtrim($text) . "\n" . $word . ' ';
+                    $text = rtrim($text)."\n".$word.' ';
                     $count++;
                 }
             }
-            $text = rtrim($text) . "\n";
+            $text = rtrim($text)."\n";
             $count++;
         }
         $text = rtrim($text);
+
         return $count;
     }
 }
