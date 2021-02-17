@@ -182,7 +182,7 @@ class TeacherController extends Controller
         INNER JOIN users ON users.id = teachers.guru_id  
         WHERE teachers.guru_id = ?";
 
-        \DB::delete($query, array($teacher->guru_id));
+        \DB::delete($query, [$teacher->guru_id]);
 
         Session::flash('message', 'Data has been deleted!');
         Session::flash('important', true);

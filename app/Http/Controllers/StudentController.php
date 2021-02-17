@@ -183,7 +183,7 @@ class StudentController extends Controller
         INNER JOIN users ON users.id = students.user_id  
         WHERE students.user_id = ?";
 
-        \DB::delete($query, array($student->user_id));
+        \DB::delete($query, [$student->user_id]);
 
         // $logActivities = new LogActivity;
         // $logActivities->user_id = Auth::user()->id;
