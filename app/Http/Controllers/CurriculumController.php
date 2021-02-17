@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\Curriculum;
+use App\Models\Course;
+use App\Models\Curriculum;
 use App\Http\Requests\CurriculumRequest;
-use App\LogActivity;
-use App\Major;
+use App\Models\LogActivity;
+use App\Models\Major;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -103,7 +103,7 @@ class CurriculumController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function show(Curriculum $curriculum)
@@ -119,7 +119,7 @@ class CurriculumController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function edit(Curriculum $curriculum)
@@ -134,7 +134,7 @@ class CurriculumController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function update(CurriculumRequest $request, Curriculum $curriculum)
@@ -161,7 +161,7 @@ class CurriculumController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Curriculum  $curriculum
+     * @param  \App\Models\Curriculum  $curriculum
      * @return \Illuminate\Http\Response
      */
     public function destroy(Curriculum $curriculum)

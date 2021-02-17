@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\LogActivity;
+use App\Models\LogActivity;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class LogActivityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\LogActivity  $logActivity
+     * @param  \App\Models\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
     public function show($fileName)
@@ -91,7 +91,7 @@ class LogActivityController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\LogActivity  $logActivity
+     * @param  \App\Models\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
     public function edit(LogActivity $logActivity)
@@ -103,7 +103,7 @@ class LogActivityController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LogActivity  $logActivity
+     * @param  \App\Models\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, LogActivity $logActivity)
@@ -114,7 +114,7 @@ class LogActivityController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\LogActivity  $logActivity
+     * @param  \App\Models\LogActivity  $logActivity
      * @return \Illuminate\Http\Response
      */
     public function destroy($fileName)

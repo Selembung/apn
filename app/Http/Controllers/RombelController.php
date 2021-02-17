@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RombelRequest;
-use App\LogActivity;
-use App\Rombel;
-use App\Student;
+use App\Models\LogActivity;
+use App\Models\Rombel;
+use App\Models\Student;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

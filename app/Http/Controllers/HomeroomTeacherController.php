@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\HomeroomTeacher;
+use App\Models\HomeroomTeacher;
 use App\Http\Requests\HomeroomTeacherRequest;
-use App\LogActivity;
-use App\Rombel;
-use App\Teacher;
+use App\Models\LogActivity;
+use App\Models\Rombel;
+use App\Models\Teacher;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -86,7 +86,7 @@ class HomeroomTeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\HomeroomTeacher  $homeroomTeacher
+     * @param  \App\Models\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
     public function show(HomeroomTeacher $homeroomTeacher)
@@ -100,7 +100,7 @@ class HomeroomTeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\HomeroomTeacher  $homeroomTeacher
+     * @param  \App\Models\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
     public function edit(HomeroomTeacher $homeroomTeacher)
@@ -115,7 +115,7 @@ class HomeroomTeacherController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\HomeroomTeacher  $homeroomTeacher
+     * @param  \App\Models\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
     public function update(HomeroomTeacherRequest $request, HomeroomTeacher $homeroomTeacher)
@@ -142,7 +142,7 @@ class HomeroomTeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\HomeroomTeacher  $homeroomTeacher
+     * @param  \App\Models\HomeroomTeacher  $homeroomTeacher
      * @return \Illuminate\Http\Response
      */
     public function destroy(HomeroomTeacher $homeroomTeacher)

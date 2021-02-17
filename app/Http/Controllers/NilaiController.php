@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Khs;
+use App\Models\Khs;
 use Carbon\Carbon;
 use DB;
 use Fpdf;

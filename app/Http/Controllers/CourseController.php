@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
+use App\Models\Course;
 use App\Http\Requests\CourseRequest;
-use App\LogActivity;
+use App\Models\LogActivity;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

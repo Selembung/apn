@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\AcademicYear;
-use App\Khs;
+use App\Models\AcademicYear;
+use App\Models\Khs;
 use Carbon\Carbon;
 use DataTables;
 use Fpdf;

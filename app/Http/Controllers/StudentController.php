@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\AcademicYear;
+use App\Models\AcademicYear;
 use App\Http\Requests\StudentRequest;
-use App\LogActivity;
-use App\Major;
-use App\Rombel;
-use App\Student;
-use App\User;
+use App\Models\LogActivity;
+use App\Models\Major;
+use App\Models\Rombel;
+use App\Models\Student;
+use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -105,7 +105,7 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function show(Student $student)
@@ -116,7 +116,7 @@ class StudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function edit(Student $student)
@@ -139,7 +139,7 @@ class StudentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function update(StudentRequest $request, Student $student)
@@ -174,7 +174,7 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Student  $student
+     * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\Response
      */
     public function destroy(Student $student)

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
-use App\Khs;
-use App\Krs;
-use App\Major;
-use App\Student;
+use App\Models\Course;
+use App\Models\Khs;
+use App\Models\Krs;
+use App\Models\Major;
+use App\Models\Student;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

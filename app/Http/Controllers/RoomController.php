@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoomRequest;
-use App\LogActivity;
-use App\Room;
+use App\Models\LogActivity;
+use App\Models\Room;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

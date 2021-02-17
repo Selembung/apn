@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MajorRequest;
-use App\LogActivity;
-use App\Major;
+use App\Models\LogActivity;
+use App\Models\Major;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -77,7 +77,7 @@ class MajorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Major  $major
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
     public function show(Major $major)
@@ -88,7 +88,7 @@ class MajorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Major  $major
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
     public function edit(Major $major)
@@ -100,7 +100,7 @@ class MajorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Major  $major
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
     public function update(MajorRequest $request, Major $major)
@@ -127,7 +127,7 @@ class MajorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Major  $major
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
     public function destroy(Major $major)

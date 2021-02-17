@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\LogActivity;
+use App\Models\LogActivity;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;

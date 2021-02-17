@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\AcademicYear;
-use App\Course;
-use App\CourseHour;
-use App\CourseSchedule;
+use App\Models\AcademicYear;
+use App\Models\Course;
+use App\Models\CourseHour;
+use App\Models\CourseSchedule;
 use App\Http\Requests\CourseScheduleRequest;
-use App\LogActivity;
-use App\Major;
-use App\Room;
-use App\Teacher;
-use App\User;
+use App\Models\LogActivity;
+use App\Models\Major;
+use App\Models\Room;
+use App\Models\Teacher;
+use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

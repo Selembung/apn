@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
-use App\LogActivity;
-use App\Teacher;
-use App\User;
+use App\Models\LogActivity;
+use App\Models\Teacher;
+use App\Models\User;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -115,7 +115,7 @@ class TeacherController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
     public function show(TeacherRequest $teacher)
@@ -126,7 +126,7 @@ class TeacherController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
     public function edit(Teacher $teacher)
@@ -138,7 +138,7 @@ class TeacherController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
     public function update(TeacherRequest $request, Teacher $teacher)
@@ -171,7 +171,7 @@ class TeacherController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Teacher  $teacher
+     * @param  \App\Models\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
     public function destroy(Teacher $teacher)

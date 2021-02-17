@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class Curriculum extends Model
 
     public function pelajaran()
     {
-        return $this->belongsTo(\App\Course::class, 'kode_mp');
+        return $this->belongsTo(\App\Models\Course::class, 'kode_mp');
     }
 }

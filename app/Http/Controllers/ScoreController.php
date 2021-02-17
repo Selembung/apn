@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ScoreRequest;
-use App\Khs;
-use App\LogActivity;
-use App\Score;
+use App\Models\Khs;
+use App\Models\LogActivity;
+use App\Models\Score;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;

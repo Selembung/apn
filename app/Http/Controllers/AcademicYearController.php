@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\AcademicYear;
+use App\Models\AcademicYear;
 use App\Http\Requests\AcademicYearRequest;
-use App\LogActivity;
+use App\Models\LogActivity;
 use Carbon\Carbon;
 use DataTables;
 use Illuminate\Http\Request;
@@ -77,7 +77,7 @@ class AcademicYearController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function show(AcademicYear $academicYear)
@@ -88,7 +88,7 @@ class AcademicYearController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function edit(AcademicYear $academicYear)
@@ -100,7 +100,7 @@ class AcademicYearController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function update(AcademicYearRequest $request, AcademicYear $academicYear)
@@ -127,7 +127,7 @@ class AcademicYearController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AcademicYear  $academicYear
+     * @param  \App\Models\AcademicYear  $academicYear
      * @return \Illuminate\Http\Response
      */
     public function destroy(AcademicYear $academicYear)
