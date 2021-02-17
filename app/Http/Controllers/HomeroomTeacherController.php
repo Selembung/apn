@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\HomeroomTeacher;
-use App\Teacher;
-use App\Rombel;
-use Illuminate\Support\Facades\Auth;
-use App\LogActivity;
 use App\Http\Requests\HomeroomTeacherRequest;
-use Illuminate\Http\Request;
-use Session;
-use DataTables;
+use App\LogActivity;
+use App\Rombel;
+use App\Teacher;
 use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class HomeroomTeacherController extends Controller
 {
@@ -51,7 +51,7 @@ class HomeroomTeacherController extends Controller
     public function create()
     {
         $data['teacher'] = Teacher::pluck('nama', 'kode_guru');
-        $data['rombel']  = Rombel::pluck('nama_rombel', 'kode_rombel');
+        $data['rombel'] = Rombel::pluck('nama_rombel', 'kode_rombel');
 
         return view('homeroom-teacher.create', $data);
     }
@@ -73,9 +73,9 @@ class HomeroomTeacherController extends Controller
         // $logActivities->activity_name = "Menambahkan data wali kelas ( Rombel: " . $request->kode_rombel . " , dengan Wali Kelas: " . $request->kode_rombel . " )";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data wali kelas: Rombel: ' . $request->kode_rombel . ' dengan Wali Kelas: ' .  $request->kode_rombel;
-        $filename = 'Log Wali Kelas - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data wali kelas: Rombel: '.$request->kode_rombel.' dengan Wali Kelas: '.$request->kode_rombel;
+        $filename = 'Log Wali Kelas - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -92,7 +92,7 @@ class HomeroomTeacherController extends Controller
     public function show(HomeroomTeacher $homeroomTeacher)
     {
         $data['teacher'] = Teacher::pluck('nama', 'kode_guru');
-        $data['rombel']  = Rombel::pluck('nama_rombel', 'kode_rombel');
+        $data['rombel'] = Rombel::pluck('nama_rombel', 'kode_rombel');
 
         return view('homeroom-teacher.edit', compact('wk'), $data);
     }
@@ -106,7 +106,7 @@ class HomeroomTeacherController extends Controller
     public function edit(HomeroomTeacher $homeroomTeacher)
     {
         $data['teacher'] = Teacher::pluck('nama', 'kode_guru');
-        $data['rombel']  = Rombel::pluck('nama_rombel', 'kode_rombel');
+        $data['rombel'] = Rombel::pluck('nama_rombel', 'kode_rombel');
 
         return view('homeroom-teacher.edit', compact('homeroomTeacher'), $data);
     }
@@ -129,9 +129,9 @@ class HomeroomTeacherController extends Controller
         // $logActivities->activity_name = "Mengubah data wali kelas ( Rombel: " . $request->kode_rombel . " , dengan Wali Kelas: " . $request->kode_rombel . " )";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data wali kelas | Rombel: ' . $request->kode_rombel . ' dengan Wali Kelas: ' .  $request->kode_rombel;
-        $filename = 'Log Wali Kelas - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data wali kelas | Rombel: '.$request->kode_rombel.' dengan Wali Kelas: '.$request->kode_rombel;
+        $filename = 'Log Wali Kelas - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
@@ -154,9 +154,9 @@ class HomeroomTeacherController extends Controller
         // $logActivities->activity_name = "Menghapus data wali kelas ( Rombel: " . $homeroomTeacher->kode_rombel . " , dengan Wali Kelas: " . $homeroomTeacher->kode_rombel . " )";
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data wali kelas | Rombel: ' . $homeroomTeacher->kode_rombel . ' dengan Wali Kelas: ' .  $homeroomTeacher->kode_rombel;
-        $filename = 'Log Wali Kelas - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data wali kelas | Rombel: '.$homeroomTeacher->kode_rombel.' dengan Wali Kelas: '.$homeroomTeacher->kode_rombel;
+        $filename = 'Log Wali Kelas - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');

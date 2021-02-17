@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class LogActivityController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +17,7 @@ class LogActivityController extends Controller
      */
     public function index(Request $request)
     {
-        if (!file_exists(storage_path('logs/activity-user'))) {
+        if (! file_exists(storage_path('logs/activity-user'))) {
             return [];
         }
 
@@ -36,7 +35,7 @@ class LogActivityController extends Controller
         // });
         $paginator = new \Illuminate\Pagination\LengthAwarePaginator($slice, $logFiles->count(), $onPage);
 
-        return view('log-activity.index', compact('logFiles'))->with('logFiles', $paginator);;
+        return view('log-activity.index', compact('logFiles'))->with('logFiles', $paginator);
     }
 
     /**
@@ -68,8 +67,8 @@ class LogActivityController extends Controller
      */
     public function show($fileName)
     {
-        if (file_exists(storage_path('logs/activity-user/' . $fileName))) {
-            $path = storage_path('logs/activity-user/' . $fileName);
+        if (file_exists(storage_path('logs/activity-user/'.$fileName))) {
+            $path = storage_path('logs/activity-user/'.$fileName);
 
             return response()->file($path, ['content-type' => 'text/plain']);
         }
@@ -79,9 +78,9 @@ class LogActivityController extends Controller
 
     public function download($fileName)
     {
-        if (file_exists(storage_path('logs/activity-user/' . $fileName))) {
-            $path = storage_path('logs/activity-user/' . $fileName);
-            $downloadFileName = env('APP_ENV') . '.' . $fileName;
+        if (file_exists(storage_path('logs/activity-user/'.$fileName))) {
+            $path = storage_path('logs/activity-user/'.$fileName);
+            $downloadFileName = env('APP_ENV').'.'.$fileName;
 
             return response()->download($path, $downloadFileName);
         }
@@ -120,10 +119,12 @@ class LogActivityController extends Controller
      */
     public function destroy($fileName)
     {
-        if (file_exists(storage_path('logs/activity-user/' . $fileName))) {
+        if (file_exists(storage_path('logs/activity-user/'.$fileName))) {
             Storage::disk('activityLog')->delete($fileName);
+
             return redirect('log-activity');
         }
+
         return 'Invalid file name.';
     }
 }

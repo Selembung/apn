@@ -11,6 +11,6 @@ class Krs extends Model
         'guru_id',
         'kode_mp',
         'kode_tahun_akademik',
-        'semester'
+        'semester',
     ];
 }

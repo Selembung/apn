@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoomRequest;
+use App\LogActivity;
 use App\Room;
+use Carbon\Carbon;
+use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\LogActivity;
-use DataTables;
-use Session;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class RoomController extends Controller
 {
@@ -26,6 +26,7 @@ class RoomController extends Controller
             })
             ->make(true);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -63,9 +64,9 @@ class RoomController extends Controller
         // $logActivities->activity_name = "Menambahkan data ruangan: " . $request->nama_ruangan;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data ruangan: ' . $request->nama_ruangan;
-        $filename = 'Log Ruangan - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data ruangan: '.$request->nama_ruangan;
+        $filename = 'Log Ruangan - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -113,9 +114,9 @@ class RoomController extends Controller
         // $logActivities->activity_name = "Mengubah data ruangan: " . $request->nama_ruangan;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data ruangan: ' . $request->nama_ruangan;
-        $filename = 'Log Ruangan - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data ruangan: '.$request->nama_ruangan;
+        $filename = 'Log Ruangan - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been updated!');
@@ -138,9 +139,9 @@ class RoomController extends Controller
         // $logActivities->activity_name = "Menghapus data ruangan: " . $room->nama_ruangan;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data ruangan: ' . $room->nama_ruangan;
-        $filename = 'Log Ruangan - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penghapusan data ruangan: '.$room->nama_ruangan;
+        $filename = 'Log Ruangan - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');

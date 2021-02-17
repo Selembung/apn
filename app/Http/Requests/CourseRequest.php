@@ -23,21 +23,21 @@ class CourseRequest extends FormRequest
      */
     public function rules()
     {
-        $kode_mp = NULL;
+        $kode_mp = null;
 
         if ($this->course) {
-            $course   = $this->course->kode_mp;
-            $kode_mp  = $course . ",kode_mp";
+            $course = $this->course->kode_mp;
+            $kode_mp = $course.',kode_mp';
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $kode_mp    = 'required|min:5|unique:courses,kode_mp,' . $kode_mp;
-            $nama_mp    = 'required|min:3';
+            $kode_mp = 'required|min:5|unique:courses,kode_mp,'.$kode_mp;
+            $nama_mp = 'required|min:3';
             $jumlah_sks = 'required';
         } else {
-            $kode_mp    = 'required|min:5|unique:courses';
-            $nama_mp    = 'required|min:3';
+            $kode_mp = 'required|min:5|unique:courses';
+            $nama_mp = 'required|min:3';
             $jumlah_sks = 'required';
         }
 

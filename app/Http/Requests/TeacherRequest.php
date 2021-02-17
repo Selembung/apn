@@ -23,29 +23,29 @@ class TeacherRequest extends FormRequest
      */
     public function rules()
     {
-        $nig = NULL;
-        $kode_guru = NULL;
+        $nig = null;
+        $kode_guru = null;
 
         if ($this->teacher) {
-            $teacher    = $this->teacher->nig;
+            $teacher = $this->teacher->nig;
             $teacher_kg = $this->teacher->kode_guru;
-            $nig     = $teacher . ",nig";
-            $kode_guru = $teacher . ",kode_guru";
+            $nig = $teacher.',nig';
+            $kode_guru = $teacher.',kode_guru';
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $nig        = 'required|min:5|unique:teachers,nig,' . $nig;
-            $kode_guru  = 'required|min:3|unique:teachers,kode_guru,' . $kode_guru;
-            $nama       = 'required|min:3';
+            $nig = 'required|min:5|unique:teachers,nig,'.$nig;
+            $kode_guru = 'required|min:3|unique:teachers,kode_guru,'.$kode_guru;
+            $nama = 'required|min:3';
             $no_telepon = 'required|min:10|max:12';
-            $email      = 'required';
+            $email = 'required';
         } else {
-            $nig        = 'required|min:5|unique:teachers';
-            $kode_guru  = 'required|min:3|unique:teachers';
-            $nama       = 'required|min:3';
+            $nig = 'required|min:5|unique:teachers';
+            $kode_guru = 'required|min:3|unique:teachers';
+            $nama = 'required|min:3';
             $no_telepon = 'required|min:10|max:12';
-            $email      = 'required';
+            $email = 'required';
         }
 
         return [
