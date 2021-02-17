@@ -23,17 +23,17 @@ class RoomRequest extends FormRequest
      */
     public function rules()
     {
-        $kode_ruangan = NULL;
+        $kode_ruangan = null;
 
         if ($this->room) {
-            $room         = $this->room->kode_ruangan;
-            $kode_ruangan = $room . ",kode_ruangan";
+            $room = $this->room->kode_ruangan;
+            $kode_ruangan = $room.',kode_ruangan';
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $kode_ruangan  = 'required|min:3|unique:rooms,kode_ruangan,' . $kode_ruangan;
-            $nama_ruangan  = 'required|min:5';
+            $kode_ruangan = 'required|min:3|unique:rooms,kode_ruangan,'.$kode_ruangan;
+            $nama_ruangan = 'required|min:5';
         } else {
             $kode_ruangan = 'required|min:3|unique:rooms';
             $nama_ruangan = 'required|min:5';

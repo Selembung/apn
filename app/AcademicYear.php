@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AcademicYear extends Model
 {
     protected $primaryKey = 'kode_tahun_akademik';
-    public $incrementing  = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'kode_tahun_akademik',

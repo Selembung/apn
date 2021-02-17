@@ -23,43 +23,43 @@ class StudentRequest extends FormRequest
      */
     public function rules()
     {
-        $nis = NULL;
-        $nisn = NULL;
+        $nis = null;
+        $nisn = null;
 
         if ($this->student) {
-            $student      = $this->student->nis;
+            $student = $this->student->nis;
             $student_nisn = $this->student->nisn;
-            $nis  = $student . ",nis";
-            $nisn = $student_nisn . ",nisn";
+            $nis = $student.',nis';
+            $nisn = $student_nisn.',nisn';
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $nis                 = 'required|min:2|unique:students,nis,' . $nis;
-            $nama                = 'required|min:5|String';
-            $nisn                = 'required|numeric|digits:10|unique:students,nisn,' . $nisn;
-            $tempat_lahir        = 'required|String';
-            $tanggal_lahir       = 'required|date';
-            $jenis_kelamin       = 'required';
-            $agama               = 'required';
-            $email               = 'required|email';
+            $nis = 'required|min:2|unique:students,nis,'.$nis;
+            $nama = 'required|min:5|String';
+            $nisn = 'required|numeric|digits:10|unique:students,nisn,'.$nisn;
+            $tempat_lahir = 'required|String';
+            $tanggal_lahir = 'required|date';
+            $jenis_kelamin = 'required';
+            $agama = 'required';
+            $email = 'required|email';
             $kode_tahun_akademik = 'required';
-            $semester_aktif      = 'required';
-            $jurusan             = 'required';
-            $alamat              = 'required|min:5|String';
+            $semester_aktif = 'required';
+            $jurusan = 'required';
+            $alamat = 'required|min:5|String';
         } else {
-            $nis                 = 'required|min:2|unique:students';
-            $nisn                = 'required|digits:10|numeric|unique:students';
-            $tempat_lahir        = 'required|String';
-            $tanggal_lahir       = 'required|date';
-            $jenis_kelamin       = 'required';
-            $agama               = 'required';
-            $nama                = 'required|min:5|String';
-            $email               = 'required|email|unique:students';
+            $nis = 'required|min:2|unique:students';
+            $nisn = 'required|digits:10|numeric|unique:students';
+            $tempat_lahir = 'required|String';
+            $tanggal_lahir = 'required|date';
+            $jenis_kelamin = 'required';
+            $agama = 'required';
+            $nama = 'required|min:5|String';
+            $email = 'required|email|unique:students';
             $kode_tahun_akademik = 'required';
-            $semester_aktif      = 'required';
-            $jurusan             = 'required';
-            $alamat              = 'required|min:5|String';
+            $semester_aktif = 'required';
+            $jurusan = 'required';
+            $alamat = 'required|min:5|String';
         }
 
         return [

@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RombelRequest;
+use App\LogActivity;
 use App\Rombel;
 use App\Student;
-use Illuminate\Support\Facades\Auth;
-use App\LogActivity;
-use Illuminate\Http\Request;
-use DataTables;
-use Session;
-use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
+use DataTables;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class RombelController extends Controller
 {
@@ -46,10 +46,11 @@ class RombelController extends Controller
 
         return DataTables::of($student)
             ->addColumn('action', function ($student) {
-                $action  = '<a href="/student/' . $student->nis . '/edit-rombel" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
+                $action = '<a href="/student/'.$student->nis.'/edit-rombel" class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="tooltip"
                             data-original-title="Ubah Rombel Siswa">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>';
+
                 return $action;
             })
             ->make(true);
@@ -102,9 +103,9 @@ class RombelController extends Controller
         // $logActivities->activity_name = "Menambahkan data rombel: " . $request->nama_rombel;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penambahan data rombel: ' . $request->kode_rombel . ' - ' . $request->nama_rombel;
-        $filename = 'Log Rombel - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penambahan data rombel: '.$request->kode_rombel.' - '.$request->nama_rombel;
+        $filename = 'Log Rombel - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been saved!');
@@ -154,11 +155,10 @@ class RombelController extends Controller
         // $logActivities->activity_name = "Mengubah data rombel: " . $request->nama_rombel;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan data rombel: ' . $request->kode_rombel . ' - ' . $request->nama_rombel;
-        $filename = 'Log Rombel - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan data rombel: '.$request->kode_rombel.' - '.$request->nama_rombel;
+        $filename = 'Log Rombel - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
-
 
         Session::flash('message', 'Data has been updated!');
 
@@ -180,9 +180,9 @@ class RombelController extends Controller
         // $logActivities->activity_name = "Menghapus data rombel: " . $rombel->nama_rombel;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan penghapusan data rombel: ' . $rombel->kode_rombel . ' - ' . $rombel->nama_rombel;
-        $filename = 'Log Rombel - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan penghapusan data rombel: '.$rombel->kode_rombel.' - '.$rombel->nama_rombel;
+        $filename = 'Log Rombel - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
 
         Session::flash('message', 'Data has been deleted!');
@@ -202,9 +202,9 @@ class RombelController extends Controller
         // $logActivities->activity_name = "Melakukan perubahan rombel pada siswa dengan NIS: " . $request->nis;
         // $logActivities->save();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan perubahan rombel siswa: ' . $request->nisl;
-        $filename = 'Log Rombel - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan perubahan rombel siswa: '.$request->nisl;
+        $filename = 'Log Rombel - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }
 

@@ -23,20 +23,20 @@ class HomeroomTeacherRequest extends FormRequest
      */
     public function rules()
     {
-        $kode_rombel = NULL;
+        $kode_rombel = null;
 
         if ($this->homeroom_teacher) {
-            $rombel       = $this->homeroom_teacher->kode_rombel;
-            $kode_rombel  = $rombel . ",kode_rombel";
+            $rombel = $this->homeroom_teacher->kode_rombel;
+            $kode_rombel = $rombel.',kode_rombel';
         }
 
         // Cek apakah CREATE atau UPDATE
         if ($this->method() == 'PATCH') {
-            $kode_rombel = 'required|min:5|unique:homeroom_teachers,kode_rombel,' .  $kode_rombel;
-            $kode_guru   = 'required|min:5|unique:homeroom_teachers,kode_guru,';
+            $kode_rombel = 'required|min:5|unique:homeroom_teachers,kode_rombel,'.$kode_rombel;
+            $kode_guru = 'required|min:5|unique:homeroom_teachers,kode_guru,';
         } else {
             $kode_rombel = 'required|min:5|unique:homeroom_teachers';
-            $kode_guru   = 'required|min:5|unique:homeroom_teachers';
+            $kode_guru = 'required|min:5|unique:homeroom_teachers';
         }
 
         return [

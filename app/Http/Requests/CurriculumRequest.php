@@ -25,12 +25,12 @@ class CurriculumRequest extends FormRequest
     {
         if ($this->method() == 'PATCH') {
             $kode_jurusan = 'required';
-            $kode_mp      = 'required';
-            $semester     = 'required';
+            $kode_mp = 'required';
+            $semester = 'required';
         } else {
             $kode_jurusan = 'required';
-            $kode_mp      = 'required';
-            $semester     = 'required';
+            $kode_mp = 'required';
+            $semester = 'required';
         }
 
         return [

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Khs;
 use Carbon\Carbon;
+use DB;
+use Fpdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Fpdf;
-use PDF;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class NilaiController extends Controller
 {
@@ -57,7 +57,7 @@ class NilaiController extends Controller
         $pdf->AliasNbPages();
         $pdf->SetFont('Times', 'B', 20);
 
-        $pdf->Cell(190, 20, 'Leger Nilai ' . $data[0]->kode_rombel, 0, 1, 'C');
+        $pdf->Cell(190, 20, 'Leger Nilai '.$data[0]->kode_rombel, 0, 1, 'C');
 
         $pdf->SetFont('Times', 'B', 12);
         $pdf->Cell(10, 10, 'No.', 1, 0, 'C');
@@ -70,7 +70,7 @@ class NilaiController extends Controller
         $no = 1;
 
         foreach ($data as $row) {
-            $pdf->Cell(10, 7, $no . '.', 1, 0, 'C');
+            $pdf->Cell(10, 7, $no.'.', 1, 0, 'C');
             $pdf->Cell(50, 7, $row->nama_siswa, 1, 0);
             if ($row->nama_mp == 'Pendidikan Agama dan Budi Pekerti' or $row->nama_mp == 'Pendidikan Pancasila dan Kewarganegaraan' or $row->nama_mp == 'Pendidikan Jasmani, Olahraga dan Kesehatan' or $row->nama_mp == 'Otomatisasi Tata Kelola Sarana dan Prasarana' or $row->nama_mp == 'Pemeliharaan Kelistrikan Kendaraan Ringan' or $row->nama_mp == 'Pendidikan Pancasila dan Kewarganegaraan' or $row->nama_mp == 'Pemeliharaan Sasis dan Pemindah Tenaga Kendaraan Ringan' or $row->nama_mp == 'Pemrograman Web dan Perangkat Bergerak' or $row->nama_mp == 'Sanitasi, Hygiene dan Keselamatan Kerja' or $row->nama_mp == 'Pemeliharaan Mesin Kendaraan Ringan') {
                 $pdf->SetFont('Times', '', 10);
@@ -81,7 +81,7 @@ class NilaiController extends Controller
             }
             $pdf->Cell(20, 7, $row->nilai_akhir, 1, 0, 'C');
             $pdf->Cell(20, 7, $row->nilai_praktek, 1, 0, 'C');
-            if (!$row->nilai_sikap == '') {
+            if (! $row->nilai_sikap == '') {
                 $pdf->Cell(20, 7, $row->nilai_sikap, 1, 1, 'C');
             } else {
                 $pdf->Cell(20, 7, '-', 1, 1, 'C');
@@ -89,12 +89,12 @@ class NilaiController extends Controller
             $no++;
         }
 
-        $pdf->Output('Leger Nilai ' . $data[0]->kode_rombel . ".pdf", 'D');
+        $pdf->Output('Leger Nilai '.$data[0]->kode_rombel.'.pdf', 'D');
         exit();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan pencetakan leger nilai pada rombel | ' . $data[0]->kode_rombel;
-        $filename = 'Log Cetak Rapor - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan pencetakan leger nilai pada rombel | '.$data[0]->kode_rombel;
+        $filename = 'Log Cetak Rapor - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }
 
@@ -152,7 +152,6 @@ class NilaiController extends Controller
             ->select('students.nama AS nama_siswa', 'students.*', 'khs.*', 'courses.kode_mp', 'courses.nama_mp', 'academic_years.tahun_akademik', 'majors.nama_jurusan', 'teachers.nama AS walikelas')
             ->get();
 
-
         Fpdf::AddPage();
         Fpdf::SetFont('Times', 'B', 12);
 
@@ -165,12 +164,12 @@ class NilaiController extends Controller
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::SetFont('', '');
         Fpdf::Cell(35, 5, 'Kelas', 0, 0);
-        Fpdf::Cell(10, 5, ' : ' . $khs[0]->kode_rombel, 0, 1);
+        Fpdf::Cell(10, 5, ' : '.$khs[0]->kode_rombel, 0, 1);
 
         // Alamat dan Semester
         Fpdf::SetFont('Times', '', 12);
         Fpdf::Cell(35, 5, 'Alamat', 0, 0);
-        Fpdf::Cell(50, 5, ' : ' . $khs[0]->alamat, 0, 0);
+        Fpdf::Cell(50, 5, ' : '.$khs[0]->alamat, 0, 0);
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::Cell(35, 5, 'Semester', 0, 0);
         if ($khs[0]->semester == 1) {
@@ -196,15 +195,15 @@ class NilaiController extends Controller
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::SetFont('', '');
         Fpdf::Cell(35, 5, 'Tahun Pelajaran', 0, 0);
-        Fpdf::Cell(10, 5, ' : ' . $khs[0]->tahun_akademik, 0, 1);
+        Fpdf::Cell(10, 5, ' : '.$khs[0]->tahun_akademik, 0, 1);
 
         // NISN dan Jurusan
         Fpdf::SetFont('Times', '', 12);
         Fpdf::Cell(35, 5, 'NISN', 0, 0);
-        Fpdf::Cell(50, 5, ' : ' . $khs[0]->nisn, 0, 0);
+        Fpdf::Cell(50, 5, ' : '.$khs[0]->nisn, 0, 0);
         Fpdf::Cell(10, 5, '', 0, 0);
         Fpdf::Cell(35, 5, 'Bidang Keahlian', 0, 0);
-        Fpdf::Cell(10, 5, ' : ' . $khs[0]->nama_jurusan, 0, 1);
+        Fpdf::Cell(10, 5, ' : '.$khs[0]->nama_jurusan, 0, 1);
 
         Fpdf::Cell(10, 5, '', 0, 1);
 
@@ -219,10 +218,10 @@ class NilaiController extends Controller
         $noC = 1;
 
         Fpdf::setFillColor(230, 230, 230);
-        Fpdf::Cell(190, 8, 'A. Muatan Nasional', 1, 1, 'B', TRUE);
+        Fpdf::Cell(190, 8, 'A. Muatan Nasional', 1, 1, 'B', true);
         foreach ($khsA as $row) {
             if ($row->nama_mp == 'Pendidikan Agama dan Budi Pekerti' or $row->nama_mp == 'Pendidikan Pancasila dan Kewarganegaraan') {
-                Fpdf::Cell(10, 30, $no . '.', 1, 0, 'C');
+                Fpdf::Cell(10, 30, $no.'.', 1, 0, 'C');
                 Fpdf::SetFont('Times', '', 10);
                 Fpdf::Cell(70, 30, $row->nama_mp, 1, 0);
                 Fpdf::SetFont('Times', '', 12);
@@ -232,7 +231,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_akhir >= 89 && $row->nilai_akhir <= 100) {
                     Fpdf::Cell(55, 5, 'Sangat terampil memahami seluruh kompetensi', 1, 0);
-                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
+                } elseif ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
                     Fpdf::Cell(55, 5, 'Terampil sekali memahami seluruh kompetensi', 1, 0);
                 } else {
                     Fpdf::Cell(55, 5, 'Belum Terampil memahami seluruh kompetensi', 1, 0);
@@ -247,7 +246,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_praktek >= 89 && $row->nilai_praktek <= 100) {
                     Fpdf::Cell(55, 5, 'Sangat terampil memahami seluruh kompetensi', 1, 1);
-                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
+                } elseif ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
                     Fpdf::Cell(55, 5, 'Terampil sekali memahami seluruh kompetensi', 1, 1);
                 } else {
                     Fpdf::Cell(55, 5, 'Belum Terampil memahami seluruh kompetensi', 1, 1);
@@ -261,14 +260,14 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_sikap == 'A') {
                     Fpdf::MultiCell(55, 3.34, 'Baik dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
-                } else if ($row->nilai_sikap == 'B') {
+                } elseif ($row->nilai_sikap == 'B') {
                     Fpdf::MultiCell(55, 3.34, 'Baik dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
                 } else {
                     Fpdf::MultiCell(55, 3.34, 'Cukup dalam bersyukur, selalu berdoa sebelum melakukan kegiatan, toleran pada agama yang berbeda dan perlu meningkatkan ketaatan beribadah serta selalu bersikap santun, peduli, percaya diri dan perlu meningkatkan sikap jujur, disiplin, dan tanggung jawab.', 1, 1);
                 }
                 Fpdf::SetFont('Times', '', 12);
             } else {
-                Fpdf::Cell(10, 15, $no . '.', 1, 0, 'C');
+                Fpdf::Cell(10, 15, $no.'.', 1, 0, 'C');
                 Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);
                 Fpdf::Cell(15, 7.5, $row->nilai_akhir, 1, 0, 'C');
                 Fpdf::Cell(40, 7.5, 'Pengetahuan', 1, 0);
@@ -276,7 +275,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_akhir >= 89 && $row->nilai_akhir <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 0);
-                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
+                } elseif ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 0);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 0);
@@ -291,7 +290,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_praktek >= 89 && $row->nilai_praktek <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 1);
-                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
+                } elseif ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 1);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 1);
@@ -302,9 +301,9 @@ class NilaiController extends Controller
             $no++;
         }
 
-        Fpdf::Cell(190, 8, 'B. Muatan Kewilayahan', 1, 1, 'B', TRUE);
+        Fpdf::Cell(190, 8, 'B. Muatan Kewilayahan', 1, 1, 'B', true);
         foreach ($khsB as $row) {
-            Fpdf::Cell(10, 15, $noB . '.', 1, 0, 'C');
+            Fpdf::Cell(10, 15, $noB.'.', 1, 0, 'C');
             if ($row->nama_mp == 'Pendidikan Jasmani, Olahraga dan Kesehatan') {
                 Fpdf::SetFont('Times', '', 10);
                 Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);
@@ -315,7 +314,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_akhir >= 89 && $row->nilai_akhir <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 0);
-                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
+                } elseif ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 0);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 0);
@@ -330,7 +329,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_praktek >= 89 && $row->nilai_praktek <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 1);
-                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
+                } elseif ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 1);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 1);
@@ -344,7 +343,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_akhir >= 89 && $row->nilai_akhir <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 0);
-                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
+                } elseif ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 0);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 0);
@@ -359,7 +358,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_praktek >= 89 && $row->nilai_praktek <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 1);
-                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
+                } elseif ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 1);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 1);
@@ -370,13 +369,13 @@ class NilaiController extends Controller
         }
 
         Fpdf::Cell(190, 8, 'C. Muatan Peminatan Kejuruan', 1, 1, 'B');
-        Fpdf::Cell(10, 8, '', 1, 0, 'C', TRUE);
-        Fpdf::Cell(70, 8, 'Kompetensi Keahlian', 1, 0, 'B', TRUE);
-        Fpdf::Cell(15, 8, '', 1, 0, 'C', TRUE);
-        Fpdf::Cell(40, 8, '', 1, 0, 'C', TRUE);
-        Fpdf::Cell(55, 8, '', 1, 1, 'C', TRUE);
+        Fpdf::Cell(10, 8, '', 1, 0, 'C', true);
+        Fpdf::Cell(70, 8, 'Kompetensi Keahlian', 1, 0, 'B', true);
+        Fpdf::Cell(15, 8, '', 1, 0, 'C', true);
+        Fpdf::Cell(40, 8, '', 1, 0, 'C', true);
+        Fpdf::Cell(55, 8, '', 1, 1, 'C', true);
         foreach ($khsC as $row) {
-            Fpdf::Cell(10, 15, $noC . '.', 1, 0, 'C');
+            Fpdf::Cell(10, 15, $noC.'.', 1, 0, 'C');
             if ($row->nama_mp == 'Pendidikan Jasmani, Olahraga dan Kesehatan') {
                 Fpdf::SetFont('Times', '', 8);
                 Fpdf::Cell(70, 15, $row->nama_mp, 1, 0);
@@ -387,7 +386,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_akhir >= 89 && $row->nilai_akhir <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 0);
-                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
+                } elseif ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 0);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 0);
@@ -402,7 +401,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_praktek >= 89 && $row->nilai_praktek <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 1);
-                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
+                } elseif ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 1);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 1);
@@ -416,7 +415,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_akhir >= 89 && $row->nilai_akhir <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 0);
-                } else if ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
+                } elseif ($row->nilai_akhir >= 76 && $row->nilai_akhir <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 0);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 0);
@@ -431,7 +430,7 @@ class NilaiController extends Controller
                 Fpdf::SetFont('Times', '', 7.8);
                 if ($row->nilai_praktek >= 89 && $row->nilai_praktek <= 100) {
                     Fpdf::Cell(55, 7.5, 'Sangat terampil memahami seluruh kompetensi', 1, 1);
-                } else if ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
+                } elseif ($row->nilai_praktek >= 76 && $row->nilai_praktek <= 88) {
                     Fpdf::Cell(55, 7.5, 'Terampil sekali memahami seluruh kompetensi', 1, 1);
                 } else {
                     Fpdf::Cell(55, 7.5, 'Belum Terampil memahami seluruh kompetensi', 1, 1);
@@ -447,7 +446,7 @@ class NilaiController extends Controller
         // Footer
         Fpdf::Cell(30, 20, '', 0, 1);
         Fpdf::Cell(140, 5, '', 0, 0);
-        Fpdf::Cell(40, 5, 'Cisarua, ' . $date, 0, 1);
+        Fpdf::Cell(40, 5, 'Cisarua, '.$date, 0, 1);
         Fpdf::Cell(20, 5, 'Mengetahui:', 0, 1);
         Fpdf::Cell(140, 5, 'Kepala Sekolah,', 0, 0);
         Fpdf::Cell(20, 5, 'Wali Kelas,', 0, 1);
@@ -457,12 +456,12 @@ class NilaiController extends Controller
         Fpdf::SetFont('', '');
         Fpdf::Cell(20, -40, '197209282005011000', 0, 0);
 
-        Fpdf::Output($khs[0]->nis . ' - ' . $khs[0]->nama_siswa . ".pdf", 'D');
+        Fpdf::Output($khs[0]->nis.' - '.$khs[0]->nama_siswa.'.pdf', 'D');
         exit();
 
-        // Log Aktivitas di simpan ke file log 
-        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s') . date(' T \| ') . 'ID User: ' . Auth::user()->id . ' | Melakukan pencetakan rapor siswa | ' . $khs[0]->nis . ' - ' . $khs[0]->nama_siswa;
-        $filename = 'Log Cetak Rapor - ' . date('Y-m-d') . '.log';
+        // Log Aktivitas di simpan ke file log
+        $logActivities = Carbon::now()->translatedFormat('l, d F Y G:i:s').date(' T \| ').'ID User: '.Auth::user()->id.' | Melakukan pencetakan rapor siswa | '.$khs[0]->nis.' - '.$khs[0]->nama_siswa;
+        $filename = 'Log Cetak Rapor - '.date('Y-m-d').'.log';
         Storage::disk('activityLog')->append($filename, $logActivities);
     }
 
