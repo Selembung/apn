@@ -12,6 +12,6 @@ class Curriculum extends Model
 
     public function pelajaran()
     {
-        return $this->belongsTo('App\Course', 'kode_mp');
+        return $this->belongsTo(\App\Course::class, 'kode_mp');
     }
 }
